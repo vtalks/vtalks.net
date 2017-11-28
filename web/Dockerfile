@@ -9,4 +9,4 @@ WORKDIR /opt/vtalks/web
 ADD . /opt/vtalks/web
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT ["sh", "entrypoint.sh"]
+CMD ["./start.sh"]
