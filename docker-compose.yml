@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+  postgres:
+    container_name: vtalks_postgres
+    hostname: vtalks_postgres
+    restart: always
+    image: postgres:alpine
+    volumes:
+      - pg_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+volumes:
+  pg_data:
