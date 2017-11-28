@@ -1,20 +1,20 @@
-version: '3.2'
+version: '3.3'
 
 services:
 
   postgres:
-    container_name: vtalks_postgres
-    hostname: vtalks_postgres
-    restart: always
+    container_name: postgres
+    hostname: postgres
+    restart: on-failure
     image: postgres:alpine
     volumes:
       - pgdata:/var/lib/postgresql/data/
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
 
   web:
-    container_name: vtalks_web
-    hostname: vtalks_web
+    container_name: web
+    hostname: web
     restart: always
     build: ./web
     volumes:
