@@ -17,6 +17,8 @@ services:
     hostname: vtalks_web
     restart: always
     build: ./web
+    volumes:
+      - ./web:/opt/vtalks/web/
     ports:
       - "8000:8000"
     depends_on:
