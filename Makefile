@@ -4,3 +4,4 @@ up:
 
 down:
 	docker-compose down --volumes --remove-orphans --rmi all
+	docker volume prune -f

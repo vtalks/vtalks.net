@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   postgres:
-    container_name: postgres
+    container_name: vtalksnet_postgres
     hostname: postgres
     restart: on-failure
     image: postgres:alpine
@@ -13,7 +13,7 @@ services:
       - "127.0.0.1:5432:5432"
 
   web:
-    container_name: web
+    container_name: vtalksnet_web
     hostname: web
     restart: always
     build: ./web
