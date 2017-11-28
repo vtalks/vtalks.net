@@ -1,16 +1,26 @@
 version: '3.2'
 
 services:
-  
+
   postgres:
     container_name: vtalks_postgres
     hostname: vtalks_postgres
     restart: always
     image: postgres:alpine
     volumes:
-      - pg_data:/var/lib/postgresql
+      - pgdata:/var/lib/postgresql
     ports:
       - "5432:5432"
 
+  web:
+    container_name: vtalks_web
+    hostname: vtalks_web
+    restart: always
+    build: ./web
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
 volumes:
-  pg_data:
+  pgdata:

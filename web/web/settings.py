@@ -25,7 +25,7 @@ SECRET_KEY = 'ou95^y3#(tfsv(!z@s6@=@*5$$e4-nu)n4*53kqeeu8yw@9n7$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
