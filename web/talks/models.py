@@ -2,6 +2,7 @@ from django.db import models
 
 from django.utils.text import slugify
 
+
 class Channel(models.Model):
     code = models.CharField(max_length=25, unique=True, null=False, blank=False, default=None)
     title = models.CharField(max_length=200, null=False, blank=False, default=None)
@@ -17,6 +18,7 @@ class Channel(models.Model):
         verbose_name_plural = "Talks"
         get_latest_by = "-created"
         ordering = ['-created', '-updated']
+
 
 class Talk(models.Model):
     YOUTUBE = 'Y'
