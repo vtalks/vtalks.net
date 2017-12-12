@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 from django.utils.text import slugify
 
 # Create your models here.
@@ -8,9 +8,8 @@ from django.utils.text import slugify
 class Channel(models.Model):
     code = models.CharField(max_length=25, unique=True, null=False, blank=False, default=None)
     title = models.CharField(max_length=200, null=False, blank=False, default=None)
-    description = models.TextField()
-    created = models.DateTimeField('date created')
-    updated = models.DateTimeField('date updated')
+    created = models.DateTimeField('date created', default=timezone.now)
+    updated = models.DateTimeField('date updated', default=timezone.now)
 
     def __str__(self):
         return self.title
@@ -32,8 +31,8 @@ class Talk(models.Model):
     likeCount = models.IntegerField(null=False, blank=False, default=0)
     dislikeCount = models.IntegerField(null=False, blank=False, default=0)
     favoriteCount = models.IntegerField(null=False, blank=False, default=0)
-    created = models.DateTimeField('date created')
-    updated = models.DateTimeField('date updated')
+    created = models.DateTimeField('date created', default=timezone.now)
+    updated = models.DateTimeField('date updated', default=timezone.now)
 
     def __str__(self):
         return self.title
