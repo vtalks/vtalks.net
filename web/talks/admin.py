@@ -9,6 +9,16 @@ from .models import Talk
 
 
 class ChannelAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('code', 'title')
+        }),
+        ('Metadata', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated'),
+        }),
+    )
+    date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated', '-created']
@@ -25,11 +35,29 @@ admin.site.register(Channel, ChannelAdmin)
 
 
 class TalkAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('code', 'slug', 'title', 'description', 'channel', 'tags'),
+        }),
+        ('Youtube', {
+            'fields': ('video_url',),
+        }),
+        ('Statistics', {
+            'classes': ('collapse',),
+            'fields': ('viewCount', 'likeCount', 'dislikeCount'),
+        }),
+        ('Metadata', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated'),
+        }),
+    )
+    date_hierarchy = 'created'
     list_display = ('title', 'channel')
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated', '-created']
-    readonly_fields = ('video_url',)
+    readonly_fields = ('video_url', 'viewCount', 'likeCount', 'dislikeCount')
+    prepopulated_fields = {"slug": ("title",)}
 
     def video_url(self, instance):
         """Returns the youtube URL of the video
