@@ -12,14 +12,13 @@ def fetch(youtube_api_key, channel_code):
     """
     channel_url = "https://www.googleapis.com/youtube/v3/channels"
     payload = {'id': channel_code,
-               'part': 'snippet',
+               'part': 'snippet,contentDetails',
                'key': youtube_api_key}
     resp = requests.get(channel_url, params=payload)
     if resp.status_code != 200:
         logging.error(resp.status_code)
         exit(1)
     response_json = resp.json()
-    print(resp.text)
     data_json = response_json["items"][0]
     return data_json
 

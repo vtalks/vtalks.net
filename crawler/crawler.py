@@ -30,6 +30,7 @@ from django.core.wsgi import get_wsgi_application
 from youtube import utils
 from youtube import video
 from youtube import channel
+from youtube import playlist
 
 # TODO: Get the API key from an env variable/conf file/cli flag 
 YOUTUBE_API_KEY = "AIzaSyAdDZRxQSQ70JBqYXeMUGmHE1Z2evOVW4Q"
@@ -40,7 +41,7 @@ def video_command(args):
     """Creates or updates a video and its channel given its URL.
     """
     # Fetch video data
-    video_code = utils.get_code(args.url)
+    video_code = utils.get_video_code(args.url)
     video_data_json = video.fetch(YOUTUBE_API_KEY, video_code)
     # Fetch channel data
     channel_code = video_data_json["snippet"]["channelId"]
@@ -52,7 +53,20 @@ def video_command(args):
 def channel_command(args):
     """Add a videos from a channel given its URL.
     """
-    logging.info("channel")
+    # Fetch channel data
+    channel_code = utils.get_channel_code(args.url)
+    channel_data_json = channel.fetch(YOUTUBE_API_KEY, channel_code)
+    # Fetch uploads list id
+    channel_upload_list_id = channel_data_json["contentDetails"]["relatedPlaylists"]["uploads"]
+    # Fetch uploads list videos
+    # TODO:
+    # - Support pagination
+    channel_videos_ids = playlist.fetch_items(YOUTUBE_API_KEY, channel_upload_list_id)
+    # Store channel and video
+    channel_obj = channel.store(channel_data_json)
+    for item in channel_videos_ids:
+        video_data_json = video.fetch(YOUTUBE_API_KEY, item)
+        video.store(video_data_json, channel_obj)
 
 def main():
     """Main entry point.
