@@ -4,6 +4,9 @@
 Example:
 
     $ ./add_video.py https://www.youtube.com/watch?v=yeetIgNeIkc
+
+TODO:
+- Fetch duration from contentDetails.
 """
 
 import os
@@ -71,13 +74,25 @@ def do_talk(data_json, channel_obj):
     else:
         logging.info("updated talk %s", video_obj)
 
+def fetch_data(video_code):
+    """Fetch video data from Youtube API
+    """
+    video_url = "https://www.googleapis.com/youtube/v3/videos"
+    payload = {'id': video_code,
+               'part': 'snippet,statistics',
+               'key': YOUTUBE_API_KEY}
+    resp = requests.get(video_url, params=payload)
+    if resp.status_code != 200:
+        logging.error(resp.status_code)
+        exit(1)
+    response_json = resp.json()
+    data_json = response_json["items"][0]
+    return data_json
+
 def main():
     """Main entry point.
 
     Add a talk and a channel given a youtube URL.
-
-    TODO:
-    - Fetch duration from contentDetails.
     """
     # Configure logging level to INFO.
     logging.basicConfig(level=logging.INFO)
@@ -98,16 +113,7 @@ def main():
     video_code = params["v"][0]
 
     # Fetch video
-    video_url = "https://www.googleapis.com/youtube/v3/videos"
-    payload = {'id': video_code,
-               'part': 'snippet,statistics',
-               'key': YOUTUBE_API_KEY}
-    resp = requests.get(video_url, params=payload)
-    if resp.status_code != 200:
-        logging.error(resp.status_code)
-        exit(1)
-    response_json = resp.json()
-    data_json = response_json["items"][0]
+    data_json = fetch_data(video_code)
 
     # Update or create channel
     channel_obj = do_channel(data_json)
