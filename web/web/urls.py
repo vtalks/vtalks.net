@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path
 
 from talks.views import IndexView
-
 from user_profile.views import LogoutView
 from user_profile.views import LoginView
 from user_profile.views import AuthTwitterView

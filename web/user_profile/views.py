@@ -6,7 +6,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic import TemplateView
-
+from django.contrib.auth import logout
+from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 # TODO:
@@ -20,6 +21,7 @@ client = oauth.Client(consumer)
 class LogoutView(View):
 
     def get(self, request):
+        # Clean session
         if "oauth_token" in request.session:
             del request.session['oauth_token']
         if "oauth_token_secret" in request.session:
@@ -30,6 +32,8 @@ class LogoutView(View):
             del request.session['user_name']
         if "twitter_id" in request.session:
             del request.session['twitter_id']
+        # Logout user
+        logout(request)
         return HttpResponseRedirect("/")
 
 
@@ -98,5 +102,8 @@ class AuthTwitterCallbackView(View):
         request.session['user_id'] = user_obj.id
         request.session['user_username'] = user_obj.username
         request.session['twitter_id'] = twitter_id
+
+        # Login user
+        login(request, user_obj)
 
         return HttpResponseRedirect("/")
