@@ -11,7 +11,7 @@ from .models import Talk
 class ChannelAdmin(admin.ModelAdmin):
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-created', '-updated']
+    ordering = ['-updated', '-created']
     readonly_fields = ('channel_url',)
 
     def channel_url(self, instance):
@@ -28,7 +28,7 @@ class TalkAdmin(admin.ModelAdmin):
     list_display = ('title', 'channel')
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-created', '-updated']
+    ordering = ['-updated', '-created']
     readonly_fields = ('video_url',)
 
     def video_url(self, instance):
