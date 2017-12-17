@@ -27,10 +27,10 @@ class Talk(models.Model):
     description = models.TextField()
     channel = models.ForeignKey('Channel', on_delete=models.CASCADE, null=False, blank=False, default=None)
     slug = models.SlugField(max_length=200, unique=True, blank=False)
+    tags = models.CharField(max_length=500, null=True, blank=True, default="")
     viewCount = models.IntegerField(null=False, blank=False, default=0)
     likeCount = models.IntegerField(null=False, blank=False, default=0)
     dislikeCount = models.IntegerField(null=False, blank=False, default=0)
-    favoriteCount = models.IntegerField(null=False, blank=False, default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 

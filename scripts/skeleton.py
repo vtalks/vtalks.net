@@ -18,4 +18,3 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
 application = get_wsgi_application()
 
 # My script starts here
-
