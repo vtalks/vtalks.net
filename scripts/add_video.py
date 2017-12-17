@@ -73,6 +73,7 @@ def do_talk(data_json, channel_obj):
             'likeCount': data_json["statistics"]["likeCount"],
             'dislikeCount': data_json["statistics"]["dislikeCount"],
             'tags': ", ".join(data_json["snippet"]["tags"]),
+            'created': data_json["snippet"]["publishedAt"],
             'updated': timezone.now(),
         },
     )
