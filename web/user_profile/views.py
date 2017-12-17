@@ -24,8 +24,10 @@ class LogoutView(View):
             del request.session['oauth_token']
         if "oauth_token_secret" in request.session:
             del request.session['oauth_token_secret']
-        if "screen_name" in request.session:
-            del request.session['screen_name']
+        if "user_id" in request.session:
+            del request.session['user_id']
+        if "user_name" in request.session:
+            del request.session['user_name']
         if "twitter_id" in request.session:
             del request.session['twitter_id']
         return HttpResponseRedirect("/")
@@ -93,7 +95,8 @@ class AuthTwitterCallbackView(View):
         # - Add support for avatar
         user_obj.save()
 
-        request.session['screen_name'] = screen_name
+        request.session['user_id'] = user_obj.id
+        request.session['user_username'] = user_obj.username
         request.session['twitter_id'] = twitter_id
 
         return HttpResponseRedirect("/")
