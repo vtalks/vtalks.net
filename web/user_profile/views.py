@@ -75,7 +75,10 @@ class AuthTwitterCallbackView(View):
         twitter_id = data[b'user_id'].decode('UTF-8')
         screen_name = data[b'screen_name'].decode('UTF-8')
 
-        # TODO: Add support for email
+        # FIXME:
+        # - Update last-login field
+        # TODO: 
+        # - Add support for email
         user_obj, created = User.objects.update_or_create(
             username=screen_name,
             defaults={
