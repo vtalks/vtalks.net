@@ -39,7 +39,7 @@ class Talk(models.Model):
     title = models.CharField(max_length=200, null=False, blank=False, 
                              default=None)
     description = models.TextField()
-    channel = models.ForeignKey('Channel', on_delete=models.CASCADE,
+    channel = models.ForeignKey('Channel', on_delete=models.DO_NOTHING,
                                 null=False, blank=False, default=None)
     slug = models.SlugField(max_length=200, unique=True, blank=False)
     tags = models.CharField(max_length=500, null=True, blank=True, default="")
