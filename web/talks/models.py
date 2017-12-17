@@ -8,6 +8,7 @@ from django.utils.text import slugify
 class Channel(models.Model):
     code = models.CharField(max_length=25, unique=True, null=False, blank=False, default=None)
     title = models.CharField(max_length=200, null=False, blank=False, default=None)
+    description = models.TextField()
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 

@@ -11,7 +11,7 @@ from .models import Talk
 class ChannelAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('code', 'title')
+            'fields': ('code', 'title', 'description')
         }),
         ('Metadata', {
             'classes': ('collapse',),
