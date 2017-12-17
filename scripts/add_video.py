@@ -58,6 +58,10 @@ def do_talk(data_json, channel_obj):
 
     if "tags" not in data_json["snippet"]:
         data_json["snippet"]["tags"] = []
+    if "likeCount" not in data_json["statistics"]:
+        data_json["statistics"]["likeCount"] = 0
+    if "dislikeCount" not in data_json["statistics"]:
+        data_json["statistics"]["dislikeCount"] = 0
     video_obj, created = Talk.objects.update_or_create(
         code=data_json["id"],
         defaults={

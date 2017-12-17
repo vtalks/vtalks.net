@@ -16,6 +16,7 @@ TODO:
   (see API docs https://developers.google.com/youtube/v3/docs/channels/list)
 - Support channel statistics (viewCount, subscriberCount)
   (see API docs https://developers.google.com/youtube/v3/docs/channels/list)
+- Support channel pagination, currently limited to 50 first videos.
 """
 
 import os
@@ -29,6 +30,9 @@ import requests
 
 from django.utils import timezone
 from django.core.wsgi import get_wsgi_application
+
+from add_video import fetch_data as fetch_data_video
+from add_video import do_talk
 
 # TODO: Get the API key from an env variable/conf file/cli flag
 YOUTUBE_API_KEY = "AIzaSyAdDZRxQSQ70JBqYXeMUGmHE1Z2evOVW4Q"
@@ -71,6 +75,24 @@ def fetch_data(channel_code):
     data_json = response_json["items"][0]
     return data_json
 
+def fetch_videos_data(channel_code):
+    """Fetch videos data searching and filtering by channel from Youtube API
+    """
+    channel_url = "https://www.googleapis.com/youtube/v3/search"
+    payload = {'q': '',
+               'maxResults': '50',
+               'part': 'snippet',
+               'type': 'video',
+               'channelId': channel_code,
+               'key': YOUTUBE_API_KEY}
+    resp = requests.get(channel_url, params=payload)
+    if resp.status_code != 200:
+        logging.error(resp.status_code)
+        exit(1)
+    response_json = resp.json()
+    data_json = response_json["items"]
+    return data_json
+
 def main():
     """Main entry point.
 
@@ -95,6 +117,14 @@ def main():
 
     # Update or create channel
     channel_obj = do_channel(data_json)
+
+    # Fetch channel videos
+    data_json = fetch_videos_data(channel_code)
+
+    for item in data_json:
+        video_code = item["id"]["videoId"]
+        video_data_json = fetch_data_video(video_code)
+        do_talk(video_data_json, channel_obj)
 
 if __name__ == '__main__':
     # Setup django environment & application.
