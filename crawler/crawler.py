@@ -10,10 +10,8 @@ TODO:
 - Fetch video duration from contentDetails.
 - Support channel custom URLS
   (see API docs https://developers.google.com/youtube/v3/docs/channels/list)
-- Support video thumbnails (readonly fields)
 - Support channel statistics (viewCount, subscriberCount)
   (see API docs https://developers.google.com/youtube/v3/docs/channels/list)
-- Support channel playlists.
 """
 
 import os

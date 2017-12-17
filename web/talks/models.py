@@ -48,6 +48,36 @@ class Talk(models.Model):
     dislikeCount = models.IntegerField(null=False, blank=False, default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
+    
+    @property
+    def defaultThumb(self):
+        if self.code is None:
+            return "-"
+        return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
+
+    @property
+    def mediumThumb(self):
+        if self.code is None:
+            return "-"
+        return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
+
+    @property
+    def highThumb(self):
+        if self.code is None:
+            return "-"
+        return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
+
+    @property
+    def standardThumb(self):
+        if self.code is None:
+            return "-"
+        return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
+
+    @property
+    def maxresThumb(self):
+        if self.code is None:
+            return "-"
+        return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
     @property
     def youtubeURL(self):
