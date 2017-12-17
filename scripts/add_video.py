@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Add a talk and a channel given a youtube URL.
 
 Example:
@@ -7,6 +8,8 @@ Example:
 
 TODO:
 - Fetch duration from contentDetails.
+- Channel created date should be the published date value from the API.
+- Video created date should be the published date value from the API.
 """
 
 import os
