@@ -6,10 +6,6 @@ Example:
 
     $ ./crawler.py video https://www.youtube.com/watch?v=yeetIgNeIkc
 
-FIXME:
-- Video url should be on the model instead on the admin, also needs a better
-  nanme.
-
 TODO:
 - Fetch video duration from contentDetails.
 - Support channel custom URLS
