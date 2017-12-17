@@ -9,7 +9,6 @@ Example:
 TODO:
 - Fetch duration from contentDetails.
 - Channel created date should be the published date value from the API.
-- Video created date should be the published date value from the API.
 """
 
 import os

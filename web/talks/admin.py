@@ -12,6 +12,14 @@ class ChannelAdmin(admin.ModelAdmin):
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-created', '-updated']
+    readonly_fields = ('channel_url',)
+
+    def channel_url(self, instance):
+        """Returns the youtube URL of the channel
+        """
+        return format_html(
+            '<a href="https://www.youtube.com/channel/{}">https://www.youtube.com/channel/{}</a>',
+            instance.code, instance.code)
 
 admin.site.register(Channel, ChannelAdmin)
 

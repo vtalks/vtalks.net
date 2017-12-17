@@ -49,6 +49,7 @@ def do_channel(data_json):
         defaults={
             'code': data_json["id"],
             'title': data_json["snippet"]["title"],
+            'created': data_json["snippet"]["publishedAt"],
             'updated': timezone.now(),
         },
     )
