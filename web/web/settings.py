@@ -82,7 +82,7 @@ DATABASES = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'user_profile.UserProfile' 
+AUTH_PROFILE_MODULE = 'user_profile.UserProfile'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -110,9 +110,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -121,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TWITTER_TOKEN = '2NcFgYMLgRKES8dV6Ym2PyhLt'
+TWITTER_SECRET = 'G25VNqFkLqI9M4KYbERL4SUY70yskQaVOMj5KVyRpsMIVCIlKH'

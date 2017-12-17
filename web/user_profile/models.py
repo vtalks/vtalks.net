@@ -8,13 +8,18 @@ class UserProfile(models.Model):
     """User Profile Model
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    oauth_token = models.CharField(max_length=100, blank=True)
+    oauth_token_secret = models.CharField(max_length=100, blank=True)
+    twitter_id = models.CharField(max_length=100, blank=True)
+    avatar = models.URLField(blank=True)
+    bio = models.TextField(blank=True)
 
     def __str__(self):
         return self.user.username
 
     class Meta:
-        verbose_name = "User Profile"
-        verbose_name_plural = "User Profiles"
+        verbose_name = "Profile"
+        verbose_name_plural = "Profiles"
 
 # Create your signals here.
 

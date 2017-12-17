@@ -18,8 +18,18 @@ from django.urls import path
 
 from talks.views import IndexView
 
+from user_profile.views import LogoutView
+from user_profile.views import LoginView
+from user_profile.views import AuthTwitterView
+from user_profile.views import AuthTwitterCallbackView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', IndexView.as_view(), name='index')
+    path('', IndexView.as_view(), name='index'),
+
+    path('auth/logout', LogoutView.as_view(), name='logout'),
+    path('auth/login', LoginView.as_view(), name='login'),
+    path('auth/twitter', AuthTwitterView.as_view(), name='auth_twitter'),
+    path('auth/twitter/callback', AuthTwitterCallbackView.as_view(), name='auth_twitter_callback'),
 ]
