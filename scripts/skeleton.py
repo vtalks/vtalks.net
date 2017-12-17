@@ -1,20 +1,23 @@
 #!/usr/bin/env python
+"""Skeleton CLI script with Django environment loaded.
+"""
 
 import os
 import sys
 from django.core.wsgi import get_wsgi_application
 
 # TODO: Use relative path
-project_path = "/Users/raul/Projects/vtalks/vtalks.net/web/"
+PROJECT_PATH = "/Users/raul/Projects/vtalks/vtalks.net/web/"
 
-# This is so my local_settings.py gets loaded.
-sys.path.append(project_path)
-os.chdir(project_path)
+def main():
+    """Main entry point.
+    """
 
-# This is so Django knows where to find stuff.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
+if __name__ == '__main__':
+    # Setup django environment & application.
+    sys.path.append(PROJECT_PATH)
+    os.chdir(PROJECT_PATH)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
+    get_wsgi_application()
 
-# This is so models get loaded.
-application = get_wsgi_application()
-
-# My script starts here
+    main()
