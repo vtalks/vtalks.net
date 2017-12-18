@@ -5,6 +5,8 @@ jobs:
       - image: circleci/python:latest
     steps:
       - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
       - run:
           command: |
             python3 -m venv .venv
@@ -12,7 +14,7 @@ jobs:
             cd web
             pip install -r requirements.txt
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
+          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
           paths:
             - ".venv"
       - run:
