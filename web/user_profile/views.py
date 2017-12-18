@@ -18,6 +18,7 @@ client = oauth.Client(consumer)
 
 # Create your views here.
 
+# TODO: Port to RediectView instead of View
 class LogoutView(View):
 
     def get(self, request):
@@ -42,6 +43,7 @@ class LoginView(TemplateView):
     template_name = "login.html"
 
 
+# TODO: Port to RediectView instead of View
 class AuthTwitterView(View):
     
     def get(self, request):
@@ -63,6 +65,7 @@ class AuthTwitterView(View):
         return HttpResponseRedirect(url)
 
 
+# TODO: Port to RediectView instead of View
 class AuthTwitterCallbackView(View):
 
     def get(self, request):
