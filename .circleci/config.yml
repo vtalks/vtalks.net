@@ -11,4 +11,8 @@ jobs:
             . .venv/bin/activate
             cd web
             pip install -r requirements.txt
+      - run:
+          command: |
+            . .venv/bin/activate
+            cd web
             make cover
