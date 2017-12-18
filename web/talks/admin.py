@@ -7,7 +7,6 @@ from .models import Talk
 
 
 class ChannelAdmin(admin.ModelAdmin):
-    """Channel Model Admin"""
     fieldsets = (
         (None, {
             'fields': ('code', 'title', 'description')
@@ -31,7 +30,6 @@ admin.site.register(Channel, ChannelAdmin)
 
 
 class TalkAdmin(admin.ModelAdmin):
-    """Talk Model Admin"""
     fieldsets = (
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'channel',
