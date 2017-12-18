@@ -7,8 +7,7 @@ from .models import Talk
 
 
 class ChannelAdmin(admin.ModelAdmin):
-    """Channel model admin
-    """
+    """Channel Model Admin"""
     fieldsets = (
         (None, {
             'fields': ('code', 'title', 'description')
@@ -32,8 +31,7 @@ admin.site.register(Channel, ChannelAdmin)
 
 
 class TalkAdmin(admin.ModelAdmin):
-    """Talk model admin
-    """
+    """Talk Model Admin"""
     fieldsets = (
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'channel',
@@ -49,7 +47,7 @@ class TalkAdmin(admin.ModelAdmin):
         }),
         ('Statistics', {
             'classes': ('collapse',),
-            'fields': ('viewCount', 'likeCount', 'dislikeCount'),
+            'fields': ('view_count', 'like_count', 'dislike_count'),
         }),
         ('Metadata', {
             'classes': ('collapse',),
@@ -63,7 +61,7 @@ class TalkAdmin(admin.ModelAdmin):
     ordering = ['-updated', '-created']
     readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb', 'youtube_url',
-                       'viewCount', 'likeCount', 'dislikeCount',)
+                       'view_count', 'like_count', 'dislike_count',)
     prepopulated_fields = {"slug": ("title",)}
 
 

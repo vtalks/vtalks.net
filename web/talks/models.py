@@ -6,7 +6,6 @@ from django.utils.text import slugify
 
 
 class Channel(models.Model):
-    """Channel model"""
     code = models.CharField(max_length=25, unique=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -30,16 +29,15 @@ class Channel(models.Model):
 
 
 class Talk(models.Model):
-    """Talk model"""
     code = models.CharField(max_length=25, unique=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
     slug = models.SlugField(max_length=200, unique=True)
-    tags = models.CharField(max_length=500, null=True, blank=True, default="")
-    viewCount = models.IntegerField('view count', default=0)
-    likeCount = models.IntegerField('like count', default=0)
-    dislikeCount = models.IntegerField('dislike count', default=0)
+    tags = models.CharField(max_length=500, blank=True, default="")
+    view_count = models.IntegerField('view count', default=0)
+    like_count = models.IntegerField('like count', default=0)
+    dislike_count = models.IntegerField('dislike count', default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
     
@@ -85,14 +83,17 @@ class Talk(models.Model):
     def save(self, *args, **kwargs):
         """Overrides save method.
 
-        If it is a new object (it has the property 'id' as null on saving) generates an slug string from the title.
-        In case two different talks but with the same title we append the code as suffix to the slug to prevent unique
-        slugs for each element on the database.
+        If it is a new object (it has the property 'id' as null on saving)
+        generates an slug string from the title.
+        In case two different talks but with the same title we append the code
+        as suffix to the slug to prevent unique slugs for each element on the
+        database.
         """
         if not self.id:
             # generate slug from title
             self.slug = slugify(self.title)
-            # check if the generated slug is already being used, in such case we append the code to it.
+            # check if the generated slug is already being used and, in such
+            # case we append the code to it.
             if Talk.objects.filter(slug=self.slug).count() > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
         super(Talk, self).save(*args, **kwargs)
