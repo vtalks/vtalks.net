@@ -117,6 +117,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# TODO: This must be on environment variables
+# TODO:
+# - This must be on environment variables
 TWITTER_TOKEN = '2NcFgYMLgRKES8dV6Ym2PyhLt'
 TWITTER_SECRET = 'G25VNqFkLqI9M4KYbERL4SUY70yskQaVOMj5KVyRpsMIVCIlKH'

@@ -4,6 +4,7 @@ from django.utils.text import slugify
 
 # Create your models here.
 
+
 class Channel(models.Model):
     """Channel model
     """
@@ -14,7 +15,7 @@ class Channel(models.Model):
     updated = models.DateTimeField('date updated', default=timezone.now)
 
     @property
-    def youtubeURL(self):
+    def youtube_url(self):
         if self.code is None:
             return "-"
         return "https://www.youtube.com/channel/{:s}".format(self.code)
@@ -46,37 +47,37 @@ class Talk(models.Model):
     updated = models.DateTimeField('date updated', default=timezone.now)
     
     @property
-    def defaultThumb(self):
+    def default_thumb(self):
         if self.code is None:
             return "-"
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
 
     @property
-    def mediumThumb(self):
+    def medium_thumb(self):
         if self.code is None:
             return "-"
         return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
 
     @property
-    def highThumb(self):
+    def high_thumb(self):
         if self.code is None:
             return "-"
         return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
 
     @property
-    def standardThumb(self):
+    def standard_thumb(self):
         if self.code is None:
             return "-"
         return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
 
     @property
-    def maxresThumb(self):
+    def maxres_thumb(self):
         if self.code is None:
             return "-"
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
     @property
-    def youtubeURL(self):
+    def youtube_url(self):
         if self.code is None:
             return "-"
         return "https://www.youtube.com/watch?v={:s}".format(self.code)

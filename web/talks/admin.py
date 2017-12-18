@@ -5,6 +5,7 @@ from .models import Talk
 
 # Register your models here.
 
+
 class ChannelAdmin(admin.ModelAdmin):
     """Channel model admin
     """
@@ -26,7 +27,9 @@ class ChannelAdmin(admin.ModelAdmin):
     ordering = ['-updated', '-created']
     readonly_fields = ('youtubeURL',)
 
+
 admin.site.register(Channel, ChannelAdmin)
+
 
 class TalkAdmin(admin.ModelAdmin):
     """Talk model admin
@@ -37,12 +40,12 @@ class TalkAdmin(admin.ModelAdmin):
                        'tags'),
         }),
         ('Youtube', {
-            'fields': ('youtubeURL',),
+            'fields': ('youtube_url',),
         }),
         ('Thumbnails', {
             'classes': ('collapse',),
-            'fields': ('defaultThumb', 'mediumThumb', 'highThumb',
-                       'standardThumb', 'maxresThumb'),
+            'fields': ('default_thumb', 'medium_thumb', 'high_thumb',
+                       'standard_thumb', 'maxres_thumb'),
         }),
         ('Statistics', {
             'classes': ('collapse',),
@@ -58,9 +61,10 @@ class TalkAdmin(admin.ModelAdmin):
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated', '-created']
-    readonly_fields = ('defaultThumb', 'mediumThumb', 'highThumb',
-                       'standardThumb', 'maxresThumb', 'youtubeURL',
+    readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
+                       'standard_thumb', 'maxres_thumb', 'youtube_url',
                        'viewCount', 'likeCount', 'dislikeCount',)
     prepopulated_fields = {"slug": ("title",)}
+
 
 admin.site.register(Talk, TalkAdmin)
