@@ -1,4 +1,4 @@
-"""web URL Configuration
+"""vtalks.net URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -23,10 +23,11 @@ from talks.views import IndexView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('auth/', include('user_profile.urls')),
+
     path('', IndexView.as_view(), name='index'),
 
+    # FIXME: Create corporate views & templates 
     path('', IndexView.as_view(), name='privacy'),
     path('', IndexView.as_view(), name='terms'),
-
-    path('auth/', include('user_profile.urls')),
 ]
