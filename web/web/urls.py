@@ -27,6 +27,9 @@ urlpatterns = [
 
     path('', IndexView.as_view(), name='index'),
 
+    path('', IndexView.as_view(), name='privacy'),
+    path('', IndexView.as_view(), name='terms'),
+
     path('auth/logout', LogoutView.as_view(), name='logout'),
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/twitter', AuthTwitterView.as_view(), name='auth_twitter'),
