@@ -6,6 +6,7 @@ from .models import UserProfile
 
 # Register your models here.
 
+
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
@@ -20,6 +21,7 @@ class UserAdmin(DjangoUserAdmin):
         if not obj:
             return list()
         return super(UserAdmin, self).get_inline_instances(request, obj)
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

@@ -10,20 +10,21 @@ from django.contrib.auth import logout
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 
-# TODO:
-# It's probably a good idea to put your consumer's OAuth token and
-# OAuth secret into your project's settings.
+# TODO:
+# - It's probably a good idea to put your consumer's OAuth token and OAuth secret into your project's settings.
 consumer = oauth.Consumer(settings.TWITTER_TOKEN, settings.TWITTER_SECRET)
 client = oauth.Client(consumer)
 
 # Create your views here.
 
-# TODO: Port to RediectView instead of View
+
+# TODO:
+# - Port to RedirectView instead of View
 class LogoutView(View):
 
     def get(self, request):
-        # FIXME: Clean should not be necessary
-        # Clean session
+        # FIXME: Clean should not be necessary
+        # Clean session
         if "oauth_token" in request.session:
             del request.session['oauth_token']
         if "oauth_token_secret" in request.session:
@@ -34,7 +35,7 @@ class LogoutView(View):
             del request.session['user_name']
         if "twitter_id" in request.session:
             del request.session['twitter_id']
-        # Logout user
+        # Logout user
         logout(request)
         return HttpResponseRedirect("/")
 
@@ -43,7 +44,8 @@ class LoginView(TemplateView):
     template_name = "login.html"
 
 
-# TODO: Port to RediectView instead of View
+# TODO:
+# - Port to RedirectView instead of View
 class AuthTwitterView(View):
     
     def get(self, request):
@@ -65,7 +67,8 @@ class AuthTwitterView(View):
         return HttpResponseRedirect(url)
 
 
-# TODO: Port to RediectView instead of View
+# TODO:
+# - Port to RedirectView instead of View
 class AuthTwitterCallbackView(View):
 
     def get(self, request):
@@ -85,9 +88,10 @@ class AuthTwitterCallbackView(View):
         twitter_id = data[b'user_id'].decode('UTF-8')
         screen_name = data[b'screen_name'].decode('UTF-8')
 
-        # FIXME:
-        # - Update last-login field
-        # TODO: 
+        # FIXME:
+        # - Update last-login field
+        #
+        # TODO:
         # - Add support for email
         user_obj, created = User.objects.update_or_create(
             username=screen_name,
@@ -98,17 +102,17 @@ class AuthTwitterCallbackView(View):
         user_obj.profile.twitter_id = twitter_id
         user_obj.profile.oauth_token = request.session['oauth_token']
         user_obj.profile.oauth_token_secret = request.session['oauth_token_secret']
-        # TODO: 
+        # TODO:
         # - Add support for bio
         # - Add support for avatar
         user_obj.save()
 
-        # FIXME: This is probably not necessary
+        # FIXME: This is probably not necessary
         request.session['user_id'] = user_obj.id
         request.session['user_username'] = user_obj.username
         request.session['twitter_id'] = twitter_id
 
-        # Login user
+        # Login user
         login(request, user_obj)
 
         return HttpResponseRedirect("/")
