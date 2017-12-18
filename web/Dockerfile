@@ -2,7 +2,7 @@ FROM alpine:latest
 MAINTAINER Raul Perez <repejota@gmail.com>
 
 WORKDIR /opt/vtalks/web
-COPY requirements.txt .
+COPY ../requirements.txt .
 COPY start.sh .
 
 RUN apk update && \
