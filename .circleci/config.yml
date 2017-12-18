@@ -10,7 +10,7 @@ jobs:
             python3 -m venv .venv
             . .venv/bin/activate
             cd web
-            pip install -r requirements.txt
+            sudo pip install -r requirements.txt
        - run:
           command: |
             cd web
