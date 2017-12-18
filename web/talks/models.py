@@ -31,7 +31,7 @@ class Channel(models.Model):
 
 
 class Talk(models.Model):
-    """Talk model admin
+    """Talk model
     """
     code = models.CharField(max_length=25, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
