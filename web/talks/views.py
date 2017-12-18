@@ -1,4 +1,7 @@
 from django.views.generic import TemplateView
+from django.views.generic import FormView
+
+from .forms import ContactForm
 
 # Create your views here.
 
@@ -11,8 +14,22 @@ class AboutView(TemplateView):
     template_name = 'about.html'
 
 
-class ContactView(TemplateView):
+class ContactView(FormView):
     template_name = 'contact.html'
+    form_class = ContactForm
+    success_url = '.'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactView, self).get_context_data(**kwargs)
+        # context["testing_out"] = "this is a new context var"
+        return context
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        # form.send_email()
+        # print "form is valid"
+        return super(ContactView, self).form_valid(form)
 
 
 class HelpView(TemplateView):
