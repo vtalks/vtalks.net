@@ -6,14 +6,13 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    """User Profile Model
-    """
+    """User Profile Model"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    oauth_token = models.CharField(max_length=100, blank=True)
-    oauth_token_secret = models.CharField(max_length=100, blank=True)
+    oauth_token = models.CharField('OAuth Token', max_length=100, blank=True)
+    oauth_token_secret = models.CharField('OAuth2 Token Secret', max_length=100, blank=True)
     twitter_id = models.CharField(max_length=100, blank=True)
-    avatar = models.URLField(blank=True)
-    bio = models.TextField(blank=True)
+    avatar = models.URLField('Avatar', blank=True)
+    bio = models.TextField('Biography', blank=True)
 
     def __str__(self):
         return self.user.username
