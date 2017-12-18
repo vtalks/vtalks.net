@@ -11,9 +11,15 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_profile:logout' %}">Sign Out</a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user_profile:login' %}">Sign In</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
