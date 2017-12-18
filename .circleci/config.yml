@@ -44,9 +44,9 @@ jobs:
             . .venv/bin/activate
             cd crawler
             echo "test crawler"
-  workflows:
+workflows:
   version: 2
-  build_and_test:
+  web_and_crawler:
     jobs:
       - web
       - crawler
