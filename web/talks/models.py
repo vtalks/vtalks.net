@@ -7,10 +7,8 @@ from django.utils.text import slugify
 class Channel(models.Model):
     """Channel model
     """
-    code = models.CharField(max_length=25, unique=True, null=False,
-                            blank=False, default=None)
-    title = models.CharField(max_length=200, null=False, blank=False,
-                             default=None)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     created = models.DateTimeField('date creadted', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
@@ -34,18 +32,16 @@ class Channel(models.Model):
 class Talk(models.Model):
     """Talk model admin
     """
-    code = models.CharField(max_length=25, unique=True, null=False,
-                            blank=False, default=None)
-    title = models.CharField(max_length=200, null=False, blank=False, 
-                             default=None)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     channel = models.ForeignKey('Channel', on_delete=models.DO_NOTHING,
-                                null=False, blank=False, default=None)
-    slug = models.SlugField(max_length=200, unique=True, blank=False)
+                                default=None)
+    slug = models.SlugField(max_length=200, unique=True)
     tags = models.CharField(max_length=500, null=True, blank=True, default="")
-    viewCount = models.IntegerField(null=False, blank=False, default=0)
-    likeCount = models.IntegerField(null=False, blank=False, default=0)
-    dislikeCount = models.IntegerField(null=False, blank=False, default=0)
+    viewCount = models.IntegerField(default=0)
+    likeCount = models.IntegerField(default=0)
+    dislikeCount = models.IntegerField(default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
     
