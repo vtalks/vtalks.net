@@ -1,4 +1,8 @@
 {% extends "layouts/default.html" %}
 {% block content %}
-<a href="{% url 'user_profile:auth_twitter' %}">Login with Twitter</a>
+<main role="main">
+    <div class="container text-center">
+        <a href="{% url 'user_profile:auth_twitter' %}">Login with Twitter</a>
+    </div>
+</main>
 {% endblock %}
