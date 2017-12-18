@@ -1,14 +1,15 @@
 version: 2
 jobs:
-   build:
-     docker:
-       - image: circleci/python:latest
-     steps:
-       - checkout
-       - run:
+  build:
+    working_directory: ~/vtalks.net/web
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - checkout
+      - run:
           command: |
-            python3 -m venv .venv
-            . .venv/bin/activate
+            python3 -m venv venv
+            . venv/bin/activate
             cd web
             pip install -r requirements.txt
             make cover
