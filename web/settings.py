@@ -117,6 +117,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "web", "static"),
+]
+
 # TODO:
 # - This must be on environment variables
 TWITTER_TOKEN = '2NcFgYMLgRKES8dV6Ym2PyhLt'
