@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  web:
     docker:
       - image: circleci/python:latest
     steps:
@@ -22,3 +22,31 @@ jobs:
             . .venv/bin/activate
             cd web
             make cover
+  crawler:
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
+      - run:
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            cd web
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
+          paths:
+            - ".venv"
+      - run:
+          command: |
+            . .venv/bin/activate
+            cd crawler
+            echo "test crawler"
+  workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - web
+      - crawler
