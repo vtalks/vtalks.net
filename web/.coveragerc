@@ -1,0 +1,17 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+omit =
+    */migrations/*.py
+    */.venv/*
+    manage.py
+source =
+    talks/
+    user_profile/
+
+[report]
+skip_covered = True
+show_missing = True
+
+[html]
+directory = .cover
