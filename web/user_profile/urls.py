@@ -5,6 +5,7 @@ from .views import LoginView
 from .views import AuthTwitterView
 from .views import AuthTwitterCallbackView
 
+app_name = 'user_orofile'
 urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('login', LoginView.as_view(), name='login'),
