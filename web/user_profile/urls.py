@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('login', LoginView.as_view(), name='login'),
     path('twitter', AuthTwitterView.as_view(), name='auth_twitter'),
-    path('twitter/callback', AuthTwitterCallbackView.as_view(), name='auth_twitter_callback'),
+    path('twitter/callback', AuthTwitterCallbackView.as_view(),
+         name='auth_twitter_callback'),
 ]
