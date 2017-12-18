@@ -14,7 +14,7 @@ class ChannelAdmin(admin.ModelAdmin):
             'fields': ('code', 'title', 'description')
         }),
         ('Youtube', {
-            'fields': ('youtubeURL',),
+            'fields': ('youtube_url',),
         }),
         ('Metadata', {
             'classes': ('collapse',),
@@ -25,7 +25,7 @@ class ChannelAdmin(admin.ModelAdmin):
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated', '-created']
-    readonly_fields = ('youtubeURL',)
+    readonly_fields = ('youtube_url',)
 
 
 admin.site.register(Channel, ChannelAdmin)

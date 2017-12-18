@@ -12,3 +12,10 @@ setup: migrate
 
 clean:
 	rm -rf db.sqlite3
+
+test:
+	python manage.py test
+
+cover:
+	coverage run --source='.' --omit='*/migrations/*.py' manage.py test
+	coverage report -m

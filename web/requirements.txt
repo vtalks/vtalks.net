@@ -1,3 +1,4 @@
 Django
 requests
 oauth2
+coverage
