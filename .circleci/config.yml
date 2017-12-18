@@ -10,3 +10,6 @@ jobs:
             python3 -m venv .venv
             . .venv/bin/activate
             pip install -r web/requirements.txt
+        - run:
+          command: |
+            cd web && make test
