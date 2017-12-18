@@ -21,6 +21,7 @@ client = oauth.Client(consumer)
 class LogoutView(View):
 
     def get(self, request):
+        # FIXME: Clean should not be necessary
         # Clean session
         if "oauth_token" in request.session:
             del request.session['oauth_token']
@@ -99,6 +100,7 @@ class AuthTwitterCallbackView(View):
         # - Add support for avatar
         user_obj.save()
 
+        # FIXME: This is probably not necessary
         request.session['user_id'] = user_obj.id
         request.session['user_username'] = user_obj.username
         request.session['twitter_id'] = twitter_id
