@@ -13,6 +13,7 @@ jobs:
             sudo pip install -r requirements.txt
        - run:
           command: |
+            . .venv/bin/activate
             cd web
             make test
             make cover
