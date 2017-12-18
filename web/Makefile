@@ -17,5 +17,5 @@ test:
 	python manage.py test
 
 cover:
-	coverage run --source='.' --omit='*/migrations/*.py' manage.py test
+	coverage run --source='.' --omit='*/migrations/*.py,manage.py,config/*' manage.py test
 	coverage report -m
