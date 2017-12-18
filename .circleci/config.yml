@@ -5,4 +5,8 @@ jobs:
        - image: circleci/python:latest
      steps:
        - checkout
-       - run: echo "hello world"
+       - run:
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip install -r web/requirements.txt
