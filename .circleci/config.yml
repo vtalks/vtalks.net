@@ -11,6 +11,10 @@ jobs:
             . .venv/bin/activate
             cd web
             pip install -r requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
+          paths:
+            - ".venv"
       - run:
           command: |
             . .venv/bin/activate
