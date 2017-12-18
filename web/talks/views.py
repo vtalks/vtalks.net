@@ -21,14 +21,12 @@ class ContactView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ContactView, self).get_context_data(**kwargs)
-        # context["testing_out"] = "this is a new context var"
         return context
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        # form.send_email()
-        # print "form is valid"
+        form.send_email()
         return super(ContactView, self).form_valid(form)
 
 
