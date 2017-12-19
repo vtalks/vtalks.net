@@ -1,2 +1,1 @@
-# vtalks.net
-.
+# vtalks.net [![CircleCI](https://circleci.com/gh/vtalks/vtalks.net.svg?style=svg)](https://circleci.com/gh/vtalks/vtalks.net)
