@@ -1,19 +1,8 @@
-all: migrate server
-
-migrate:
-	python manage.py makemigrations
-	python manage.py migrate
-
-server:
-	python manage.py runserver 0.0.0.0:8000
-
-setup: migrate
-	python manage.py createsuperuser
-
-test:
-	python manage.py test --settings=settings_test
-
-cover:
+cover:	## Execute all tests and report coverage results
 	coverage run manage.py test --settings=settings_test
 	coverage report
 	coverage html
+
+.PHONY: help
+help:	## Show this help
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'

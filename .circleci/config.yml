@@ -1,5 +1,7 @@
 version: 2
 jobs:
+
+  # Web project
   web:
     docker:
       - image: circleci/python:latest
@@ -21,6 +23,9 @@ jobs:
             . .venv/bin/activate
             cd web
             make cover
+
+
+  # Crawler project
   crawler:
     docker:
       - image: circleci/python:latest
@@ -42,6 +47,8 @@ jobs:
             . .venv/bin/activate
             cd crawler
             echo "test crawler"
+
+
 workflows:
   version: 2
   web_and_crawler:
