@@ -121,12 +121,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "web", "static"),
 ]
 
+# Twitter configuration
+
 TWITTER_AUTHENTICATE_URL = 'https://api.twitter.com/oauth/authenticate'
 TWITTER_REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
 TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 # https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
 TWITTER_VERIFY_CREDENTIALS_URL = 'https://api.twitter.com/1.1/account/verify_credentials.json?include_entities=false&skip_status=true&include_email=true'
-# TODO:
-# - This must be on environment variables
-TWITTER_TOKEN = '2NcFgYMLgRKES8dV6Ym2PyhLt'
-TWITTER_SECRET = 'G25VNqFkLqI9M4KYbERL4SUY70yskQaVOMj5KVyRpsMIVCIlKH'
+TWITTER_TOKEN = os.getenv('TWITTER_TOKEN')
+TWITTER_SECRET = os.getenv('TWITTER_SECRET')
