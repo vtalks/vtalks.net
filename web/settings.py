@@ -79,11 +79,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vtalks',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpass',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'HOST': 'postgres',
-        'PORT': '5432',
+        'PORT': 5432,
     }
 }
 
