@@ -121,6 +121,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "web", "static"),
 ]
 
+TWITTER_AUTHENTICATE_URL = 'https://api.twitter.com/oauth/authenticate'
+TWITTER_REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
+TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 # TODO:
 # - This must be on environment variables
 TWITTER_TOKEN = '2NcFgYMLgRKES8dV6Ym2PyhLt'
