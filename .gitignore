@@ -102,6 +102,5 @@ ENV/
 
 web/db.sqlite3
 
-.venv
 .idea
 .vscode
