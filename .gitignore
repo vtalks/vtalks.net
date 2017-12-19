@@ -100,9 +100,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-# database for the web
-web/db.sqlite3
-
 # IDEs and editors
 .idea
 .vscode

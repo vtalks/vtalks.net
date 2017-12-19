@@ -10,11 +10,6 @@ server:
 setup: migrate
 	python manage.py createsuperuser
 
-clean:
-	rm -rf db.sqlite3
-	rm -rf .cover
-	coverage erase
-
 test:
 	python manage.py test
 
