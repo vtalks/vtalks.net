@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Youtube API Client
-"""
 import logging
 
 import requests
 
+
 def fetch_items(youtube_api_key, playlist_code):
-    """Fetch playlist data from Youtube API
-    """
     channel_url = "https://www.googleapis.com/youtube/v3/playlistItems"
     payload = {'playlistId': playlist_code,
                'maxResults': 50,

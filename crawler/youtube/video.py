@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Youtube API Client
-"""
 import logging
 
 import requests
 
 from django.utils import timezone
 
+
 def fetch(youtube_api_key, video_code):
-    """Fetch video data from Youtube API.
-    """
     video_url = "https://www.googleapis.com/youtube/v3/videos"
     payload = {'id': video_code,
                'part': 'snippet,statistics',
@@ -22,9 +19,8 @@ def fetch(youtube_api_key, video_code):
     data_json = response_json["items"][0]
     return data_json
 
+
 def store(video_data_json, channel_obj):
-    """Create or update talk.
-    """
     from talks.models import Talk
 
     if "tags" not in video_data_json["snippet"]:

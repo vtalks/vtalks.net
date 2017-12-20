@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Youtube API Client
-"""
 import logging
 
 import requests
 
 from django.utils import timezone
 
+
 def fetch(youtube_api_key, channel_code):
-    """Fetch channel data from Youtube API
-    """
     channel_url = "https://www.googleapis.com/youtube/v3/channels"
     payload = {'id': channel_code,
                'part': 'snippet,contentDetails',
@@ -22,9 +19,8 @@ def fetch(youtube_api_key, channel_code):
     data_json = response_json["items"][0]
     return data_json
 
+
 def store(channel_data_json):
-    """Create or update video channel
-    """
     from talks.models import Channel
 
     channel_obj, created = Channel.objects.update_or_create(
