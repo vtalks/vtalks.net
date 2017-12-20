@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 
 
 class LogoutView(RedirectView):
-    pattern_name = 'index'
+    pattern_name = 'talks:index'
 
     def get_redirect_url(self, *args, **kwargs):
         # Logout user & clear session.
@@ -53,7 +53,7 @@ class AuthTwitterView(RedirectView):
 
 
 class AuthTwitterCallbackView(RedirectView):
-    pattern_name = 'index'
+    pattern_name = 'talks:index'
 
     def __get_oauth_client(self):
         consumer = oauth.Consumer(settings.TWITTER_TOKEN,

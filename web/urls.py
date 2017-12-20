@@ -15,10 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 from django.urls import include
-
 from django.contrib import admin
-
-from talks.views import IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +24,7 @@ urlpatterns = [
 
     path('corporate/', include('corporate.urls')),
 
-    path('', IndexView.as_view(), name='index'),
+    path('api/', include('api.urls')),
+
+    path('', include('talks.urls')),
 ]
