@@ -36,9 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corporate',
-    'talks',
-    'user_profile',
+    'corporate.apps.CorporateConfig',
+    'talks.apps.TalksConfig',
+    'user_profile.apps.UserProfileConfig',
 ]
 
 MIDDLEWARE = [
