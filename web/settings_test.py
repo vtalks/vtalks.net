@@ -35,11 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corporate.apps.CorporateConfig',
     'user_profile.apps.UserProfileConfig',
+    'corporate.apps.CorporateConfig',
     'talks.apps.TalksConfig',
-    'rest_framework',
-    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -140,10 +138,3 @@ TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 TWITTER_VERIFY_CREDENTIALS_URL = 'https://api.twitter.com/1.1/account/verify_credentials.json?include_entities=false&skip_status=true&include_email=true'
 TWITTER_TOKEN = os.getenv('TWITTER_TOKEN')
 TWITTER_SECRET = os.getenv('TWITTER_SECRET')
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-    'PAGE_SIZE': 10
-}
