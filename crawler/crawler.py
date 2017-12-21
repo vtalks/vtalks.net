@@ -21,53 +21,49 @@ import argparse
 
 from django.core.wsgi import get_wsgi_application
 
-from youtube import utils
-from youtube import video
-from youtube import channel
-from youtube import playlist
+from .youtube import utils
+from .youtube import video
+from .youtube import channel
+from .youtube import playlist
 
-# TODO: Get the API key from an env variable/conf file/cli flag 
-YOUTUBE_API_KEY = "AIzaSyAdDZRxQSQ70JBqYXeMUGmHE1Z2evOVW4Q"
-# TODO: Use relative path
-PROJECT_PATH = "/Users/raul/Projects/vtalks/vtalks.net/web/"
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+
 
 def video_command(args):
-    """Creates or updates a video and its channel given its URL.
-    """
-    # Fetch video data
+    # Fetch video data
     video_code = utils.get_video_code(args.url)
     video_data_json = video.fetch(YOUTUBE_API_KEY, video_code)
-    # Fetch channel data
+    # Fetch channel data
     channel_code = video_data_json["snippet"]["channelId"]
     channel_data_json = channel.fetch(YOUTUBE_API_KEY, channel_code)
-    # Store channel and video
+    # Store channel and video
     channel_obj = channel.store(channel_data_json)
     video.store(video_data_json, channel_obj)
 
+
 def channel_command(args):
-    """Add a videos from a channel given its URL.
-    """
-    # Fetch channel data
+    # Fetch channel data
     channel_code = utils.get_channel_code(args.url)
     channel_data_json = channel.fetch(YOUTUBE_API_KEY, channel_code)
-    # Fetch uploads list id
+    # Fetch uploads list id
     channel_upload_list_id = channel_data_json["contentDetails"]["relatedPlaylists"]["uploads"]
-    # Fetch uploads list videos
-    # TODO:
-    # - Support pagination
-    channel_videos_ids = playlist.fetch_items(YOUTUBE_API_KEY, channel_upload_list_id)
-    # Store channel and video
+    # Fetch uploads list videos
+    # TODO:
+    # - Support pagination
+    channel_videos_ids = playlist.fetch_items(YOUTUBE_API_KEY,
+                                              channel_upload_list_id)
+    # Store channel and video
     channel_obj = channel.store(channel_data_json)
     for item in channel_videos_ids:
         video_data_json = video.fetch(YOUTUBE_API_KEY, item)
         video.store(video_data_json, channel_obj)
 
+
 def main():
-    """Main entry point.
-    """
-    # Setup subcommands, flags and arguments
+    # Setup sub commands, flags and arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--verbose", help="Enable verbose ouput", action="store_true")
+    parser.add_argument("-v", "--verbose", help="Enable verbose ouput",
+                        action="store_true")
     subparsers = parser.add_subparsers(dest='command')
     subparsers.required = True
     video_parser = subparsers.add_parser('video', help="Add video")
@@ -77,7 +73,7 @@ def main():
     args = parser.parse_args()
 
     if args.verbose:
-        # Configure logging level to INFO.
+        # Configure logging level to INFO.
         logging.basicConfig(level=logging.INFO)
 
     if args.command == "video":
@@ -88,11 +84,19 @@ def main():
         channel_command(args)
         exit(0)
 
+
 if __name__ == '__main__':
+    # Add crawler and web to the python path
+    crawler_path = os.getcwd()
+    web_path = os.path.normpath(os.path.join(crawler_path, "../web/"))
+    sys.path.append(crawler_path)
+    sys.path.append(web_path)
+
     # Setup django environment & application.
-    sys.path.append(PROJECT_PATH)
-    os.chdir(PROJECT_PATH)
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
+    os.chdir(web_path)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
     get_wsgi_application()
 
+    # Execute main entry point
     main()
+

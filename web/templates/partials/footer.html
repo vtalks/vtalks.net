@@ -2,14 +2,14 @@
     <div class="container">
         <p>vtalks.net © 2018</p>
         <p>
-            <a href="{% url 'index' %}">Home</a> -
-            <a href="{% url 'about' %}">About</a> -
-            <a href="{% url 'help' %}">Help</a> -
-            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'talks:index' %}">Home</a> -
+            <a href="{% url 'corporate:about' %}">About</a> -
+            <a href="{% url 'corporate:help' %}">Help</a> -
+            <a href="{% url 'corporate:contact' %}">Contact</a>
         </p>
         <p>
-            <a href="{% url 'privacy' %}">Privacy Policy</a> -
-            <a href="{% url 'terms' %}">Terms of service</a>
+            <a href="{% url 'corporate:privacy' %}">Privacy Policy</a> -
+            <a href="{% url 'corporate:terms' %}">Terms of service</a>
         </p>
     </div>
 </footer>

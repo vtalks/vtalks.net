@@ -1,13 +1,13 @@
-up:
-	docker-compose up -d --build
-	# docker-compose run --rm web python3 manage.py createsuperuser
+.PHONY: help
+help:	## Show this help
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-down:
-	docker-compose down --volumes --remove-orphans --rmi all
-	docker volume prune -f
-
-clean:
-	rm -rf .idea
-
-dist-clean:
-	rm -rf .venv
+# Deploy development environment:
+# -------------------------------
+# - postgresql is exported to host at 5432
+# - web is exported to host at 8000
+#
+# $ source .venv/bin/activate
+# $ source environment.sh
+# $ docker-compose -f deploy/docker-compose.yml up
+# $ docker-compose -f deploy/docker-compose.yml exec web python3 manage.py createsuperuser

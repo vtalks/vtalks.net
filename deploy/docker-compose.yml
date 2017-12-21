@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+
+  postgres:
+    container_name: vtalksnet_postgres
+    hostname: postgres
+    restart: on-failure
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+
+  web:
+    container_name: vtalksnet_web
+    hostname: web
+    restart: always
+    build: ../web
+    volumes:
+      - ../web:/opt/vtalks/web/
+    ports:
+      - "8000:8000"
+    environment:
+      - TWITTER_TOKEN
+      - TWITTER_SECRET
+    depends_on:
+      - postgres

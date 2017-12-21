@@ -15,27 +15,11 @@ Including another URLconf
 """
 from django.urls import path
 from django.urls import include
-
 from django.contrib import admin
-
-from talks.views import IndexView
-
-from talks.views import AboutView
-from talks.views import ContactView
-from talks.views import HelpView
-from talks.views import TermsView
-from talks.views import PrivacyView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('auth/', include('user_profile.urls')),
-
-    path('', IndexView.as_view(), name='index'),
-
-    path('about', AboutView.as_view(), name='about'),
-    path('contact', ContactView.as_view(), name='contact'),
-    path('help', HelpView.as_view(), name='help'),
-    path('terms', TermsView.as_view(), name='terms'),
-    path('privacy', PrivacyView.as_view(), name='privacy'),
+    path('corporate/', include('corporate.urls')),
+    path('', include('talks.urls')),
 ]
