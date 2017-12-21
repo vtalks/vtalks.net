@@ -25,17 +25,11 @@ jobs:
       - image: circleci/python:latest
     steps:
       - checkout
-      - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
       - run:
           command: |
             python3 -m venv .venv
             . .venv/bin/activate
             pip install -r web/requirements.txt
-      - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "web/requirements.txt" }}
-          paths:
-            - ".venv"
       - run:
           command: |
             . .venv/bin/activate
