@@ -19,12 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('auth/', include('user_profile.urls')),
-
     path('corporate/', include('corporate.urls')),
-
-    path('api/', include('api.urls')),
-
     path('', include('talks.urls')),
 ]

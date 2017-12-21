@@ -1,5 +1,4 @@
 Django
-djangorestframework
 requests
 oauth2
 coverage
