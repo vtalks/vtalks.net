@@ -4,16 +4,11 @@ import oauth2 as oauth
 from urllib.parse import parse_qsl
 
 from django.conf import settings
-from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 # Create your views here.
-
-
-class LoginView(TemplateView):
-    template_name = "login.html"
 
 
 class AuthTwitterView(RedirectView):
