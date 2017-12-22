@@ -1,5 +1,5 @@
 cover:	## Execute all tests and report coverage results
-	coverage run manage.py test --settings=settings_test
+	coverage run manage.py test --settings=config.settings_test
 	coverage report
 	coverage html
 

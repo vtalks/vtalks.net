@@ -11,16 +11,14 @@ from taggit.managers import TaggableManager
 
 
 class Channel(models.Model):
-    code = models.CharField(max_length=25, unique=True)
-    title = models.CharField(max_length=200)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
     @property
     def youtube_url(self):
-        if self.code == "":
-            return "-"
         return "https://www.youtube.com/channel/{:s}".format(self.code)
 
     def __str__(self):
@@ -34,11 +32,11 @@ class Channel(models.Model):
 
 
 class Talk(models.Model):
-    code = models.CharField(max_length=25, unique=True)
-    title = models.CharField(max_length=200)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, default=None)
     tags = TaggableManager()
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
@@ -48,38 +46,26 @@ class Talk(models.Model):
     
     @property
     def default_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
 
     @property
     def medium_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
 
     @property
     def high_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
 
     @property
     def standard_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
 
     @property
     def maxres_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
     @property
     def youtube_url(self):
-        if self.code == "":
-            return "-"
         return "https://www.youtube.com/watch?v={:s}".format(self.code)
 
     def __str__(self):
