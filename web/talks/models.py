@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.core.management.base import CommandError
 
+from taggit.managers import TaggableManager
+
 # Create your models here.
 
 
@@ -37,7 +39,7 @@ class Talk(models.Model):
     description = models.TextField()
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
     slug = models.SlugField(max_length=200, unique=True)
-    tags = models.CharField(max_length=500, blank=True, default="")
+    tags = TaggableManager()
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
     dislike_count = models.IntegerField('dislike count', default=0)

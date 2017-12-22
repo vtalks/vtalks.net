@@ -1,4 +1,5 @@
 Django
+django-taggit
 requests
 oauth2
 coverage
