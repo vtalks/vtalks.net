@@ -1,4 +1,3 @@
-import logging
 import requests
 
 from urllib.parse import urlsplit

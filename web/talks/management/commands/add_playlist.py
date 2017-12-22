@@ -1,4 +1,3 @@
-import logging
 import requests
 
 from urllib.parse import urlsplit
@@ -7,6 +6,14 @@ from urllib.parse import parse_qs
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
+
+"""
+TODO:
+
+#### Open questions
+
+* Support pagination when getting videos from a playlist
+"""
 
 
 def get_playlist_code(url):
@@ -36,7 +43,7 @@ def fetch_playlist_items(youtube_api_key, playlist_code):
 
 
 class Command(BaseCommand):
-    help = 'Adds a video playlist to the system.'
+    help = 'Adds all videos from a playlist to the system.'
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
