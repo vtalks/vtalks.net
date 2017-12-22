@@ -1,4 +1,5 @@
 import requests
+import logging
 
 from django.db import models
 from django.utils import timezone
@@ -11,16 +12,14 @@ from taggit.managers import TaggableManager
 
 
 class Channel(models.Model):
-    code = models.CharField(max_length=25, unique=True)
-    title = models.CharField(max_length=200)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
     @property
     def youtube_url(self):
-        if self.code == "":
-            return "-"
         return "https://www.youtube.com/channel/{:s}".format(self.code)
 
     def __str__(self):
@@ -34,12 +33,12 @@ class Channel(models.Model):
 
 
 class Talk(models.Model):
-    code = models.CharField(max_length=25, unique=True)
-    title = models.CharField(max_length=200)
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
-    slug = models.SlugField(max_length=200, unique=True)
-    tags = TaggableManager()
+    slug = models.SlugField(max_length=200, unique=True, default=None)
+    tags = TaggableManager(blank=True)
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
     dislike_count = models.IntegerField('dislike count', default=0)
@@ -48,38 +47,26 @@ class Talk(models.Model):
     
     @property
     def default_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
 
     @property
     def medium_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
 
     @property
     def high_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
 
     @property
     def standard_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
 
     @property
     def maxres_thumb(self):
-        if self.code == "":
-            return "-"
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
     @property
     def youtube_url(self):
-        if self.code == "":
-            return "-"
         return "https://www.youtube.com/watch?v={:s}".format(self.code)
 
     def __str__(self):
@@ -119,25 +106,10 @@ def fetch_channel_data(youtube_api_key, channel_code):
     if resp.status_code != 200:
         raise CommandError('Error fetching channel data "%s"' % resp.status_code)
     response_json = resp.json()
-    channel_data = response_json["items"][0]
+    channel_data = None
+    if len(response_json["items"]) > 0:
+        channel_data = response_json["items"][0]
     return channel_data
-
-
-def fetch_playlist_items(youtube_api_key, playlist_code):
-    channel_url = "https://www.googleapis.com/youtube/v3/playlistItems"
-    payload = {'playlistId': playlist_code,
-               'maxResults': 50,
-               'part': 'snippet',
-               'key': youtube_api_key}
-    resp = requests.get(channel_url, params=payload)
-    if resp.status_code != 200:
-        raise CommandError('Error fetching playlist items "%s"' % resp.status_code)
-    response_json = resp.json()
-    data_json = response_json["items"]
-    videos_id_list = []
-    for item in data_json:
-        videos_id_list.append(item["snippet"]["resourceId"]["videoId"])
-    return videos_id_list
 
 
 def fetch_video_data(youtube_api_key, video_code):
@@ -149,5 +121,27 @@ def fetch_video_data(youtube_api_key, video_code):
     if resp.status_code != 200:
         raise CommandError('Error fetching video data "%s"' % resp.status_code)
     response_json = resp.json()
-    video_data = response_json["items"][0]
+    video_data = None
+    if len(response_json["items"]) > 0:
+        video_data = response_json["items"][0]
     return video_data
+
+
+def fetch_playlist_items(youtube_api_key, playlist_code):
+    channel_url = "https://www.googleapis.com/youtube/v3/playlistItems"
+    payload = {'playlistId': playlist_code,
+               'maxResults': 50,
+               'part': 'snippet',
+               'key': youtube_api_key}
+    resp = requests.get(channel_url, params=payload)
+    if resp.status_code != 200:
+        if resp.status_code == 404:
+            return []
+        else:
+            raise CommandError('Error fetching playlist items "%s"' % resp.status_code)
+    response_json = resp.json()
+    videos_id_list = []
+    data_json = response_json["items"]
+    for item in data_json:
+        videos_id_list.append(item["snippet"]["resourceId"]["videoId"])
+    return videos_id_list

@@ -6,10 +6,10 @@ from django.utils import timezone
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 
-from talks.models import Channel
-from talks.models import Talk
-from talks.models import fetch_channel_data
-from talks.models import fetch_video_data
+from ...models import Channel
+from ...models import Talk
+from ...models import fetch_channel_data
+from ...models import fetch_video_data
 
 """
 TODO:
@@ -66,6 +66,8 @@ class Command(BaseCommand):
         else:
             self.stdout.write(
                 self.style.SUCCESS('Updated channel "%s"' % channel_obj.title))
+
+        print(talk_data["snippet"]["tags"])
 
         # Add Video
         if "tags" not in talk_data["snippet"]:

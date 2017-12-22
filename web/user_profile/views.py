@@ -8,6 +8,7 @@ from django.views.generic import UpdateView
 from django.views.generic import RedirectView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+
 from .models import UserProfile
 
 from .forms import AuthUserSettingsForm

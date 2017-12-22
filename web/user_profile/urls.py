@@ -1,10 +1,11 @@
 from django.urls import path
 
+from django.contrib.auth.views import logout
+from django.contrib.auth.views import login
+
 from .views import AuthTwitterView
 from .views import AuthTwitterCallbackView
 from .views import AuthProfileSettingsView
-from django.contrib.auth.views import logout
-from django.contrib.auth.views import login
 
 app_name = 'user_profile'
 urlpatterns = [
