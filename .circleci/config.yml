@@ -2,7 +2,7 @@ version: 2
 jobs:
 
   # Web project
-  web:
+  web_test:
     docker:
       - image: circleci/python:latest
     steps:
@@ -20,6 +20,6 @@ jobs:
 
 workflows:
   version: 2
-  web_and_crawler:
+  web:
     jobs:
-      - web
+      - web_test
