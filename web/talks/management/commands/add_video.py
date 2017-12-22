@@ -12,6 +12,21 @@ from django.core.management.base import CommandError
 from talks.models import Channel
 from talks.models import Talk
 
+"""
+TODO:
+
+#### Open questions
+
+* Fetch video duration from contentDetails
+* Support video favoriteCount
+* Support channel custom URLS
+* Support channel statistics (viewCount, subscriberCount)
+
+## Additional information
+
+https://developers.google.com/youtube/v3/docs/channels/list
+"""
+
 
 def get_video_code(url):
     query = urlsplit(url).query
