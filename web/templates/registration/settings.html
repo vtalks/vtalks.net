@@ -3,9 +3,10 @@
 <main role="main">
     <div class="container">
         <h1>Public Profile</h1>
-        <form action="" method="post">
+        <form action="{% url 'user_profile:settings' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        {{ profile_form.as_p}}
         <button type="submit" class="btn btn-primary">Update Profile</button>
         </form>
     </div>
