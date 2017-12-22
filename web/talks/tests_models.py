@@ -7,6 +7,7 @@ from django.core.management.base import CommandError
 from .models import Channel
 from .models import fetch_channel_data
 from .models import fetch_video_data
+from .models import fetch_playlist_items
 from .models import Talk
 
 # Create your tests here.
@@ -67,12 +68,12 @@ class TalkModelTests(TestCase):
         self.assertEquals(talk_1.maxres_thumb,
                           'https://i.ytimg.com/vi/1/maxresdefault.jpg')
 
-    def test_instance_slug(self):
+    def test_create_talk_slug(self):
         """A talk populates automatically an slug field once it is created"""
         talk_1 = Talk.objects.get(code='1')
         self.assertEquals(talk_1.slug, 'talk-title-1')
 
-    def test_duplicate_title_slug(self):
+    def test_create_duplicate_title_slug(self):
         """It is possible than two different talks have the same title, in
         this case the slug will have the talk code as a suffix on the second
         talk.
@@ -80,8 +81,17 @@ class TalkModelTests(TestCase):
         talk_12 = Talk.objects.get(code='12')
         self.assertEquals(talk_12.slug, 'talk-title-same-title-12')
 
+    def test_save_talk_slug(self):
+        """If the title on already created talk is changed, the slug of the
+        talk is not modified when it is saved."""
+        talk_1 = Talk.objects.get(id=1)
+        talk_1.title = "another title"
+        talk_1.save()
+        self.assertEquals(talk_1.slug, 'talk-title-1')
+
 
 class FetchYoutubeChannelTests(TestCase):
+
     def test_fetch_channel_data_fails_invalid_youtube_key(self):
         url='https://www.googleapis.com/youtube/v3/channels'
         with requests_mock.mock() as m:
@@ -110,6 +120,7 @@ class FetchYoutubeChannelTests(TestCase):
 
 
 class FetchYoutubeVideoTests(TestCase):
+
     def test_fetch_video_data_fails_invalid_youtube_key(self):
         url='https://www.googleapis.com/youtube/v3/videos'
         with requests_mock.mock() as m:
@@ -135,3 +146,33 @@ class FetchYoutubeVideoTests(TestCase):
             video_code = 'code'
             video_data = fetch_video_data(youtube_api_key, video_code)
             self.assertEquals(video_data['id'], video_code)
+
+
+class FetchYoutubePlaylistItemsTests(TestCase):
+
+    def test_fetch_playlist_data_fails_invalid_youtube_key(self):
+        url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+        with requests_mock.mock() as m:
+            m.get(url, json={}, status_code=400)
+            youtube_api_key = 'invalid_youtube_key'
+            playlist_code = 'code'
+            self.assertRaises(CommandError, fetch_playlist_items, youtube_api_key, playlist_code)
+
+    def test_fetch_playlist_data_fails_code_not_found(self):
+        url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+        with requests_mock.mock() as m:
+            m.get(url, json={"code": 404, "message": "The playlist identified with the requests playlistId parameter cannot be found."}, status_code=404)
+            youtube_api_key = settings.YOUTUBE_API_KEY
+            playlist_code = 'invalid_code'
+            playlist_data = fetch_playlist_items(youtube_api_key, playlist_code)
+            self.assertIsInstance(playlist_data, list)
+            self.assertEquals(len(playlist_data), 0)
+
+    def test_fetch_playlist_data(self):
+        url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+        with requests_mock.mock() as m:
+            m.get(url, json={"items": [{"snippet": {"resourceId": {"videoId": "1"}}}, {"snippet": {"resourceId": {"videoId": "2"}}}]}, status_code=200)
+            youtube_api_key = settings.YOUTUBE_API_KEY
+            playlist_code = 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
+            playlist_data = fetch_playlist_items(youtube_api_key, playlist_code)
+            self.assertIsInstance(playlist_data, list)

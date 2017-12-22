@@ -1,4 +1,7 @@
+from unittest import mock
+from io import StringIO
 from django.test import TestCase
+from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from .management.commands.add_video import get_video_code
@@ -17,6 +20,17 @@ class AddVideoCommandTests(TestCase):
     def test_get_video_code_fails(self):
         url = 'invalid_url'
         self.assertRaises(CommandError, get_video_code, url)
+
+    '''
+    def fake_fetch_video_data(self, youtube_api_key, video_code):
+        return {'snippet': {'channelId': '1'}}
+
+    @mock.patch('talks.models.fetch_video_data', fake_fetch_video_data)
+    def test_command_output(self):
+        out = StringIO()
+        call_command('add_video', 'https://www.youtube.com/watch?v=code', stdout=out)
+        self.assertIn('Expected output', out.getvalue())
+    '''
 
 
 class AddPlaylistCommandTests(TestCase):
