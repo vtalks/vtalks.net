@@ -16,7 +16,7 @@ jobs:
           command: |
             . .venv/bin/activate
             cd web
-            make cover
+            python manage.py test --settings=config.settings_test
 
 workflows:
   version: 2
