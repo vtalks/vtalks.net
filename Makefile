@@ -1,3 +1,12 @@
+DOCKER-COMPOSE=docker-compose
+DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
+
+.PHONY: cover
+cover:	## Execute tests and generate coverage reports
+	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings_test
+	$(DEPLOY) exec web coverage report
+	$(DEPLOY) exec web coverage html
+
 .PHONY: help
 help:	## Show this help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
