@@ -1,8 +1,8 @@
 from django import forms
 
 
-class UserPreferences(forms.Form):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=150)
-    email = forms.EmailField()
-    bio = forms.CharField(widget=forms.Textarea)
+class AuthProfileSettingsForm(forms.Form):
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=150, required=False)
+    email = forms.EmailField(required=False)
+    bio = forms.CharField(label='Biography', widget=forms.Textarea, required=False)

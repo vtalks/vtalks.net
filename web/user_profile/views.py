@@ -4,9 +4,12 @@ import oauth2 as oauth
 from urllib.parse import parse_qsl
 
 from django.conf import settings
+from django.views.generic import FormView
 from django.views.generic import RedirectView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+
+from .forms import AuthProfileSettingsForm
 
 # Create your views here.
 
@@ -89,3 +92,12 @@ class AuthTwitterCallbackView(RedirectView):
         # Login user
         login(self.request, user_obj)
         return super().get_redirect_url(*args, **kwargs)
+
+
+class AuthProfileSettingsView(FormView):
+    template_name = 'registration/settings.html'
+    form_class = AuthProfileSettingsForm
+    success_url = '.'
+
+    def form_valid(self, form):
+        return super().form_valid(form)

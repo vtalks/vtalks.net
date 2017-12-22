@@ -13,7 +13,7 @@
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-user-circle"></i> {{ user.username }}</a>
+                    <a class="nav-link" href="{% url 'user_profile:settings' %}"><i class="fas fa-user-circle"></i> {{ user.username }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user_profile:logout' %}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
