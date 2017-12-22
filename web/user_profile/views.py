@@ -97,7 +97,7 @@ class AuthTwitterCallbackView(RedirectView):
 class AuthProfileSettingsView(FormView):
     template_name = 'registration/settings.html'
     form_class = AuthProfileSettingsForm
-    success_url = '.'
+    success_url = '/auth/settings'
 
     def form_valid(self, form):
         return super().form_valid(form)
