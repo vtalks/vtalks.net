@@ -138,5 +138,7 @@ def fetch_video_data(youtube_api_key, video_code):
     if resp.status_code != 200:
         raise CommandError('Error fetching video data "%s"' % resp.status_code)
     response_json = resp.json()
-    video_data = response_json["items"][0]
+    video_data = None
+    if len(response_json["items"]) > 0:
+        video_data = response_json["items"][0]
     return video_data
