@@ -22,5 +22,6 @@ services:
     environment:
       - TWITTER_TOKEN
       - TWITTER_SECRET
+      - YOUTUBE_API_KEY
     depends_on:
       - postgres
