@@ -44,8 +44,7 @@ def fetch_video_data(youtube_api_key, video_code):
                'key': youtube_api_key}
     resp = requests.get(video_url, params=payload)
     if resp.status_code != 200:
-        logging.error(resp.status_code)
-        exit(1)
+        raise CommandError('Error fetching video data "%s"' % resp.status_code)
     response_json = resp.json()
     video_data = response_json["items"][0]
     return video_data
@@ -58,8 +57,7 @@ def fetch_channel_data(youtube_api_key, channel_code):
                'key': youtube_api_key}
     resp = requests.get(channel_url, params=payload)
     if resp.status_code != 200:
-        logging.error(resp.status_code)
-        exit(1)
+        raise CommandError('Error fetching channel data "%s"' % resp.status_code)
     response_json = resp.json()
     channel_data = response_json["items"][0]
     return channel_data
