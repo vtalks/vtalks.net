@@ -1,5 +1,5 @@
 Django
--e git://github.com/alex/django-taggit.git
+git+https://github.com/alex/django-taggit.git
 requests
 requests-mock
 oauth2
