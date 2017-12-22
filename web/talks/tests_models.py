@@ -81,7 +81,7 @@ class TalkModelTests(TestCase):
         self.assertEquals(talk_12.slug, 'talk-title-same-title-12')
 
 
-class FetchYoutubeChannel(TestCase):
+class FetchYoutubeChannelTests(TestCase):
     def test_fetch_channel_data_fails_invalid_youtube_key(self):
         url='https://www.googleapis.com/youtube/v3/channels'
         with requests_mock.mock() as m:
@@ -109,7 +109,7 @@ class FetchYoutubeChannel(TestCase):
             self.assertEquals(channel_data['id'], channel_code)
 
 
-class FetchYoutubeVideo(TestCase):
+class FetchYoutubeVideoTests(TestCase):
     def test_fetch_video_data_fails_invalid_youtube_key(self):
         url='https://www.googleapis.com/youtube/v3/videos'
         with requests_mock.mock() as m:
