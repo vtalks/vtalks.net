@@ -10,6 +10,7 @@ from django.core.management.base import CommandError
 
 from talks.models import Channel
 from talks.models import Talk
+from talks.models import fetch_video_data
 
 """
 TODO:
@@ -34,19 +35,6 @@ def get_video_code(url):
         raise CommandError('Invalid url "%s"' % url)
     video_code = params["v"][0]
     return video_code
-
-
-def fetch_video_data(youtube_api_key, video_code):
-    video_url = "https://www.googleapis.com/youtube/v3/videos"
-    payload = {'id': video_code,
-               'part': 'snippet,statistics',
-               'key': youtube_api_key}
-    resp = requests.get(video_url, params=payload)
-    if resp.status_code != 200:
-        raise CommandError('Error fetching video data "%s"' % resp.status_code)
-    response_json = resp.json()
-    video_data = response_json["items"][0]
-    return video_data
 
 
 def fetch_channel_data(youtube_api_key, channel_code):

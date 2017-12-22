@@ -7,6 +7,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 
+from talks.models import fetch_video_data
+
 """
 TODO:
 
@@ -52,4 +54,6 @@ class Command(BaseCommand):
         playlist_code = get_playlist_code(options['youtube_url'])
         playlist_videos = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist_code)
         for video_code in playlist_videos:
-            print(video_code)
+            talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
+            channel_code = talk_data["snippet"]["channelId"]
+            print(channel_code)

@@ -1,6 +1,9 @@
+import requests
+
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.management.base import CommandError
 
 # Create your models here.
 
@@ -103,3 +106,16 @@ class Talk(models.Model):
         verbose_name_plural = "Talks"
         get_latest_by = "-created"
         ordering = ['-created', '-updated']
+
+
+def fetch_video_data(youtube_api_key, video_code):
+    video_url = "https://www.googleapis.com/youtube/v3/videos"
+    payload = {'id': video_code,
+               'part': 'snippet,statistics',
+               'key': youtube_api_key}
+    resp = requests.get(video_url, params=payload)
+    if resp.status_code != 200:
+        raise CommandError('Error fetching video data "%s"' % resp.status_code)
+    response_json = resp.json()
+    video_data = response_json["items"][0]
+    return video_data
