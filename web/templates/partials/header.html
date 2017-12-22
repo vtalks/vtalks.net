@@ -7,17 +7,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'talks:index' %}">Home</a>
+                    <a class="nav-link" href="{% url 'talks:index' %}"><i class="fas fa-home"></i> Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_profile:logout' %}">Sign Out</a>
+                    <a class="nav-link" href="{% url 'user_profile:settings' %}"><i class="fas fa-user-circle"></i> {{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_profile:logout' %}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_profile:login' %}">Sign In</a>
+                    <a class="nav-link" href="{% url 'user_profile:login' %}"><i class="fas fa-sign-in-alt"></i> Sign In</a>
                 </li>
                 {% endif %}
             </ul>
