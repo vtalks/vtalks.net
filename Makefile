@@ -1,5 +1,10 @@
+PYTHON=python3
 DOCKER-COMPOSE=docker-compose
 DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
+
+.PHONY: test
+test:	## Execute tests
+	$(DEPLOY) exec web $(PYTHON) manage.py test --settings=config.settings_test
 
 .PHONY: cover
 cover:	## Execute tests and generate coverage reports

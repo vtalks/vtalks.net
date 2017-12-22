@@ -1,4 +1,5 @@
 import requests
+import logging
 
 from django.db import models
 from django.utils import timezone
@@ -105,7 +106,9 @@ def fetch_channel_data(youtube_api_key, channel_code):
     if resp.status_code != 200:
         raise CommandError('Error fetching channel data "%s"' % resp.status_code)
     response_json = resp.json()
-    channel_data = response_json["items"][0]
+    channel_data = None
+    if len(response_json["items"]) > 0:
+        channel_data = response_json["items"][0]
     return channel_data
 
 

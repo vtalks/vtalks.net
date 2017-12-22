@@ -1,6 +1,7 @@
 Django
 django-taggit
 requests
+requests-mock
 oauth2
 coverage
 psycopg2
