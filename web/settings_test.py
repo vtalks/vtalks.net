@@ -138,3 +138,7 @@ TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 TWITTER_VERIFY_CREDENTIALS_URL = 'https://api.twitter.com/1.1/account/verify_credentials.json?include_entities=false&skip_status=true&include_email=true'
 TWITTER_TOKEN = os.getenv('TWITTER_TOKEN')
 TWITTER_SECRET = os.getenv('TWITTER_SECRET')
+
+# Youtube configuration
+
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
