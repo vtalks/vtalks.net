@@ -18,28 +18,8 @@ jobs:
             cd web
             make cover
 
-
-  # Crawler project
-  crawler:
-    docker:
-      - image: circleci/python:latest
-    steps:
-      - checkout
-      - run:
-          command: |
-            python3 -m venv .venv
-            . .venv/bin/activate
-            pip install -r web/requirements.txt
-      - run:
-          command: |
-            . .venv/bin/activate
-            cd crawler
-            echo "test crawler"
-
-
 workflows:
   version: 2
   web_and_crawler:
     jobs:
       - web
-      - crawler
