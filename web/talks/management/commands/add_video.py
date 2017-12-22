@@ -1,6 +1,3 @@
-import logging
-import requests
-
 from urllib.parse import urlsplit
 from urllib.parse import parse_qs
 
@@ -11,6 +8,8 @@ from django.core.management.base import CommandError
 
 from talks.models import Channel
 from talks.models import Talk
+from talks.models import fetch_channel_data
+from talks.models import fetch_video_data
 
 """
 TODO:
@@ -35,34 +34,6 @@ def get_video_code(url):
         raise CommandError('Invalid url "%s"' % url)
     video_code = params["v"][0]
     return video_code
-
-
-def fetch_video_data(youtube_api_key, video_code):
-    video_url = "https://www.googleapis.com/youtube/v3/videos"
-    payload = {'id': video_code,
-               'part': 'snippet,statistics',
-               'key': youtube_api_key}
-    resp = requests.get(video_url, params=payload)
-    if resp.status_code != 200:
-        logging.error(resp.status_code)
-        exit(1)
-    response_json = resp.json()
-    video_data = response_json["items"][0]
-    return video_data
-
-
-def fetch_channel_data(youtube_api_key, channel_code):
-    channel_url = "https://www.googleapis.com/youtube/v3/channels"
-    payload = {'id': channel_code,
-               'part': 'snippet,contentDetails',
-               'key': youtube_api_key}
-    resp = requests.get(channel_url, params=payload)
-    if resp.status_code != 200:
-        logging.error(resp.status_code)
-        exit(1)
-    response_json = resp.json()
-    channel_data = response_json["items"][0]
-    return channel_data
 
 
 class Command(BaseCommand):

@@ -7,7 +7,24 @@ help:	## Show this help
 # - postgresql is exported to host at 5432
 # - web is exported to host at 8000
 #
+# Setup environment:
 # $ source .venv/bin/activate
 # $ source environment.sh
-# $ docker-compose -f deploy/docker-compose.yml up
-# $ docker-compose -f deploy/docker-compose.yml exec web python3 manage.py createsuperuser
+#
+# Create alias:
+# $ alias deploy="docker-compose -f deploy/docker-compose.yml"
+#
+# $ deploy up -d
+# $ deploy exec web python3 manage.py createsuperuser
+
+# How to manage the database:
+# ---------------------------
+#
+# Create alias:
+# $ alias manage="docker-compose -f deploy/docker-compose.yml exec web python3 manage.py"
+#
+# Add a talk:
+# $ manage add_video https://www.youtube.com/watch?v=ha8gdZ27wMo
+#
+# Add a playlist:
+# $ manage add_playlist https://www.youtube.com/playlist?list=PL2ntRZ1ySWBdD9bru6IR-_WXUgJqvrtx9
