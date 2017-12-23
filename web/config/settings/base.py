@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
+    'django.contrib.humanize',
     'taggit',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',

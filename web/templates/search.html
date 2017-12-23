@@ -1,0 +1,9 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+<main role="main">
+    <div class="container seach">
+        {% include "partials/search/form.html" %}
+        {% include "partials/search/list.html" %}
+    </div>
+</main>
+{% endblock  %}
