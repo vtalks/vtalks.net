@@ -1,3 +1,4 @@
+{% load humanize %}
 <li class="media">
     <a href="">
         <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
@@ -6,7 +7,7 @@
         <a href="">
             <h5 class="mt-0 mb-1">{{talk.title}}</h5>
         </a>
-        <p>{{talk.view_count}} views · {{talk.created|timesince}}</p>
+        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
         {{talk.description}}
     </div>
 </li>
