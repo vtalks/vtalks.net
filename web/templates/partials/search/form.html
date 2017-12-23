@@ -1,0 +1,7 @@
+<div class="container search-form">
+    <h1>Search:</h1>
+    <form action="{% url 'talks:search' %}" method="get">
+        {{search_form.as_p}}
+        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+    </form>
+</div>

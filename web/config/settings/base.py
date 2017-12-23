@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
+    'django.contrib.humanize',
     'taggit',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',
@@ -120,6 +122,10 @@ USE_I18N = False
 USE_L10N = False
 
 USE_TZ = True
+
+# Pagination
+# Default Page size
+PAGE_SIZE = 10
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

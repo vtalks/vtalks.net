@@ -33,7 +33,7 @@ services:
     volumes:
       - ../web:/opt/vtalks/web/
     ports:
-      - "8000:8000"
+      - "8000"
     environment:
       - TWITTER_TOKEN
       - TWITTER_SECRET

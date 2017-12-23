@@ -7,7 +7,7 @@ COPY start.sh .
 
 RUN apk update && \
   apk upgrade && \
-  apk add --no-cache python3 py3-psycopg2 && \
+  apk add --no-cache python3 py3-psycopg2 git && \
   pip3 install -r requirements.txt && \
   rm -rf /var/cache/apk/*
 
