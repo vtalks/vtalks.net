@@ -46,8 +46,12 @@ class Command(BaseCommand):
         video_code = get_video_code(options['youtube_url'])
         talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
+        self.stdout.write(self.style.SUCCESS('Adding talk "%s"' % talk_data["id"]))
+
         channel_code = talk_data["snippet"]["channelId"]
         channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
+
+        self.stdout.write(self.style.SUCCESS('Adding channel "%s"' % channel_data["id"]))
 
         # Add Channel
         channel_obj, created = Channel.objects.update_or_create(
@@ -66,8 +70,6 @@ class Command(BaseCommand):
         else:
             self.stdout.write(
                 self.style.SUCCESS('Updated channel "%s"' % channel_obj.title))
-
-        print(talk_data["snippet"]["tags"])
 
         # Add Video
         if "tags" not in talk_data["snippet"]:
