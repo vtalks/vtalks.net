@@ -53,8 +53,6 @@ class AddVideoCommandTests(TestCase):
             },
             "statistics": {
                 "viewCount": 20,
-                "likeCount": 10,
-                "dislikeCount": 5,
             }
         }
         # mock fetch channel data
@@ -74,3 +72,38 @@ class AddVideoCommandTests(TestCase):
         self.assertIn('Adding channel "fake_channel_id"', output)
         self.assertIn('Added channel "channel title"', output)
         self.assertIn('Added talk "video title"', output)
+
+        # mock fetch video data
+        fake_fetch_video_data.return_value = {
+            "id": "fake_video_id",
+            "snippet": {
+                "channelId": "fake_channel_id",
+                "title": "updated video title",
+                "description": "video description",
+                "publishedAt": "2012-10-01T15:27:35.000Z",
+                "tags": "tag1, tag2",
+            },
+            "statistics": {
+                "viewCount": 20,
+                "likeCount": 10,
+                "dislikeCount": 5,
+            }
+        }
+        # mock fetch channel data
+        fake_fetch_channel_data.return_value = {
+            "id": "fake_channel_id",
+            "snippet": {
+                "title": "updated channel title",
+                "description": "channel description",
+                "publishedAt": "2012-10-01T15:27:35.000Z",
+            }
+        }
+
+        out = StringIO()
+        call_command('add_video', 'https://www.youtube.com/watch?v=video_code',
+                     stdout=out)
+        output = out.getvalue()
+        self.assertIn('Adding talk "fake_video_id"', output)
+        self.assertIn('Adding channel "fake_channel_id"', output)
+        self.assertIn('Updated channel "updated channel title"', output)
+        self.assertIn('Updated talk "updated video title"', output)
