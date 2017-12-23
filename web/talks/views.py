@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
+from django.contrib.postgres.search import SearchRank
 
 from .models import Talk
 from .forms import SearchForm
@@ -25,8 +26,10 @@ class SearchView(TemplateView):
     template_name = 'search.html'
 
     def _search_talks(self, q):
-        vector = SearchVector('title', 'description')
-        search_results = Talk.objects.annotate(search=vector).filter(search=q)
+        vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
+        query = SearchQuery(q)
+        rank = SearchRank(vector, query)
+        search_results = Talk.objects.annotate(rank=rank).order_by('-rank')
         return search_results
 
     def get_context_data(self, **kwargs):
