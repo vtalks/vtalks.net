@@ -1,5 +1,8 @@
 from django.views.generic import TemplateView
 
+from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchQuery
+
 from .models import Talk
 from .forms import SearchForm
 
@@ -11,16 +14,30 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['search_form'] = SearchForm()
+
+        search_form = SearchForm()
+
+        context['search_form'] = search_form
         return context
 
 
 class SearchView(TemplateView):
     template_name = 'search.html'
 
+    def _search_talks(self, q):
+        vector = SearchVector('title', 'description')
+        search_results = Talk.objects.annotate(search=vector).filter(search=q)
+        return search_results
+
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
-        context['search_form'] = SearchForm()
-        q = self.request.GET['q']
-        context['search_results'] = Talk.objects.filter(title__search=q)
+
+        search_form = SearchForm(self.request.GET)
+        if search_form.is_valid():
+            q = search_form.cleaned_data['q']
+            search_results = self._search_talks(q)
+            context['search_query'] = q
+            context['search_results'] = search_results
+        context['search_form'] = search_form
+
         return context
