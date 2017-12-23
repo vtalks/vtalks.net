@@ -3,9 +3,12 @@
 <main role="main">
     <div class="container">
         <form action="{% url 'talks:search' %}" method="get">
+            {% csrf_token %}
             {{search_form.as_p}}
             <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
         </form>
+
+        {{search_results}}
     </div>
 </main>
 {% endblock  %}
