@@ -123,6 +123,10 @@ USE_L10N = False
 
 USE_TZ = True
 
+# Pagination
+# Default Page size
+PAGE_SIZE = 10
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 

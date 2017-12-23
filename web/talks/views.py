@@ -4,6 +4,7 @@ from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
 
+from django.conf import settings
 from django.core.paginator import Paginator
 
 from .models import Talk
@@ -37,7 +38,7 @@ class SearchView(TemplateView):
         # Sort by rank (descendant)
         search_results = search_results.order_by('-rank')
         # Paginate results
-        p = Paginator(search_results, 10)
+        p = Paginator(search_results, settings.PAGE_SIZE)
         return p
 
     def get_context_data(self, **kwargs):
