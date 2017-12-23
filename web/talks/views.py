@@ -29,7 +29,11 @@ class SearchView(TemplateView):
         vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
         query = SearchQuery(q)
         rank = SearchRank(vector, query)
-        search_results = Talk.objects.annotate(rank=rank).order_by('-rank')
+        search_results = Talk.objects.annotate(rank=rank)
+        # Filter by minimum rank
+        search_results = search_results.filter(rank__gte=0.1)
+        # Sort by rank (descendant)
+        search_results = search_results.order_by('-rank')
         return search_results
 
     def get_context_data(self, **kwargs):
