@@ -106,3 +106,5 @@ ENV/
 
 # environment variablew
 environment.sh
+
+web/static/admin
