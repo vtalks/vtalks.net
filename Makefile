@@ -4,11 +4,11 @@ DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
 
 .PHONY: test
 test:	## Execute tests
-	$(DEPLOY) exec web $(PYTHON) manage.py test --settings=config.settings_test
+	$(DEPLOY) exec web $(PYTHON) manage.py test --settings=config.settings.test
 
 .PHONY: cover
 cover:	## Execute tests and generate coverage reports
-	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings_test
+	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings.test
 	$(DEPLOY) exec web coverage report
 	$(DEPLOY) exec web coverage html
 
