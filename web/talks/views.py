@@ -4,6 +4,8 @@ from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
 
+from django.core.paginator import Paginator
+
 from .models import Talk
 from .forms import SearchForm
 
@@ -34,17 +36,22 @@ class SearchView(TemplateView):
         search_results = search_results.filter(rank__gte=0.1)
         # Sort by rank (descendant)
         search_results = search_results.order_by('-rank')
-        return search_results
+        # Paginate results
+        p = Paginator(search_results, 10)
+        return p
 
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
 
+        page = 1
+        if "page" in self.request.GET:
+            page = self.request.GET["page"]
         search_form = SearchForm(self.request.GET)
         if search_form.is_valid():
             q = search_form.cleaned_data['q']
-            search_results = self._search_talks(q)
+            search_results_paginator = self._search_talks(q)
             context['search_query'] = q
-            context['search_results'] = search_results
+            context['search_results'] = search_results_paginator.get_page(page)
         context['search_form'] = search_form
 
         return context
