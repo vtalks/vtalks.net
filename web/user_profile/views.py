@@ -100,7 +100,7 @@ class AuthTwitterCallbackView(RedirectView):
 class AuthProfileSettingsView(UpdateView):
     # TODO:
     # Save also the second (user profile) form
-    template_name = 'registration/settings.html'
+    template_name = 'settings.html'
     form_class = AuthUserSettingsForm
     success_url = '/auth/settings'
 

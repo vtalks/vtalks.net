@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}vtalks.net{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.png' %}" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'talks:index' %}">vtalks.net</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-content">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'user_profile:settings' %}"><i class="fas fa-user-circle"></i> {{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'user_profile:logout' %}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'user_profile:login' %}"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% block content %}{% endblock %}
+<footer class="container-fluid bg-light">
+    <ul class="nav">
+        <a class="nav-link disabled" href="{% url 'corporate:privacy' %}">vtalks.net © 2015-{% now "Y" %}</a>
+    </ul>
+    <nav class="nav">
+        <a class="nav-link" href="{% url 'talks:index' %}">Home</a>
+        <a class="nav-link" href="{% url 'corporate:about' %}">About</a>
+        <a class="nav-link" href="{% url 'corporate:help' %}">Help</a>
+        <a class="nav-link" href="{% url 'corporate:contact' %}">Contact</a>
+    </nav>
+    <nav class="nav">
+        <a class="nav-link" href="{% url 'corporate:privacy' %}">Privacy Policy</a>
+        <a class="nav-link" href="{% url 'corporate:terms' %}">Terms of service</a>
+    </nav>
+</footer>
+<!-- js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97411968-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-97411968-1');
+</script>
+<script defer src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

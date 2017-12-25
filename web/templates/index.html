@@ -1,11 +1,13 @@
-{% extends "layouts/default.html" %}
+{% extends "_layouts/default.html" %}
 {% block content %}
 <main role="main">
-    <div class="container">
+    <!-- search form -->
+    <section class="container search-form">
+        <h2>Search:</h2>
         <form action="{% url 'talks:search' %}" method="get">
             {{search_form.as_p}}
             <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
         </form>
-    </div>
+    </section>
 </main>
-{% endblock  %}
+{% endblock %}

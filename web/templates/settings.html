@@ -1,14 +1,15 @@
-{% extends "layouts/default.html" %}
+{% extends "_layouts/default.html" %}
 {% block content %}
 <main role="main">
-    <div class="container">
-        <h1>Public Profile</h1>
+    <!-- settings -->
+    <section class="container settings">
+        <h2>Settings</h2>
         <form action="{% url 'user_profile:settings' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         {{ profile_form.as_p}}
         <button type="submit" class="btn btn-primary">Update Profile</button>
         </form>
-    </div>
+    </section>
 </main>
 {% endblock %}
