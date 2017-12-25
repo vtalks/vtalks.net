@@ -1,8 +1,10 @@
-{% extends "layouts/default.html" %}
+{% extends "_layouts/default.html" %}
+{% block title %}Contact us - vtalks.net{% endblock %}
 {% block content %}
 <main role="main">
-    <div class="container">
-        <h1>Contact</h1>
+    <!-- contact -->
+    <section class="container contact">
+        <h2>Contact</h2>
         <p>Use the following form to contact us. We're pleased to hear from you
         if you have questions or comments about anything on this site, or any
         other feedback for us.</p>
@@ -11,6 +13,6 @@
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Send Message</button>
         </form>
-    </div>
+    </section>
 </main>
 {% endblock %}
