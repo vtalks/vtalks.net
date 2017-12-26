@@ -22,7 +22,7 @@ class IndexView(TemplateView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        latest_talks = Talk.objects.all().order_by('created')[:3]
+        latest_talks = Talk.objects.all().order_by('-created')[:3]
         context['latest_talks'] = latest_talks
 
         return context

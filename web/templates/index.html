@@ -1,4 +1,6 @@
 {% extends "_layouts/default.html" %}
+{% load humanize %}
+{% block title %}vtalks.net{% endblock %}
 {% block content %}
 <main role="main">
     <!-- search form -->
@@ -8,6 +10,26 @@
             {{search_form.as_p}}
             <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
         </form>
+    </section>
+    <!-- latest talks -->
+    <section class="container latest-talks">
+        <h2>Latest talks</h2>
+        <ul class="list-unstyled">
+        {% for talk in latest_talks %}
+            <li class="media">
+                <a href="">
+                    <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
+                </a>
+                <div class="media-body">
+                    <a href="">
+                        <h5 class="mt-0 mb-1">{{talk.title}}</h5>
+                    </a>
+                    <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
+                    <p>{{talk.description}}</p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
     </section>
 </main>
 {% endblock %}
