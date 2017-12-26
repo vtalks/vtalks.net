@@ -7,7 +7,7 @@
     <section class="container latest-talks">
         <h2>Latest talks</h2>
         {% if object_list %}
-            {% include "_partials/pagination.html" %}
+            {% include "_partials/pagination.html" with url_target='talks:latest-talks-paginated' %}
             <ul class="list-unstyled">
             {% for talk in object_list %}
                 <li class="media">
@@ -24,7 +24,7 @@
                 </li>
             {% endfor %}
             </ul>
-            {% include "_partials/pagination.html" %}
+            {% include "_partials/pagination.html" with url_target='talks:latest-talks-paginated' %}
         {% else %}
             <p>No results.</p>
         {% endif %}
