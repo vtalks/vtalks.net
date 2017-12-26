@@ -1,23 +1,15 @@
 {% extends "_layouts/default.html" %}
 {% load humanize %}
-{% block title %}Search - vtalks.net{% endblock %}
+{% block title %}Latest talks - vtalks.net{% endblock %}
 {% block content %}
 <main role="main">
-    <!-- search form -->
-    <section class="container search-form">
-        <h2>Search:</h2>
-        <form action="{% url 'talks:search' %}" method="get">
-            {{search_form.as_p}}
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-        </form>
-    </section>
-    <!-- search results -->
-    <section class="container search-results">
-        <h2>Search results for: "{{search_query}}"</h2>
-        {% if search_results %}
-            {% include "_partials/search_pagination.html" %}
+    <!-- latest talks -->
+    <section class="container latest-talks">
+        <h2>Latest talks</h2>
+        {% if object_list %}
+            {% include "_partials/pagination.html" %}
             <ul class="list-unstyled">
-            {% for talk in search_results %}
+            {% for talk in object_list %}
                 <li class="media">
                     <a href="">
                         <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
@@ -32,10 +24,10 @@
                 </li>
             {% endfor %}
             </ul>
-            {% include "_partials/search_pagination.html" %}
+            {% include "_partials/pagination.html" %}
         {% else %}
-            <p>Search has no results.</p>
+            <p>No results.</p>
         {% endif %}
     </section>
 </main>
-{% endblock  %}
+{% endblock %}

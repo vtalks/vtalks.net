@@ -14,22 +14,27 @@
     <!-- latest talks -->
     <section class="container latest-talks">
         <h2>Latest talks</h2>
-        <ul class="list-unstyled">
-        {% for talk in latest_talks %}
-            <li class="media">
-                <a href="">
-                    <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
-                </a>
-                <div class="media-body">
+        {% if latest_talks %}
+            <ul class="list-unstyled">
+            {% for talk in latest_talks %}
+                <li class="media">
                     <a href="">
-                        <h5 class="mt-0 mb-1">{{talk.title}}</h5>
+                        <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
                     </a>
-                    <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
-                    <p>{{talk.description}}</p>
-                </div>
-            </li>
-        {% endfor %}
-        </ul>
+                    <div class="media-body">
+                        <a href="">
+                            <h5 class="mt-0 mb-1">{{talk.title}}</h5>
+                        </a>
+                        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
+                        <p>{{talk.description}}</p>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+            <p><a href="{% url 'talks:latest-talks' %}">View more...</a></p>
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
     </section>
 </main>
 {% endblock %}

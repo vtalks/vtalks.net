@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
+from django.views.generic.list import ListView
 
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -26,6 +27,12 @@ class IndexView(TemplateView):
         context['latest_talks'] = latest_talks
 
         return context
+
+
+class LatestTalks(ListView):
+    model = Talk
+    template_name = 'latest-talks.html'
+    paginate_by = 10
 
 
 class SearchView(TemplateView):
@@ -56,6 +63,7 @@ class SearchView(TemplateView):
             search_results_paginator = self._search_talks(q)
             context['search_query'] = q
             context['search_results'] = search_results_paginator.get_page(page)
+            context['is_paginated'] = True
         context['search_form'] = search_form
 
         return context
