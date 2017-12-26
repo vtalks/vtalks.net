@@ -1,0 +1,33 @@
+{% extends "_layouts/default.html" %}
+{% load humanize %}
+{% block title %}Popular talks - vtalks.net{% endblock %}
+{% block content %}
+<main role="main">
+    <!-- latest talks -->
+    <section class="container popular-talks">
+        <h2>Popular talks</h2>
+        {% if object_list %}
+            {% include "_partials/pagination.html" with url_target='talks:popular-talks-paginated' %}
+            <ul class="list-unstyled">
+            {% for talk in object_list %}
+                <li class="media">
+                    <a href="">
+                        <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
+                    </a>
+                    <div class="media-body">
+                        <a href="">
+                            <h5 class="mt-0 mb-1">{{talk.title}}</h5>
+                        </a>
+                        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
+                        <p>{{talk.description}}</p>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+            {% include "_partials/pagination.html" with url_target='talks:popular-talks-paginated' %}
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
