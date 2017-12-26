@@ -1,0 +1,4 @@
+.search-form button[type="submit"] {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}

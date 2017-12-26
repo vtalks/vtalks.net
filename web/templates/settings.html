@@ -4,11 +4,30 @@
     <!-- settings -->
     <section class="container settings">
         <h2>Settings</h2>
-        <form action="{% url 'user_profile:settings' %}" method="post">
+        <form action="{% url 'user_profile:settings' %}" method="post" id="settings">
         {% csrf_token %}
-        {{ form.as_p }}
-        {{ profile_form.as_p}}
-        <button type="submit" class="btn btn-primary">Update Profile</button>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="{{form.first_name.id_for_label}}">First name:</label>
+                <input type="text" class="form-control" id="{{form.first_name.auto_id}}" name="{{form.first_name.html_name}}" value="{{form.first_name.value}}" placeholder="First name..." maxlength="{{form.first_name.field.max_length}}" aria-required="true" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="{{form.last_name.id_for_label}}">Last name:</label>
+                <input type="text" class="form-control" id="{{form.last_name.auto_id}}" name="{{form.last_name.html_name}}" value="{{form.last_name.value}}" placeholder="Last name..." maxlength="{{form.last_name.field.max_length}}" aria-required="true" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{form.email.id_for_label}}">Email address:</label>
+            <input type="email" class="form-control" id="{{form.email.auto_id}}" name="{{form.email.html_name}}" value="{{form.email.value}}" placeholder="Email address..." maxlength="{{form.email.field.max_length}}" aria-required="true" required>
+        </div>
+        <div class="form-group">
+            <label for="{{profile_form.bio.id_for_label}}">Biography:</label>
+            <textarea class="form-control" id="{{profile_form.bio.auto_id}}" name="{{profile_form.bio.html_name}}" rows="5" aria-required="true" required>{{profile_form.bio.value}}</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
+
         </form>
     </section>
 </main>

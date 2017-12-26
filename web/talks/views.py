@@ -26,6 +26,9 @@ class IndexView(TemplateView):
         latest_talks = Talk.objects.all().order_by('-created')[:3]
         context['latest_talks'] = latest_talks
 
+        popular_talks = Talk.objects.all().order_by('-view_count', '-like_count', 'dislike_count', '-created', '-updated')[:3]
+        context['popular_talks'] = popular_talks
+
         return context
 
 
@@ -33,6 +36,13 @@ class LatestTalksView(ListView):
     model = Talk
     template_name = 'latest-talks.html'
     paginate_by = settings.PAGE_SIZE
+
+
+class PopularTalksView(ListView):
+    model = Talk
+    template_name = 'popular-talks.html'
+    paginate_by = settings.PAGE_SIZE
+    ordering = ['-view_count', '-like_count', 'dislike_count', '-created', '-updated']
 
 
 class SearchTalksView(ListView):

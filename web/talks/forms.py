@@ -2,4 +2,4 @@ from django import forms
 
 
 class SearchForm(forms.Form):
-    q = forms.CharField(label='Search query', max_length=200, required=False)
+    q = forms.CharField(max_length=200, initial="")

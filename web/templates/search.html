@@ -6,9 +6,11 @@
     <!-- search form -->
     <section class="container search-form">
         <h2>Search:</h2>
-        <form action="{% url 'talks:search' %}" method="get">
-            {{search_form.as_p}}
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+        <form action="{% url 'talks:search' %}" method="get" id="search">
+            <div class="input-group">
+                <input type="search" name="{{search_form.q.html_name}}" value="{{search_form.q.value}}" id="{{search_form.q.auto_id}}" class="form-control" placeholder="Search..." maxlength="{{search_form.q.field.max_length}}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            </div>
         </form>
     </section>
     {% if search_query %}
