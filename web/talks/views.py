@@ -32,7 +32,7 @@ class IndexView(TemplateView):
 class LatestTalks(ListView):
     model = Talk
     template_name = 'latest-talks.html'
-    paginate_by = 10
+    paginate_by = settings.PAGE_SIZE
 
 
 class SearchView(TemplateView):
