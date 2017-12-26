@@ -1,5 +1,8 @@
 import requests
 
+from urllib.parse import urlsplit
+from urllib.parse import parse_qs
+
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -115,6 +118,15 @@ class Talk(models.Model):
         ordering = ['-created', '-updated']
 
 
+def get_video_code(url):
+    query = urlsplit(url).query
+    params = parse_qs(query)
+    if "v" not in params:
+        raise CommandError('Invalid url "%s"' % url)
+    video_code = params["v"][0]
+    return video_code
+
+
 def fetch_channel_data(youtube_api_key, channel_code):
     channel_url = "https://www.googleapis.com/youtube/v3/channels"
     payload = {'id': channel_code,
@@ -133,7 +145,7 @@ def fetch_channel_data(youtube_api_key, channel_code):
 def fetch_video_data(youtube_api_key, video_code):
     video_url = "https://www.googleapis.com/youtube/v3/videos"
     payload = {'id': video_code,
-               'part': 'snippet,statistics',
+               'part': 'snippet,contentDetails,statistics,topicDetails,status,recordingDetails,player,localizations,liveStreamingDetails',
                'key': youtube_api_key}
     resp = requests.get(video_url, params=payload)
     if resp.status_code != 200:
