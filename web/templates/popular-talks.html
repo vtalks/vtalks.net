@@ -3,27 +3,20 @@
 {% block title %}Popular talks - vtalks.net{% endblock %}
 {% block content %}
 <main role="main">
+    <!-- search form -->
+    <section class="container-fluid search-form">
+        <div class="container">
+            {% include "_partials/search_form.html" %}
+        </div>
+    </section>
     <!-- latest talks -->
     <section class="container popular-talks">
-        <h2>Popular talks</h2>
+        <h3>Popular talks</h3>
         {% if object_list %}
             {% include "_partials/pagination.html" with url_target='talks:popular-talks-paginated' %}
-            <ul class="list-unstyled">
-            {% for talk in object_list %}
-                <li class="media">
-                    <a href="">
-                        <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
-                    </a>
-                    <div class="media-body">
-                        <a href="">
-                            <h5 class="mt-0 mb-1">{{talk.title}}</h5>
-                        </a>
-                        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
-                        <p>{{talk.description}}</p>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
+            <hr/>
+            {% include "_partials/list_talks.html" %}
+            <hr/>
             {% include "_partials/pagination.html" with url_target='talks:popular-talks-paginated' %}
         {% else %}
             <p>No results.</p>

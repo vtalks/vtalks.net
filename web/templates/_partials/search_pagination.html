@@ -2,15 +2,15 @@
     <nav class="pagination" aria-label="Search pagination">
         <span class="step-links">
             {% if object_list.has_previous %}
-                <a href="?q={{search_query}}&page=1">&laquo; first</a>
-                <a href="?q={{search_query}}&page={{ object_list.previous_page_number }}">previous</a>
+                <a href="?q={{search_query}}&page=1" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
+                <a href="?q={{search_query}}&page={{ object_list.previous_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
             {% endif %}
             <span class="current">
                 Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
             </span>
             {% if object_list.has_next %}
-                <a href="?q={{search_query}}&page={{ object_list.next_page_number }}">next</a>
-                <a href="?q={{search_query}}&page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+                <a href="?q={{search_query}}&page={{ object_list.next_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
+                <a href="?q={{search_query}}&page={{ object_list.paginator.num_pages }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
             {% endif %}
         </span>
     </nav>

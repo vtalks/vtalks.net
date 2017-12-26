@@ -1,64 +1,29 @@
 {% extends "_layouts/default.html" %}
-{% load humanize %}
 {% block title %}vtalks.net{% endblock %}
 {% block content %}
 <main role="main">
     <!-- search form -->
-    <section class="container search-form">
-        <h2>Search:</h2>
-        <form action="{% url 'talks:search' %}" method="get" id="search">
-            <div class="input-group">
-                <input type="search" name="{{search_form.q.html_name}}" value="{{search_form.q.value}}" id="{{search_form.q.auto_id}}" class="form-control" placeholder="Search..." maxlength="{{search_form.q.field.max_length}}" aria-required="true" required>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-            </div>
-        </form>
+    <section class="container-fluid search-form">
+        <div class="container">
+            {% include "_partials/search_form.html" %}
+        </div>
     </section>
-    <!-- popular talks -->
-    <section class="container popular-talks">
-        <h2>Popular talks</h2>
-        {% if popular_talks %}
-            <ul class="list-unstyled">
-            {% for talk in popular_talks %}
-                <li class="media">
-                    <a href="">
-                        <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
-                    </a>
-                    <div class="media-body">
-                        <a href="">
-                            <h5 class="mt-0 mb-1">{{talk.title}}</h5>
-                        </a>
-                        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
-                        <p>{{talk.description}}</p>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
-            <p><a href="{% url 'talks:popular-talks' %}">View more...</a></p>
+    <!-- latest talks -->
+    <section class="container latest-talks">
+        <h3>Latest talks</h3>
+        {% if latest_talks %}
+            {% include "_partials/list_talks.html" with object_list=latest_talks %}
+            <a href="{% url 'talks:latest-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
         {% else %}
             <p>No results.</p>
         {% endif %}
     </section>
-    <!-- latest talks -->
-    <section class="container latest-talks">
-        <h2>Latest talks</h2>
-        {% if latest_talks %}
-            <ul class="list-unstyled">
-            {% for talk in latest_talks %}
-                <li class="media">
-                    <a href="">
-                        <img class="mr-3" src="{{talk.medium_thumb}}" alt="{{talk.title}}">
-                    </a>
-                    <div class="media-body">
-                        <a href="">
-                            <h5 class="mt-0 mb-1">{{talk.title}}</h5>
-                        </a>
-                        <p>{{talk.view_count|intcomma}} views · {{talk.created|naturaltime}}</p>
-                        <p>{{talk.description}}</p>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
-            <p><a href="{% url 'talks:latest-talks' %}">View more...</a></p>
+    <!-- popular talks -->
+    <section class="container popular-talks">
+        <h3>Popular talks</h3>
+        {% if popular_talks %}
+            {% include "_partials/list_talks.html" with object_list=popular_talks %}
+            <a href="{% url 'talks:popular-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
         {% else %}
             <p>No results.</p>
         {% endif %}

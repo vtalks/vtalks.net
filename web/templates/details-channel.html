@@ -1,0 +1,22 @@
+{% extends "_layouts/default.html" %}
+{% block title %}{{object.title}} - vtalks.net{% endblock %}
+{% block content %}
+<main role="main">
+    <!-- search form -->
+    <section class="container-fluid search-form">
+        <div class="container">
+            {% include "_partials/search_form.html" %}
+        </div>
+    </section>
+    <!-- details talk -->
+    <div class="container details-talk">
+        <h3>{{object.title}}</h3>
+        <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
+        <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
+        <p><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+        <h4>Description:</h4>
+        <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
+        <hr/>
+    </div>
+</main>
+{% endblock %}

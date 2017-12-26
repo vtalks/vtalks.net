@@ -9,7 +9,7 @@ from .models import Talk
 class ChannelAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('code', 'title', 'description')
+            'fields': ('code', 'slug', 'title', 'description')
         }),
         ('Youtube', {
             'fields': ('youtube_url',),
@@ -24,6 +24,7 @@ class ChannelAdmin(admin.ModelAdmin):
     search_fields = ['title']
     ordering = ['-updated', '-created']
     readonly_fields = ('youtube_url',)
+    prepopulated_fields = {"slug": ("title",)}
 
 
 admin.site.register(Channel, ChannelAdmin)

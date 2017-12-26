@@ -4,11 +4,14 @@ from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from django.conf import settings
 from django.core.paginator import Paginator
 
 from .models import Talk
+from .models import Channel
+
 from .forms import SearchForm
 
 # Create your views here.
@@ -32,10 +35,44 @@ class IndexView(TemplateView):
         return context
 
 
+class DetailChannelView(DetailView):
+    model = Channel
+    template_name = 'details-channel.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailChannelView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        return context
+
+
+class DetailTalkView(DetailView):
+    model = Talk
+    template_name = 'details-talk.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailTalkView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        return context
+
+
 class LatestTalksView(ListView):
     model = Talk
     template_name = 'latest-talks.html'
     paginate_by = settings.PAGE_SIZE
+
+    def get_context_data(self, **kwargs):
+        context = super(LatestTalksView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        return context
 
 
 class PopularTalksView(ListView):
@@ -43,6 +80,14 @@ class PopularTalksView(ListView):
     template_name = 'popular-talks.html'
     paginate_by = settings.PAGE_SIZE
     ordering = ['-view_count', '-like_count', 'dislike_count', '-created', '-updated']
+
+    def get_context_data(self, **kwargs):
+        context = super(PopularTalksView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        return context
 
 
 class SearchTalksView(ListView):

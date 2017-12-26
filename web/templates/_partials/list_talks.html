@@ -1,0 +1,15 @@
+{% load humanize %}
+<div class="list-talks">
+{% for object in object_list %}
+    <div class="row mt-4 list-talks-item">
+        <div class="col-md-4">
+            <a href="{% url 'talks:talk-details' object.slug %}"><img class="figure-img img-thumbnail" src="{{object.high_thumb}}" alt="{{object.title}}"></a>
+        </div>
+        <div class="col-md-8">
+            <a href="{% url 'talks:talk-details' object.slug %}"><h4>{{object.title}}</h4></a>
+            <p class="text-muted small"><i class="fas fa-eye"></i> {{object.view_count|intcomma}} views · <i class="far fa-calendar-alt"></i> {{object.created|naturaltime}}</p>
+            <p class="text-justify">{{object.description|linebreaks|urlize|truncatechars:250}}</p>
+        </div>
+    </div>
+{% endfor %}
+</div>
