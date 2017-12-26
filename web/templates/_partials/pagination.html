@@ -2,15 +2,15 @@
     <nav class="pagination" aria-label="Pagination">
         <span class="page-links">
             {% if page_obj.has_previous %}
-                <a href="{% url url_target page=1 %}">&laquo; first</a>
-                <a href="{% url url_target page=page_obj.previous_page_number %}">previous</a>
+                <a href="{% url url_target page=1 %}" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
+                <a href="{% url url_target page=page_obj.previous_page_number %}" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
             {% endif %}
             <span class="page-current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
             {% if page_obj.has_next %}
-                <a href="{% url url_target page=page_obj.next_page_number %}">next</a>
-                <a href="{% url url_target page=page_obj.paginator.num_pages %}">last &raquo;</a>
+                <a href="{% url url_target page=page_obj.next_page_number %}" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
+                <a href="{% url url_target page=page_obj.paginator.num_pages %}" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
             {% endif %}
         </span>
     </nav>
