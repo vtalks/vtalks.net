@@ -109,3 +109,5 @@ environment.sh
 environment.prod.sh
 
 web/static/admin
+
+/.backup

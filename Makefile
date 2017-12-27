@@ -12,10 +12,6 @@ cover:	## Execute tests and generate coverage reports
 	$(DEPLOY) exec web coverage report
 	$(DEPLOY) exec web coverage html
 
-.PHONY: docker-push
-docker-push:  ## Rebuild and publish images to docker hub
-	docker push vtalks/web:latest
-
 .PHONY: help
 help:	## Show this help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
