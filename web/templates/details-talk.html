@@ -1,5 +1,15 @@
 {% extends "_layouts/default.html" %}
 {% block title %}{{object.title}} - vtalks.net{% endblock %}
+{% block opengraph %}
+<!-- Open Graph http://ogp.me/ -->
+<meta property="og:site_name" content="vtalks.net" />
+<meta property="og:title" content="{{object.title}}" />
+<meta property="og:type" content="video" />
+<meta property="og:url" content="{% url 'talks:talk-details' object.slug %}" />
+<meta property="og:image" content="{{object.high_thumb}}" />
+<meta property="og:image:secure_url" content="{{object.high_thumb}}" />
+<meta property="og:image:type" content="image/jpeg" />
+{% endblock %}
 {% block content %}
 <main role="main">
     <!-- search form -->
