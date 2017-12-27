@@ -100,8 +100,7 @@ class AddVideoCommandTests(TestCase):
         }
 
         out = StringIO()
-        call_command('add_video', 'https://www.youtube.com/watch?v=video_code',
-                     stdout=out)
+        call_command('add_video', 'https://www.youtube.com/watch?v=video_code', stdout=out)
         output = out.getvalue()
         self.assertIn('Adding talk "fake_video_id"', output)
         self.assertIn('Adding channel "fake_channel_id"', output)
