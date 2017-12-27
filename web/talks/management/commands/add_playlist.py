@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
-        parser.add_argument('--tags', type=str, nargs='*', help='tags to assign to videos')
+        parser.add_argument('--tags', type=str, nargs='*', default=[], help='tags to assign to videos')
 
     def handle(self, *args, **options):
         playlist_code = get_playlist_code(options['youtube_url'])
