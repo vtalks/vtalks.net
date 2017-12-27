@@ -2,8 +2,7 @@ FROM alpine:latest
 MAINTAINER Raul Perez <repejota@gmail.com>
 
 WORKDIR /opt/vtalks/web
-COPY requirements.txt .
-COPY start.sh .
+ADD . /opt/vtalks/web
 
 RUN apk update && \
   apk upgrade && \

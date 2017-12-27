@@ -30,6 +30,7 @@ services:
     hostname: web
     restart: always
     build: ../web
+    image: vtalksnet_web:latest
     volumes:
       - ../web:/opt/vtalks/web/
     ports:

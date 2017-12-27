@@ -43,64 +43,66 @@ class Command(BaseCommand):
         for video_code in playlist_videos:
             talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
-            channel_code = talk_data["snippet"]["channelId"]
-            channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
+            # Check if there is data (private videos do not returns anything)
+            if talk_data:
+                channel_code = talk_data["snippet"]["channelId"]
+                channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
 
-            # Add Channel
-            channel_obj, created = Channel.objects.update_or_create(
-                code=channel_data["id"],
-                defaults={
-                    'code': channel_data["id"],
-                    'title': channel_data["snippet"]["title"],
-                    'description': channel_data["snippet"]["description"],
-                    'created': channel_data["snippet"]["publishedAt"],
-                    'updated': timezone.now(),
-                },
-            )
-            if created:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        'Added channel "%s"' % channel_obj.title))
-            else:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        'Updated channel "%s"' % channel_obj.title))
+                # Add Channel
+                channel_obj, created = Channel.objects.update_or_create(
+                    code=channel_data["id"],
+                    defaults={
+                        'code': channel_data["id"],
+                        'title': channel_data["snippet"]["title"],
+                        'description': channel_data["snippet"]["description"],
+                        'created': channel_data["snippet"]["publishedAt"],
+                        'updated': timezone.now(),
+                    },
+                )
+                if created:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            'Added channel "%s"' % channel_obj.title))
+                else:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            'Updated channel "%s"' % channel_obj.title))
 
-            # Add Video
-            if "tags" not in talk_data["snippet"]:
-                talk_data["snippet"]["tags"] = []
-            if "likeCount" not in talk_data["statistics"]:
-                talk_data["statistics"]["likeCount"] = 0
-            if "dislikeCount" not in talk_data["statistics"]:
-                talk_data["statistics"]["dislikeCount"] = 0
-            talk_obj, created = Talk.objects.update_or_create(
-                code=talk_data["id"],
-                defaults={
-                    'code': talk_data["id"],
-                    'title': talk_data["snippet"]["title"],
-                    'description': talk_data["snippet"]["description"],
-                    'channel': channel_obj,
-                    'view_count': talk_data["statistics"]["viewCount"],
-                    'like_count': talk_data["statistics"]["likeCount"],
-                    'dislike_count': talk_data["statistics"]["dislikeCount"],
-                    'created': talk_data["snippet"]["publishedAt"],
-                    'updated': timezone.now(),
-                },
-            )
-            if created:
-                self.stdout.write(
-                    self.style.SUCCESS('Added talk "%s"' % talk_obj.title))
-            else:
-                self.stdout.write(
-                    self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
+                # Add Video
+                if "tags" not in talk_data["snippet"]:
+                    talk_data["snippet"]["tags"] = []
+                if "likeCount" not in talk_data["statistics"]:
+                    talk_data["statistics"]["likeCount"] = 0
+                if "dislikeCount" not in talk_data["statistics"]:
+                    talk_data["statistics"]["dislikeCount"] = 0
+                talk_obj, created = Talk.objects.update_or_create(
+                    code=talk_data["id"],
+                    defaults={
+                        'code': talk_data["id"],
+                        'title': talk_data["snippet"]["title"],
+                        'description': talk_data["snippet"]["description"],
+                        'channel': channel_obj,
+                        'view_count': talk_data["statistics"]["viewCount"],
+                        'like_count': talk_data["statistics"]["likeCount"],
+                        'dislike_count': talk_data["statistics"]["dislikeCount"],
+                        'created': talk_data["snippet"]["publishedAt"],
+                        'updated': timezone.now(),
+                    },
+                )
+                if created:
+                    self.stdout.write(
+                        self.style.SUCCESS('Added talk "%s"' % talk_obj.title))
+                else:
+                    self.stdout.write(
+                        self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
 
-            # Add tags from cli arguments and talk_data
-            video_tags = options['tags']
-            # TODO:
-            # - Add tags from youtube
-            # if "tags" in talk_data["snippet"]:
-            #    video_tags += talk_data["snippet"]["tags"]
-            for tag in video_tags:
-                talk_obj.tags.add(tag)
-                self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
-            talk_obj.save()
+                # Add tags from cli arguments and talk_data
+                video_tags = options['tags']
+                # TODO:
+                # - Add tags from youtube
+                # if "tags" in talk_data["snippet"]:
+                #    video_tags += talk_data["snippet"]["tags"]
+                for tag in video_tags:
+                    talk_obj.tags.add(tag)
+                    self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
+                talk_obj.save()

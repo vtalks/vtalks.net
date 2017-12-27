@@ -31,8 +31,8 @@ help:	## Show this help
 # $ deploy up -d
 # $ deploy exec web python3 manage.py createsuperuser
 
-# How to manage the database:
-# ---------------------------
+# How to manage the system:
+# -------------------------
 #
 # Create alias:
 # $ alias manage="docker-compose -f deploy/docker-compose.yml exec web python3 manage.py"
@@ -42,3 +42,13 @@ help:	## Show this help
 #
 # Add a playlist:
 # $ manage add_playlist https://www.youtube.com/playlist?list=PL2ntRZ1ySWBdD9bru6IR-_WXUgJqvrtx9
+
+# How to backup/restore database:
+# -------------------------------
+#
+# Backup database:
+# $ deploy exec postgres pg_dump -U postgres postgres > .backrup/vtalks.sql
+#
+# Restore database:
+# (use the correct environment!)
+# $ cat .backup/vtalks.sql | docker exec -i aec1c9299c98 psql -U postgres

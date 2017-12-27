@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-8">
             <a href="{% url 'talks:talk-details' object.slug %}"><h4>{{object.title}}</h4></a>
-            <p class="text-muted small"><i class="fas fa-eye"></i> {{object.view_count|intcomma}} views · <i class="far fa-calendar-alt"></i> {{object.created|naturaltime}}</p>
+            <p class="text-muted small"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
             <p class="text-justify">{{object.description|linebreaks|urlize|truncatechars:250}}</p>
         </div>
     </div>
