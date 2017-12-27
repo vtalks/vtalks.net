@@ -10,5 +10,5 @@ export TWITTER_SECRET=''
 export YOUTUBE_API_KEY=''
 
 # Aliases
-alias deploy="docker-compose -f deploy/docker-compose.yml"
+alias compose="docker-compose -f deploy/docker-compose.yml"
 alias manage="docker-compose -f deploy/docker-compose.yml exec web python3 manage.py"
