@@ -35,6 +35,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
+        parser.add_argument('--tags', type=str, nargs='*', default=[], help='tags to assign to videos')
 
     def handle(self, *args, **options):
         playlist_code = get_playlist_code(options['youtube_url'])
@@ -82,7 +83,6 @@ class Command(BaseCommand):
                     'view_count': talk_data["statistics"]["viewCount"],
                     'like_count': talk_data["statistics"]["likeCount"],
                     'dislike_count': talk_data["statistics"]["dislikeCount"],
-                    'tags': ", ".join(talk_data["snippet"]["tags"]),
                     'created': talk_data["snippet"]["publishedAt"],
                     'updated': timezone.now(),
                 },
@@ -93,3 +93,14 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(
                     self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
+
+            # Add tags from cli arguments and talk_data
+            video_tags = options['tags']
+            # TODO:
+            # - Add tags from youtube
+            # if "tags" in talk_data["snippet"]:
+            #    video_tags += talk_data["snippet"]["tags"]
+            for tag in video_tags:
+                talk_obj.tags.add(tag)
+                self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
+            talk_obj.save()

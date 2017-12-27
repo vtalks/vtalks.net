@@ -1,14 +1,11 @@
-from urllib.parse import urlsplit
-from urllib.parse import parse_qs
-
 from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
-from django.core.management.base import CommandError
 
 from ...models import Channel
 from ...models import Talk
 from ...models import fetch_channel_data
+from ...models import get_video_code
 from ...models import fetch_video_data
 
 """
@@ -25,15 +22,6 @@ TODO:
 
 https://developers.google.com/youtube/v3/docs/channels/list
 """
-
-
-def get_video_code(url):
-    query = urlsplit(url).query
-    params = parse_qs(query)
-    if "v" not in params:
-        raise CommandError('Invalid url "%s"' % url)
-    video_code = params["v"][0]
-    return video_code
 
 
 class Command(BaseCommand):
