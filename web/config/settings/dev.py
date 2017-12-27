@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'vtalks.net', 'www.vtalks.net']
 
 DATABASES = {
     'default': {
