@@ -29,7 +29,10 @@ services:
     container_name: vtalksnet_web
     hostname: web
     restart: always
+    build: ../web
     image: vtalksnet_web:latest
+    volumes:
+      - ../web:/opt/vtalks/web/
     ports:
       - "8000"
     environment:

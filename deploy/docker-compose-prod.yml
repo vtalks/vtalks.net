@@ -9,6 +9,6 @@ services:
       - /opt/vtalks/vtalks.net/web/static:/static
 
   web:
-    image: vtalks/web:latest
+
     volumes:
       - /opt/vtalks/vtalks.net/web:/opt/vtalks/web/
