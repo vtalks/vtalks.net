@@ -1,3 +1,7 @@
+import re
+
+from datetime import timedelta
+
 from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
@@ -13,7 +17,6 @@ TODO:
 
 #### Open questions
 
-* Fetch video duration from contentDetails
 * Support video favoriteCount
 * Support channel custom URLS
 * Support channel statistics (viewCount, subscriberCount)
@@ -29,17 +32,21 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
+        parser.add_argument('--all', type=bool, default=False, help='update all the talks on the database')
 
-    def handle(self, *args, **options):
-        video_code = get_video_code(options['youtube_url'])
+    def update_video(self, youtube_url):
+        video_code = get_video_code(youtube_url)
         talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
-        self.stdout.write(self.style.SUCCESS('Adding talk "%s"' % talk_data["id"]))
+        self.stdout.write(
+            self.style.SUCCESS('Adding talk "%s"' % talk_data["id"]))
 
         channel_code = talk_data["snippet"]["channelId"]
-        channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
+        channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY,
+                                          channel_code)
 
-        self.stdout.write(self.style.SUCCESS('Adding channel "%s"' % channel_data["id"]))
+        self.stdout.write(
+            self.style.SUCCESS('Adding channel "%s"' % channel_data["id"]))
 
         # Add Channel
         channel_obj, created = Channel.objects.update_or_create(
@@ -54,10 +61,12 @@ class Command(BaseCommand):
         )
         if created:
             self.stdout.write(
-                self.style.SUCCESS('Added channel "%s"' % channel_obj.title))
+                self.style.SUCCESS(
+                    'Added channel "%s"' % channel_obj.title))
         else:
             self.stdout.write(
-                self.style.SUCCESS('Updated channel "%s"' % channel_obj.title))
+                self.style.SUCCESS(
+                    'Updated channel "%s"' % channel_obj.title))
 
         # Add Video
         if "tags" not in talk_data["snippet"]:
@@ -87,3 +96,34 @@ class Command(BaseCommand):
         else:
             self.stdout.write(
                 self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
+
+        hours = 0
+        minutes = 0
+        seconds = 0
+        duration = talk_data["contentDetails"]["duration"]
+        try:
+            hours = re.compile('(\d+)H').search(duration).group(1)
+        except AttributeError:
+            hours = 0
+        try:
+            minutes = re.compile('(\d+)M').search(duration).group(1)
+        except AttributeError:
+            minutes = 0
+        try:
+            seconds = re.compile('(\d+)S').search(duration).group(1)
+        except AttributeError:
+            seconds = 0
+
+        d = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        talk_obj.duration = d
+
+        talk_obj.save()
+
+    def handle(self, *args, **options):
+        if options["all"]:
+            talks = Talk.objects.all().order_by('updated')
+            for talk in talks:
+                self.update_video(talk.youtube_url)
+            exit(0)
+
+        self.update_video(options['youtube_url'])

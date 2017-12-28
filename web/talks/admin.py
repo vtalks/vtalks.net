@@ -33,11 +33,10 @@ admin.site.register(Channel, ChannelAdmin)
 class TalkAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('code', 'slug', 'title', 'description', 'channel',
-                       'tags'),
+            'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
         ('Youtube', {
-            'fields': ('youtube_url',),
+            'fields': ('youtube_url', 'channel', 'duration'),
         }),
         ('Thumbnails', {
             'classes': ('collapse',),
@@ -55,12 +54,12 @@ class TalkAdmin(admin.ModelAdmin):
     )
     date_hierarchy = 'created'
     list_display = ('title', 'channel')
-    list_filter = ['created', 'updated']
+    list_filter = ['created', 'updated', 'duration']
     search_fields = ['title']
     ordering = ['-updated', '-created']
     readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb', 'youtube_url',
-                       'view_count', 'like_count', 'dislike_count',)
+                       'view_count', 'like_count', 'dislike_count', 'duration')
     prepopulated_fields = {"slug": ("title",)}
 
 
