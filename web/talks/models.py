@@ -1,5 +1,7 @@
 import requests
 
+from datetime import timedelta
+
 from urllib.parse import urlsplit
 from urllib.parse import parse_qs
 
@@ -60,6 +62,7 @@ class Talk(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     tags = TaggableManager(blank=True)
+    duration = models.DurationField(default=timedelta())
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
     dislike_count = models.IntegerField('dislike count', default=0)

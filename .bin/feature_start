@@ -1,0 +1,3 @@
+#!/bin/sh
+git flow feature start $1
+git flow feature publish $1
