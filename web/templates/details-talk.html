@@ -21,6 +21,7 @@
     <!-- details talk -->
     <div class="container details-talk">
         <h3>{{object.title}}</h3>
+        <p><i class="far fa-clock"></i> Duration: {{object.duration}}</p>
         <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
         <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
         <p><i class="fas fa-folder"></i> Channel: <a href="{% url 'talks:channel-details' object.channel.slug %}">{{object.channel}}</a></p>

@@ -51,6 +51,9 @@ class AddVideoCommandTests(TestCase):
                 "description": "video description",
                 "publishedAt": "2012-10-01T15:27:35.000Z",
             },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
             "statistics": {
                 "viewCount": 20,
             }
@@ -62,7 +65,10 @@ class AddVideoCommandTests(TestCase):
                 "title": "channel title",
                 "description": "channel description",
                 "publishedAt": "2012-10-01T15:27:35.000Z",
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
 
         out = StringIO()
@@ -87,7 +93,10 @@ class AddVideoCommandTests(TestCase):
                 "viewCount": 20,
                 "likeCount": 10,
                 "dislikeCount": 5,
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
         # mock fetch channel data
         fake_fetch_channel_data.return_value = {
@@ -96,7 +105,10 @@ class AddVideoCommandTests(TestCase):
                 "title": "updated channel title",
                 "description": "channel description",
                 "publishedAt": "2012-10-01T15:27:35.000Z",
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
 
         out = StringIO()
@@ -127,7 +139,10 @@ class AddPlayListCommandTests(TestCase):
             },
             "statistics": {
                 "viewCount": 20,
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
         # mock fetch channel data
         fake_fetch_channel_data.return_value = {
@@ -136,7 +151,10 @@ class AddPlayListCommandTests(TestCase):
                 "title": "channel title",
                 "description": "channel description",
                 "publishedAt": "2012-10-01T15:27:35.000Z",
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
 
         out = StringIO()
@@ -159,7 +177,10 @@ class AddPlayListCommandTests(TestCase):
                 "viewCount": 20,
                 "likeCount": 10,
                 "dislikeCount": 5,
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
         # mock fetch channel data
         fake_fetch_channel_data.return_value = {
@@ -168,7 +189,10 @@ class AddPlayListCommandTests(TestCase):
                 "title": "updated channel title",
                 "description": "channel description",
                 "publishedAt": "2012-10-01T15:27:35.000Z",
-            }
+            },
+            "contentDetails": {
+                "duration": "PT1H46M12S",
+            },
         }
 
         out = StringIO()

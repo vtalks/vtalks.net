@@ -1,3 +1,7 @@
+import re
+
+from datetime import timedelta
+
 from urllib.parse import urlsplit
 from urllib.parse import parse_qs
 
@@ -105,4 +109,26 @@ class Command(BaseCommand):
                 for tag in video_tags:
                     talk_obj.tags.add(tag)
                     self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
+
+                hours = 0
+                minutes = 0
+                seconds = 0
+                duration = talk_data["contentDetails"]["duration"]
+                try:
+                    hours = re.compile('(\d+)H').search(duration).group(1)
+                except AttributeError:
+                    hours = 0
+                try:
+                    minutes = re.compile('(\d+)M').search(duration).group(1)
+                except AttributeError:
+                    minutes = 0
+                try:
+                    seconds = re.compile('(\d+)S').search(duration).group(1)
+                except AttributeError:
+                    seconds = 0
+
+                d = timedelta(hours=int(hours), minutes=int(minutes),
+                              seconds=int(seconds))
+                talk_obj.duration = d
+
                 talk_obj.save()
