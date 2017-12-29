@@ -112,7 +112,7 @@ class Command(BaseCommand):
 
                 # Get the duration
                 duration = talk_data["contentDetails"]["duration"]
-                hours = re.compile('(\d+)H').search(duration)
+                hours = re.compile('(\d+)H').search(duration).group(1)
                 if not hours:
                     hours = 0
                 minutes = re.compile('(\d+)M').search(duration).group(1)
