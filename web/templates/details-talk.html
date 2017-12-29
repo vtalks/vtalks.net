@@ -31,14 +31,10 @@
         </div>
         <h4>Description:</h4>
         <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Details:</h5>
-            </div>
-            <div class="col-md-6">
-                <h5>Controls:</h5>
-            </div>
+        <div>
+            {% for tag in object.tags.all %}
+                <a href class="badge badge-secondary">{{tag.name}}</a>
+            {% endfor %}
         </div>
     </div>
 </main>

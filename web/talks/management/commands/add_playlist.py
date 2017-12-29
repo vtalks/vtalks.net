@@ -102,10 +102,8 @@ class Command(BaseCommand):
 
                 # Add tags from cli arguments and talk_data
                 video_tags = options['tags']
-                # TODO:
-                # - Add tags from youtube
-                # if "tags" in talk_data["snippet"]:
-                #    video_tags += talk_data["snippet"]["tags"]
+                if "tags" in talk_data["snippet"]:
+                    video_tags += talk_data["snippet"]["tags"]
                 for tag in video_tags:
                     talk_obj.tags.add(tag)
                     self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
