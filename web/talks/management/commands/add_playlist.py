@@ -110,16 +110,21 @@ class Command(BaseCommand):
                     talk_obj.tags.add(tag)
                     self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
 
-                # Get the duration
+                hours = 0
+                minutes = 0
+                seconds = 0
                 duration = talk_data["contentDetails"]["duration"]
-                hours = re.compile('(\d+)H').search(duration).group(1)
-                if not hours:
+                try:
+                    hours = re.compile('(\d+)H').search(duration).group(1)
+                except AttributeError:
                     hours = 0
-                minutes = re.compile('(\d+)M').search(duration).group(1)
-                if not minutes:
+                try:
+                    minutes = re.compile('(\d+)M').search(duration).group(1)
+                except AttributeError:
                     minutes = 0
-                seconds = re.compile('(\d+)S').search(duration).group(1)
-                if not seconds:
+                try:
+                    seconds = re.compile('(\d+)S').search(duration).group(1)
+                except AttributeError:
                     seconds = 0
 
                 d = timedelta(hours=int(hours), minutes=int(minutes),
