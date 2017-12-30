@@ -36,24 +36,26 @@ class Command(BaseCommand):
 
         # Add playlist
         playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
-        playlist_obj, created = Playlist.objects.update_or_create(
-            code=playlist_data["id"],
-            defaults={
-                'code': playlist_data["id"],
-                'title': playlist_data["snippet"]["title"],
-                'description': playlist_data["snippet"]["description"],
-                'created': playlist_data["snippet"]["publishedAt"],
-                'updated': timezone.now(),
-            },
-        )
-        if created:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    'Added playlist "%s"' % playlist_obj.title))
-        else:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    'Updated playlist "%s"' % playlist_obj.title))
+        playlist_obj = None
+        if playlist_data:
+            playlist_obj, created = Playlist.objects.update_or_create(
+                code=playlist_data["id"],
+                defaults={
+                    'code': playlist_data["id"],
+                    'title': playlist_data["snippet"]["title"],
+                    'description': playlist_data["snippet"]["description"],
+                    'created': playlist_data["snippet"]["publishedAt"],
+                    'updated': timezone.now(),
+                },
+            )
+            if created:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Added playlist "%s"' % playlist_obj.title))
+            else:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Updated playlist "%s"' % playlist_obj.title))
 
         playlist_videos = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist_code)
         for video_code in playlist_videos:
