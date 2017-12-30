@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Channel
+from .models import Playlist
 from .models import Talk
 
 # Register your models here.
@@ -30,13 +31,35 @@ class ChannelAdmin(admin.ModelAdmin):
 admin.site.register(Channel, ChannelAdmin)
 
 
+class PlaylistAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('code', 'title', 'description')
+        }),
+        ('Youtube', {
+            'fields': (),
+        }),
+        ('Metadata', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated'),
+        }),
+    )
+    date_hierarchy = 'created'
+    list_filter = ['created', 'updated']
+    search_fields = ['title']
+    ordering = ['-updated', '-created']
+
+
+admin.site.register(Playlist, PlaylistAdmin)
+
+
 class TalkAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
         ('Youtube', {
-            'fields': ('youtube_url', 'channel', 'duration'),
+            'fields': ('youtube_url', 'channel', 'playlist', 'duration'),
         }),
         ('Thumbnails', {
             'classes': ('collapse',),
