@@ -97,6 +97,16 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
 
+        talk_obj = Talk.objects.get(code=talk_data["id"])
+
+        # Add tags from cli arguments and talk_data
+        video_tags = [] # options['tags']
+        if "tags" in talk_data["snippet"]:
+            video_tags += talk_data["snippet"]["tags"]
+        for tag in video_tags:
+            talk_obj.tags.add(tag)
+            self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
+
         hours = 0
         minutes = 0
         seconds = 0

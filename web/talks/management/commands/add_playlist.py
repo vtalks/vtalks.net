@@ -2,17 +2,16 @@ import re
 
 from datetime import timedelta
 
-from urllib.parse import urlsplit
-from urllib.parse import parse_qs
-
 from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
-from django.core.management.base import CommandError
 
 from ...models import Channel
 from ...models import Talk
+from ...models import Playlist
 from ...models import fetch_channel_data
+from ...models import get_playlist_code
+from ...models import fetch_playlist_data
 from ...models import fetch_playlist_items
 from ...models import fetch_video_data
 
@@ -25,15 +24,6 @@ TODO:
 """
 
 
-def get_playlist_code(url):
-    query = urlsplit(url).query
-    params = parse_qs(query)
-    if "list" not in params:
-        raise CommandError('Invalid url "%s"' % url)
-    playlist_code = params["list"][0]
-    return playlist_code
-
-
 class Command(BaseCommand):
     help = 'Adds all videos from a playlist to the system.'
 
@@ -43,6 +33,30 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         playlist_code = get_playlist_code(options['youtube_url'])
+
+        # Add playlist
+        playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
+        playlist_obj = None
+        if playlist_data:
+            playlist_obj, created = Playlist.objects.update_or_create(
+                code=playlist_data["id"],
+                defaults={
+                    'code': playlist_data["id"],
+                    'title': playlist_data["snippet"]["title"],
+                    'description': playlist_data["snippet"]["description"],
+                    'created': playlist_data["snippet"]["publishedAt"],
+                    'updated': timezone.now(),
+                },
+            )
+            if created:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Added playlist "%s"' % playlist_obj.title))
+            else:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Updated playlist "%s"' % playlist_obj.title))
+
         playlist_videos = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist_code)
         for video_code in playlist_videos:
             talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
@@ -86,6 +100,7 @@ class Command(BaseCommand):
                         'title': talk_data["snippet"]["title"],
                         'description': talk_data["snippet"]["description"],
                         'channel': channel_obj,
+                        'playlist': playlist_obj,
                         'view_count': talk_data["statistics"]["viewCount"],
                         'like_count': talk_data["statistics"]["likeCount"],
                         'dislike_count': talk_data["statistics"]["dislikeCount"],
@@ -102,10 +117,8 @@ class Command(BaseCommand):
 
                 # Add tags from cli arguments and talk_data
                 video_tags = options['tags']
-                # TODO:
-                # - Add tags from youtube
-                # if "tags" in talk_data["snippet"]:
-                #    video_tags += talk_data["snippet"]["tags"]
+                if "tags" in talk_data["snippet"]:
+                    video_tags += talk_data["snippet"]["tags"]
                 for tag in video_tags:
                     talk_obj.tags.add(tag)
                     self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))

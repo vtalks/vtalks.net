@@ -16,7 +16,7 @@ from taggit.managers import TaggableManager
 
 
 class Channel(models.Model):
-    code = models.CharField(max_length=25, unique=True, default=None)
+    code = models.CharField(max_length=100, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     description = models.TextField(blank=True)
@@ -55,11 +55,29 @@ class Channel(models.Model):
         ordering = ['-created', '-updated']
 
 
+class Playlist(models.Model):
+    code = models.CharField(max_length=25, unique=True, default=None)
+    title = models.CharField(max_length=200, default=None)
+    description = models.TextField(blank=True)
+    created = models.DateTimeField('date created', default=timezone.now)
+    updated = models.DateTimeField('date updated', default=timezone.now)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Playlist"
+        verbose_name_plural = "Playlists"
+        get_latest_by = "-created"
+        ordering = ['-created', '-updated']
+
+
 class Talk(models.Model):
     code = models.CharField(max_length=25, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
     description = models.TextField()
     channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
+    playlist = models.ForeignKey(Playlist, blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     tags = TaggableManager(blank=True)
     duration = models.DurationField(default=timedelta())
@@ -130,6 +148,15 @@ def get_video_code(url):
     return video_code
 
 
+def get_playlist_code(url):
+    query = urlsplit(url).query
+    params = parse_qs(query)
+    if "list" not in params:
+        raise CommandError('Invalid url "%s"' % url)
+    playlist_code = params["list"][0]
+    return playlist_code
+
+
 def fetch_channel_data(youtube_api_key, channel_code):
     channel_url = "https://www.googleapis.com/youtube/v3/channels"
     payload = {'id': channel_code,
@@ -138,6 +165,22 @@ def fetch_channel_data(youtube_api_key, channel_code):
     resp = requests.get(channel_url, params=payload)
     if resp.status_code != 200:
         raise CommandError('Error fetching channel data "%s"' % resp.status_code)
+    response_json = resp.json()
+    channel_data = None
+    if len(response_json["items"]) > 0:
+        channel_data = response_json["items"][0]
+    return channel_data
+
+
+def fetch_playlist_data(youtube_api_key, playlist_code):
+    channel_url = "https://www.googleapis.com/youtube/v3/playlists"
+    payload = {'id': playlist_code,
+               'part': 'snippet,contentDetails',
+               'key': youtube_api_key}
+    resp = requests.get(channel_url, params=payload)
+    if resp.status_code != 200:
+        raise CommandError(
+            'Error fetching playlist data "%s"' % resp.status_code)
     response_json = resp.json()
     channel_data = None
     if len(response_json["items"]) > 0:

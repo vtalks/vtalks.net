@@ -25,20 +25,19 @@
         <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
         <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
         <p><i class="fas fa-folder"></i> Channel: <a href="{% url 'talks:channel-details' object.channel.slug %}">{{object.channel}}</a></p>
+        {% if object.playlist %}
+        <p><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
+        {% endif %}
         <p><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
         <div class="embed-responsive embed-responsive-16by9">
             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
         </div>
         <h4>Description:</h4>
         <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Details:</h5>
-            </div>
-            <div class="col-md-6">
-                <h5>Controls:</h5>
-            </div>
+        <div>
+            {% for tag in object.tags.all %}
+                <button class="badge badge-secondary badge-light"><i class="fas fa-tag"></i> {{tag.name}}</button>
+            {% endfor %}
         </div>
     </div>
 </main>
