@@ -124,8 +124,9 @@ class AddPlayListCommandTests(TestCase):
 
     @patch("talks.management.commands.add_playlist.fetch_channel_data")
     @patch("talks.management.commands.add_playlist.fetch_video_data")
+    @patch("talks.management.commands.add_playlist.fetch_playlist_data")
     @patch("talks.management.commands.add_playlist.fetch_playlist_items")
-    def test_command(self, fake_fetch_playlist_items, fake_fetch_video_data, fake_fetch_channel_data):
+    def test_command(self, fake_fetch_playlist_items, fake_fetch_playlist_data, fake_fetch_video_data, fake_fetch_channel_data):
         # mock fetch playlist items
         fake_fetch_playlist_items.return_value = ['fake_video_id']
         # mock fetch video data
@@ -155,6 +156,15 @@ class AddPlayListCommandTests(TestCase):
             "contentDetails": {
                 "duration": "PT1H46M12S",
             },
+        }
+        # mock fetch playlist data
+        fake_fetch_playlist_data.return_value = {
+            "id": "fake_playlist_id",
+            "snippet": {
+                "title": "playlist title",
+                "description": "playlist description",
+                "publishedAt": "2012-10-01T15:27:35.000Z",
+            }
         }
 
         out = StringIO()
