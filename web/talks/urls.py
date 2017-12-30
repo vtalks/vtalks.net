@@ -10,8 +10,6 @@ from .views import SearchTalksView
 
 from .views import DetailTalkView
 
-from .views import DetailChannelView
-
 app_name = 'talks'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -25,6 +23,4 @@ urlpatterns = [
     path('search', SearchTalksView.as_view(), name='search'),
 
     path('talk/<slug:slug>/', DetailTalkView.as_view(), name='talk-details'),
-
-    path('channel/<slug:slug>/', DetailChannelView.as_view(), name='channel-details'),
 ]

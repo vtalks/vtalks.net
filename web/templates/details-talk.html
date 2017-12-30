@@ -20,11 +20,11 @@
     </section>
     <!-- details talk -->
     <div class="container details-talk">
-        <h3>{{object.title}}</h3>
+        <h2>{{object.title}}</h2>
         <p><i class="far fa-clock"></i> Duration: {{object.duration}}</p>
         <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
         <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
-        <p><i class="fas fa-folder"></i> Channel: <a href="{% url 'talks:channel-details' object.channel.slug %}">{{object.channel}}</a></p>
+        <p><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
         {% if object.playlist %}
         <p><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
         {% endif %}
@@ -32,7 +32,7 @@
         <div class="embed-responsive embed-responsive-16by9">
             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
         </div>
-        <h4>Description:</h4>
+        <h3>Description:</h3>
         <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
         <div>
             {% for tag in object.tags.all %}
