@@ -10,7 +10,6 @@ from django.conf import settings
 from django.core.paginator import Paginator
 
 from .models import Talk
-from .models import Channel
 
 from .forms import SearchForm
 
@@ -31,19 +30,6 @@ class IndexView(TemplateView):
 
         popular_talks = Talk.objects.all().order_by('-view_count', '-like_count', 'dislike_count', '-created', '-updated')[:3]
         context['popular_talks'] = popular_talks
-
-        return context
-
-
-class DetailChannelView(DetailView):
-    model = Channel
-    template_name = 'details-channel.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(DetailChannelView, self).get_context_data(**kwargs)
-
-        search_form = SearchForm()
-        context['search_form'] = search_form
 
         return context
 

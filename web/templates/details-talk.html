@@ -19,25 +19,37 @@
         </div>
     </section>
     <!-- details talk -->
-    <div class="container details-talk">
-        <h2>{{object.title}}</h2>
-        <p><i class="far fa-clock"></i> Duration: {{object.duration}}</p>
-        <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
-        <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
-        <p><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
-        {% if object.playlist %}
-        <p><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
-        {% endif %}
-        <p><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
-        </div>
-        <h3>Description:</h3>
-        <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
-        <div>
-            {% for tag in object.tags.all %}
-                <button class="badge badge-secondary badge-light"><i class="fas fa-tag"></i> {{tag.name}}</button>
-            {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="details-talk col-md-8">
+                <h2>{{object.title}}</h2>
+                <p><i class="far fa-clock"></i> Duration: {{object.duration}}</p>
+                <p><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
+                <p><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
+                <p><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
+                {% if object.playlist %}
+                <p><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
+                {% endif %}
+                <p><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
+                </div>
+                <h3>Description:</h3>
+                <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
+                <div>
+                    {% for tag in object.tags.all %}
+                        <button class="badge badge-secondary badge-light"><i class="fas fa-tag"></i> {{tag.name}}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="related-talks col-md-4">
+                <h3>Related talks</h3>
+                {% if object.tags.similar_objects %}
+                    {% include "_partials/list_related_talks.html" with object_list=object.tags.similar_objects %}
+                {% else %}
+                    <p>No results.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </main>
