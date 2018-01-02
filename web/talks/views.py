@@ -25,10 +25,10 @@ class IndexView(TemplateView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        latest_talks = Talk.objects.all().order_by('-created')[:3]
+        latest_talks = Talk.objects.all().order_by('-hacker_hot', '-created')[:3]
         context['latest_talks'] = latest_talks
 
-        popular_talks = Talk.objects.all().order_by('-view_count', '-like_count', 'dislike_count', '-created', '-updated')[:3]
+        popular_talks = Talk.objects.all().order_by('-wilsonscore_rank', '-view_count', '-like_count', 'dislike_count', '-created', '-updated')[:3]
         context['popular_talks'] = popular_talks
 
         return context
@@ -51,6 +51,7 @@ class LatestTalksView(ListView):
     model = Talk
     template_name = 'latest-talks.html'
     paginate_by = settings.PAGE_SIZE
+    ordering = ['-hacker_hot', '-created']
 
     def get_context_data(self, **kwargs):
         context = super(LatestTalksView, self).get_context_data(**kwargs)
@@ -65,7 +66,7 @@ class PopularTalksView(ListView):
     model = Talk
     template_name = 'popular-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-view_count', '-like_count', 'dislike_count', '-created', '-updated']
+    ordering = ['-wilsonscore_rank', '-view_count', '-like_count', 'dislike_count', '-created', '-updated']
 
     def get_context_data(self, **kwargs):
         context = super(PopularTalksView, self).get_context_data(**kwargs)

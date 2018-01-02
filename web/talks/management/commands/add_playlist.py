@@ -116,7 +116,8 @@ class Command(BaseCommand):
                         self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
 
                 # Add tags from cli arguments and talk_data
-                video_tags = options['tags']
+                video_tags = []
+                video_tags += options['tags']
                 if "tags" in talk_data["snippet"]:
                     video_tags += talk_data["snippet"]["tags"]
                 for tag in video_tags:

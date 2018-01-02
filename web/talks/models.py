@@ -56,7 +56,7 @@ class Channel(models.Model):
 
 
 class Playlist(models.Model):
-    code = models.CharField(max_length=25, unique=True, default=None)
+    code = models.CharField(max_length=100, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
     description = models.TextField(blank=True)
     created = models.DateTimeField('date created', default=timezone.now)
@@ -84,6 +84,8 @@ class Talk(models.Model):
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
     dislike_count = models.IntegerField('dislike count', default=0)
+    wilsonscore_rank = models.FloatField('wilson score rank', default=0)
+    hacker_hot = models.FloatField('hackernews hot rank', default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
     
