@@ -70,6 +70,9 @@ class TalkAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('view_count', 'like_count', 'dislike_count'),
         }),
+        ('Rank', {
+            'fields': ('wilsonscore_rank', 'hacker_hot'),
+        }),
         ('Metadata', {
             'classes': ('collapse',),
             'fields': ('created', 'updated'),

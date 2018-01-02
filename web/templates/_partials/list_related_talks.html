@@ -1,0 +1,14 @@
+{% load humanize %}
+<div class="list-talks">
+{% for object in object_list %}
+    <div class="row mt-2 list-talks-item">
+        <div class="col-md-4 pr-0">
+            <a href="{% url 'talks:talk-details' object.slug %}"><img class="figure-img img-thumbnail" src="{{object.high_thumb}}" alt="{{object.title}}"></a>
+        </div>
+        <div class="col-md-8">
+            <a href="{% url 'talks:talk-details' object.slug %}"><h6>{{object.title}}</h6></a>
+            <p class="text-muted small"><i class="fas fa-clock"></i> {{object.duration}} · <i class="far fa-calendar-alt"></i> {{object.created|naturaltime}}</p>
+        </div>
+    </div>
+{% endfor %}
+</div>
