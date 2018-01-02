@@ -1,8 +1,8 @@
 {% load humanize %}
 <div class="list-talks">
 {% for object in object_list %}
-    <div class="row mt-4 list-talks-item">
-        <div class="col-md-4">
+    <div class="row mt-2 list-talks-item">
+        <div class="col-md-4 pr-0">
             <a href="{% url 'talks:talk-details' object.slug %}"><img class="figure-img img-thumbnail" src="{{object.high_thumb}}" alt="{{object.title}}"></a>
         </div>
         <div class="col-md-8">
