@@ -28,8 +28,8 @@ help:	## Show this help
 # Create alias:
 # $ alias deploy="docker-compose -f deploy/docker-compose.yml"
 #
-# $ deploy up -d
-# $ deploy exec web python3 manage.py createsuperuser
+# $ compose up -d
+# $ compose exec web python3 manage.py createsuperuser
 
 # How to manage the system:
 # -------------------------
@@ -47,7 +47,7 @@ help:	## Show this help
 # -------------------------------
 #
 # Backup database:
-# $ deploy exec postgres pg_dump -U postgres postgres > .backrup/vtalks.sql
+# $ compose exec postgres pg_dump -U postgres postgres > .backup/vtalks.sql
 #
 # Restore database:
 # (use the correct environment!)

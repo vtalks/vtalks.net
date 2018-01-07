@@ -34,6 +34,8 @@ def hacker_hot(votes, published, gravity=1.8):
     Hackernews' hot sort
     http://amix.dk/blog/post/19574
     """
+    gravity = 1.4
+
     d = timezone.now() - published
     hour_age = d.total_seconds()//3600
     res = (votes - 1) / math.pow(hour_age + 2, gravity)

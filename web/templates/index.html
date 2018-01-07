@@ -13,6 +13,7 @@
         <h3>Latest talks</h3>
         {% if latest_talks %}
             {% include "_partials/list_talks.html" with object_list=latest_talks %}
+            <hr/>
             <a href="{% url 'talks:latest-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
         {% else %}
             <p>No results.</p>
@@ -23,6 +24,7 @@
         <h3>Popular talks</h3>
         {% if popular_talks %}
             {% include "_partials/list_talks.html" with object_list=popular_talks %}
+            <hr/>
             <a href="{% url 'talks:popular-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
         {% else %}
             <p>No results.</p>
