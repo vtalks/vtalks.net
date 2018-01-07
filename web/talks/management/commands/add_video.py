@@ -60,13 +60,9 @@ class Command(BaseCommand):
             },
         )
         if created:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    'Added channel "%s"' % channel_obj.title))
+            self.stdout.write('Added channel "%s"' % channel_obj.title)
         else:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    'Updated channel "%s"' % channel_obj.title))
+            self.stdout.write('Updated channel "%s"' % channel_obj.title)
 
         # Add Video
         if "tags" not in talk_data["snippet"]:
@@ -91,11 +87,9 @@ class Command(BaseCommand):
             },
         )
         if created:
-            self.stdout.write(
-                self.style.SUCCESS('Added talk "%s"' % talk_obj.title))
+            self.stdout.write('Added talk "%s"' % talk_obj.title)
         else:
-            self.stdout.write(
-                self.style.SUCCESS('Updated talk "%s"' % talk_obj.title))
+            self.stdout.write('Updated talk "%s"' % talk_obj.title)
 
         talk_obj = Talk.objects.get(code=talk_data["id"])
 
@@ -105,7 +99,7 @@ class Command(BaseCommand):
             video_tags += talk_data["snippet"]["tags"]
         for tag in video_tags:
             talk_obj.tags.add(tag)
-            self.stdout.write(self.style.SUCCESS('Tagged as "%s"' % tag))
+            self.stdout.write('Tagged as "%s"' % tag)
 
         hours = 0
         minutes = 0
