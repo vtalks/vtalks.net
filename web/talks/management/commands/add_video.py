@@ -32,7 +32,6 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
-        parser.add_argument('--all', type=bool, default=False, help='update all the talks on the database')
 
     def update_video(self, youtube_url):
         video_code = get_video_code(youtube_url)
@@ -124,10 +123,4 @@ class Command(BaseCommand):
         talk_obj.save()
 
     def handle(self, *args, **options):
-        if options["all"]:
-            talks = Talk.objects.all().order_by('updated')
-            for talk in talks:
-                self.update_video(talk.youtube_url)
-            exit(0)
-
         self.update_video(options['youtube_url'])
