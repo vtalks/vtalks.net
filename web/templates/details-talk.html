@@ -26,7 +26,7 @@
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
                 </div>
-                <p class="text-muted small"><i class="far fa-clock"></i> Duration: {{object.duration}}</p>
+                <p class="text-muted small"><i class="far fa-clock"></i> Duration: {{object.duration|nozeros}}</p>
                 <p class="text-muted small"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
                 <p class="text-muted small"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
                 <p class="text-muted small"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
