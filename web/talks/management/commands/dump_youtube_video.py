@@ -4,8 +4,8 @@ from django.conf import settings
 
 from django.core.management.base import BaseCommand
 
-from ...models import get_video_code
-from ...models import fetch_video_data
+from ...youtube.video import get_video_code
+from ...youtube.video import fetch_video_data
 
 
 class Command(BaseCommand):
