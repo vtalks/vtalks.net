@@ -11,6 +11,8 @@ from django.core.paginator import Paginator
 
 from .models import Talk
 
+from taggit.models import Tag
+
 from .forms import SearchForm
 
 # Create your views here.
@@ -110,5 +112,31 @@ class SearchTalksView(ListView):
             if "page" in self.request.GET:
                 page = self.request.GET["page"]
             context['object_list'] = paginator.get_page(page)
+
+        return context
+
+
+class DetailTagView(DetailView):
+    model = Tag
+    template_name = 'details-tag.html'
+    paginate_by = settings.PAGE_SIZE
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailTagView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        slug = self.kwargs['slug']
+        context['object'] = Tag.objects.get(slug=slug)
+
+        tagged_talks = Talk.objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-view_count', '-like_count', 'dislike_count', '-created', '-updated')
+        paginator = Paginator(tagged_talks, self.paginate_by)
+
+        page = 1
+        if "page" in self.kwargs:
+            page = self.kwargs["page"]
+        context['is_paginated'] = True
+        context['object_list'] = paginator.get_page(page)
 
         return context

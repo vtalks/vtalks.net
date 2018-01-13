@@ -9,6 +9,7 @@ from .views import PopularTalksView
 from .views import SearchTalksView
 
 from .views import DetailTalkView
+from .views import DetailTagView
 
 app_name = 'talks'
 urlpatterns = [
@@ -23,4 +24,7 @@ urlpatterns = [
     path('search', SearchTalksView.as_view(), name='search'),
 
     path('talk/<slug:slug>/', DetailTalkView.as_view(), name='talk-details'),
+
+    path('tag/<slug:slug>/', DetailTagView.as_view(), name='tag-details'),
+    path('tag/<slug:slug>/page/<int:page>/', DetailTagView.as_view(), name='tag-details-paginated'),
 ]
