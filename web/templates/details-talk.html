@@ -39,11 +39,13 @@
                 <h3>Description:</h3>
                 <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
                 <h3>Metadata:</h3>
-                <div>
+                <ul class="list-unstyled">
                     {% for tag in object.tags.all %}
-                        <button class="badge badge-secondary badge-light"><i class="fas fa-tag"></i> {{tag.name}}</button>
+                        <li class="d-inline">
+                        <a href="" class="badge badge-secondary badge-light text-muted p-3 mb-2"><i class="fas fa-tag"></i> {{tag.name}}</a>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
             </div>
             <div class="related-talks col-md-4">
                 <h3>Related talks</h3>
