@@ -4,7 +4,7 @@ from django.urls import re_path
 from .views import IndexView
 
 from .views import LatestTalksView
-from .views import PopularTalksView
+from .views import BestTalksView
 
 from .views import SearchTalksView
 
@@ -18,8 +18,8 @@ urlpatterns = [
     path('latest', LatestTalksView.as_view(), name='latest-talks'),
     re_path(r'^latest/page/(?P<page>\d+)/$', LatestTalksView.as_view(), name='latest-talks-paginated'),
 
-    path('popular', PopularTalksView.as_view(), name='popular-talks'),
-    re_path(r'^popular/page/(?P<page>\d+)/$', PopularTalksView.as_view(), name='popular-talks-paginated'),
+    path('best', BestTalksView.as_view(), name='best-talks'),
+    re_path(r'^best/page/(?P<page>\d+)/$', BestTalksView.as_view(), name='best-talks-paginated'),
 
     path('search', SearchTalksView.as_view(), name='search'),
 
