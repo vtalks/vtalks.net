@@ -7,10 +7,6 @@ services:
     hostname: nginx
     restart: on-failure
     image: nginx:alpine
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/nginx.vh.default.conf:/etc/nginx/conf.d/default.conf
-      - ../web/static:/static
     ports:
       - "80:80"
     depends_on:
@@ -29,10 +25,7 @@ services:
     container_name: vtalksnet_web
     hostname: web
     restart: always
-    build: ../web
-    image: vtalksnet_web:latest
-    volumes:
-      - ../web:/opt/vtalks/web/
+    image: vtalks/web:latest
     ports:
       - "8000"
     environment:

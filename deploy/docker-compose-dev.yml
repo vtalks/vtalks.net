@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.vh.default.conf:/etc/nginx/conf.d/default.conf
+      - ../web/static:/static
+
+  web:
+    build: ../web
+    volumes:
+      - ../web:/opt/vtalks/web/
