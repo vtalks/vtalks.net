@@ -5,9 +5,9 @@ from django.conf import settings
 from django.core.management.base import CommandError
 
 from .models import Channel
-from .models import fetch_channel_data
-from .models import fetch_video_data
-from .models import fetch_playlist_items
+from .youtube.channel import fetch_channel_data
+from .youtube.video import fetch_video_data
+from .youtube.playlist import fetch_playlist_items
 from .models import Talk
 
 # Create your tests here.
