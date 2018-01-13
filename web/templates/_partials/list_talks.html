@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load timedelta %}
 <div class="list-talks">
 {% for object in object_list %}
     <div class="row mt-4 list-talks-item">
@@ -7,7 +8,7 @@
         </div>
         <div class="col-md-8">
             <a href="{% url 'talks:talk-details' object.slug %}"><h4>{{object.title}}</h4></a>
-            <p class="text-muted small"><i class="fas fa-clock"></i> {{object.duration}} · <i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
+            <p class="text-muted small"><i class="fas fa-clock"></i> {{object.duration|timedelta_nozeros}} · <i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
             <p class="text-justify">{{object.description|linebreaks|truncatechars:250|urlize}}</p>
         </div>
     </div>
