@@ -1,0 +1,26 @@
+{% extends "_layouts/default.html" %}
+{% load timedelta %}
+{% block title %}Talks tagged as {{object.name}} - vtalks.net{% endblock %}
+{% block content %}
+<main role="main">
+    <!-- search form -->
+    <section class="container-fluid search-form">
+        <div class="container">
+            {% include "_partials/search_form.html" %}
+        </div>
+    </section>
+    <!-- list talks -->
+    <section class="container latest-talks">
+        <h3>Talks tagged as "{{object.name}}"</h3>
+        {% if object_list %}
+            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+            <hr/>
+            {% include "_partials/list_talks.html" %}
+            <hr/>
+            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

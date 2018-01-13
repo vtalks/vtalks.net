@@ -42,7 +42,7 @@
                 <ul class="list-unstyled">
                     {% for tag in object.tags.all %}
                         <li class="d-inline">
-                        <a href="" class="badge badge-secondary badge-light text-muted p-3 mb-2"><i class="fas fa-tag"></i> {{tag.name}}</a>
+                        <a href="{% url 'talks:tag-details' tag.slug %}" class="badge badge-secondary badge-light text-muted p-3 mb-2"><i class="fas fa-tag"></i> {{tag.name}}</a>
                         </li>
                     {% endfor %}
                 </ul>
