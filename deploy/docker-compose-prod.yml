@@ -1,14 +1,13 @@
 version: '3.3'
 
 services:
-
   nginx:
     volumes:
-      - /opt/vtalks/vtalks.net/deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /opt/vtalks/vtalks.net/deploy/nginx/nginx.vh.default.conf:/etc/nginx/conf.d/default.conf
-      - /opt/vtalks/vtalks.net/web/static:/static
-
+        - /opt/nginx/nginx.conf:/etc/nginx/nginx.conf
+        - /opt/nginx/nginx.vh.default.conf:/etc/nginx/conf.d/default.conf
+        - /opt/static:/static
   web:
+    image: vtalks/web:latest
 
-    volumes:
-      - /opt/vtalks/vtalks.net/web:/opt/vtalks/web/
+# docker-machine scp -r ./deploy/nginx vtalks:/opt/nginx
+# docker-machine scp -r ./web/static vtalks:/opt/static

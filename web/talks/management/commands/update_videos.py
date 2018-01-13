@@ -31,7 +31,7 @@ class Command(BaseCommand):
     help = 'Adds a video to the system.'
 
     def add_arguments(self, parser):
-        parser.add_argument('youtube_url', type=str)
+        pass
 
     def update_video(self, youtube_url):
         video_code = get_video_code(youtube_url)
@@ -123,4 +123,6 @@ class Command(BaseCommand):
         talk_obj.save()
 
     def handle(self, *args, **options):
-        self.update_video(options['youtube_url'])
+        talks = Talk.objects.all().order_by('updated')
+        for talk in talks:
+            self.update_video(talk.youtube_url)
