@@ -1,4 +1,5 @@
 {% extends "_layouts/default.html" %}
+{% load timedelta %}
 {% block title %}{{object.title}} - vtalks.net{% endblock %}
 {% block opengraph %}
 <!-- Open Graph http://ogp.me/ -->
@@ -26,7 +27,8 @@
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
                 </div>
-                <p class="text-muted small"><i class="far fa-clock"></i> Duration: {{object.duration|nozeros}}</p>
+                <h3>Details:</h3>
+                <p class="text-muted small"><i class="far fa-clock"></i> Duration: {{object.duration|timedelta_nozeros}}</p>
                 <p class="text-muted small"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
                 <p class="text-muted small"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
                 <p class="text-muted small"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
@@ -36,6 +38,7 @@
                 <p class="text-muted small"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
                 <h3>Description:</h3>
                 <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
+                <h3>Metadata:</h3>
                 <div>
                     {% for tag in object.tags.all %}
                         <button class="badge badge-secondary badge-light"><i class="fas fa-tag"></i> {{tag.name}}</button>
