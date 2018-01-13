@@ -111,4 +111,3 @@ environment.prod.sh
 web/static/admin
 
 /.backup
-!/web/templates/best-talks.html
