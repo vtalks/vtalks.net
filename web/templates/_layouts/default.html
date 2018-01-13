@@ -41,20 +41,34 @@
 </nav>
 {% block content %}{% endblock %}
 <footer class="container-fluid bg-light">
-    <div class="container p-0">
-        <ul class="nav">
-            <a class="nav-link disabled" href="{% url 'corporate:privacy' %}">vtalks.net © 2015-{% now "Y" %}</a>
-        </ul>
-        <nav class="nav">
-            <a class="nav-link" href="{% url 'talks:index' %}">Home</a>
-            <a class="nav-link" href="{% url 'corporate:about' %}">About</a>
-            <a class="nav-link" href="{% url 'corporate:help' %}">Help</a>
-            <a class="nav-link" href="{% url 'corporate:contact' %}">Contact</a>
-        </nav>
-        <nav class="nav">
-            <a class="nav-link" href="{% url 'corporate:privacy' %}">Privacy Policy</a>
-            <a class="nav-link" href="{% url 'corporate:terms' %}">Terms of service</a>
-        </nav>
+    <div class="container pt-4 pb-4">
+        <div class="row">
+            <div class="col">
+                <nav class="nav">
+                    <a class="nav-link disabled" href="{% url 'corporate:privacy' %}">vtalks.net © 2015-{% now "Y" %}</a>
+                </nav>
+                <nav class="nav">
+                    <a class="nav-link" href="{% url 'talks:index' %}">Home</a>
+                    <a class="nav-link" href="{% url 'corporate:about' %}">About</a>
+                    <a class="nav-link" href="{% url 'corporate:help' %}">Help</a>
+                    <a class="nav-link" href="{% url 'corporate:contact' %}">Contact</a>
+                </nav>
+            </div>
+            <div class="col">
+                <nav class="nav">
+                    <a class="nav-link" href="{% url 'corporate:privacy' %}">Privacy Policy</a>
+                    <a class="nav-link" href="{% url 'corporate:terms' %}">Terms of service</a>
+                </nav>
+            </div>
+            <div class="col">
+                <nav class="nav">
+                    <a class="nav-link" href="https://github.com/vtalks"><i class="fab fa-github-square fa-3x"></i> </a>
+                    <a class="nav-link" href="https://facebook.com/vtalks"><i class="fab fa-facebook-square fa-3x"></i> </a>
+                    <a class="nav-link" href="https://linkedin.com/in/vtalks"><i class="fab fa-linkedin fa-3x"></i> </a>
+                    <a class="nav-link" href="https://twitter.com/vtalks"><i class="fab fa-twitter fa-3x"></i> </a>
+                </nav>
+            </div>
+        </div>
     </div>
 </footer>
 <!-- js -->
