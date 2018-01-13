@@ -19,13 +19,13 @@
             <p>No results.</p>
         {% endif %}
     </section>
-    <!-- popular talks -->
-    <section class="container popular-talks">
-        <h3>Popular talks</h3>
-        {% if popular_talks %}
-            {% include "_partials/list_talks.html" with object_list=popular_talks %}
+    <!-- best talks -->
+    <section class="container best-talks">
+        <h3>Best talks</h3>
+        {% if best_talks %}
+            {% include "_partials/list_talks.html" with object_list=best_talks %}
             <hr/>
-            <a href="{% url 'talks:popular-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
+            <a href="{% url 'talks:best-talks' %}" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
         {% else %}
             <p>No results.</p>
         {% endif %}
