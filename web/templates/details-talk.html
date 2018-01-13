@@ -11,6 +11,14 @@
 <meta property="og:image:secure_url" content="{{object.high_thumb}}" />
 <meta property="og:image:type" content="image/jpeg" />
 {% endblock %}
+{% block twittercard %}
+<!-- Twitter Card https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@vtalksnet">
+<meta name="twitter:title" content="{{object.title}}">
+<meta name="twitter:description" content="{{object.description}}">
+<meta name="twitter:image" content="{{object.high_thumb}}">
+{% endblock %}
 {% block content %}
 <main role="main">
     <!-- search form -->
