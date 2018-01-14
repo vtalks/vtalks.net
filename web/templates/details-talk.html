@@ -33,25 +33,29 @@
         <div class="row pt-3">
             <div class="details-talk col-md-8">
                 <h2>{{object.title}}</h2>
+                <!-- details talk : embed video -->
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0" allowfullscreen></iframe>
+                    <iframe id="embed-video-player" class="embed-responsive-item" src="https://www.youtube.com/embed/{{object.code}}?rel=0&showinfo=0&autoplay=1&enablejsapi=1" allowfullscreen></iframe>
                 </div>
+                <!-- details talk : details -->
                 <h3>Details:</h3>
-                <p class="text-muted small"><i class="far fa-clock"></i> Duration: {{object.duration|timedelta_nozeros}}</p>
-                <p class="text-muted small"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
-                <p class="text-muted small"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
-                <p class="text-muted small"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
+                <p class="text-muted"><i class="far fa-clock"></i> Duration: {{object.duration|timedelta_nozeros}}</p>
+                <p class="text-muted"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
+                <p class="text-muted"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
+                <p class="text-muted"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
                 {% if object.playlist %}
-                <p class="text-muted small"><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
+                <p class="text-muted"><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
                 {% endif %}
-                <p class="text-muted small"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+                <p class="text-muted"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+                <!-- details talk : statistics -->
                 <h3>Statistics:</h3>
-                <p class="text-muted small"><i class="fas fa-eye"></i> {{object.total_view_count|intcomma}} views</p>
-                <p class="text-muted small"><i class="fas fa-thumbs-up"></i> {{object.total_like_count|intcomma}} likes</p>
-                <p class="text-muted small"><i class="fas fa-thumbs-down"></i> {{object.total_dislike_count|intcomma}} dislikes</p>
-                <p class="text-muted small"><i class="fas fa-heart"></i> {{object.total_favorite_count|intcomma}} favorites</p>
+                <p class="text-muted"><i class="fas fa-eye"></i> {{object.total_view_count|intcomma}} views</p>
+                <p class="text-muted"><i class="fas fa-thumbs-up"></i> {{object.total_like_count|intcomma}} likes</p>
+                <p class="text-muted"><i class="fas fa-thumbs-down"></i> {{object.total_dislike_count|intcomma}} dislikes</p>
+                <p class="text-muted"><i class="fas fa-heart"></i> {{object.total_favorite_count|intcomma}} favorites</p>
                 <h3>Description:</h3>
                 <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
+                <!-- details talk : metadata -->
                 <h3>Metadata:</h3>
                 <ul class="list-unstyled">
                     {% for tag in object.tags.all %}
