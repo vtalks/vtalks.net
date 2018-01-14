@@ -14,16 +14,7 @@ from ...youtube.video import fetch_video_data
 
 """
 TODO:
-
-#### Open questions
-
-* Support video favoriteCount
 * Support channel custom URLS
-* Support channel statistics (viewCount, subscriberCount)
-
-## Additional information
-
-https://developers.google.com/youtube/v3/docs/channels/list
 """
 
 
@@ -38,14 +29,14 @@ class Command(BaseCommand):
         talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
         self.stdout.write(
-            self.style.SUCCESS('Adding talk "%s"' % talk_data["id"]))
+            self.style.SUCCESS('Fetch talk with code "%s"' % talk_data["id"]))
 
         channel_code = talk_data["snippet"]["channelId"]
         channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY,
                                           channel_code)
 
         self.stdout.write(
-            self.style.SUCCESS('Adding channel "%s"' % channel_data["id"]))
+            self.style.SUCCESS('Fetch channel with code "%s"' % channel_data["id"]))
 
         # Add Channel
         channel_obj, created = Channel.objects.update_or_create(
@@ -59,9 +50,9 @@ class Command(BaseCommand):
             },
         )
         if created:
-            self.stdout.write('Added channel "%s"' % channel_obj.title)
+            self.stdout.write('\tAdded channel "%s"' % channel_obj.title)
         else:
-            self.stdout.write('Updated channel "%s"' % channel_obj.title)
+            self.stdout.write('\tUpdated channel "%s"' % channel_obj.title)
 
         # Add Video
         if "tags" not in talk_data["snippet"]:
@@ -77,28 +68,30 @@ class Command(BaseCommand):
                 'title': talk_data["snippet"]["title"],
                 'description': talk_data["snippet"]["description"],
                 'channel': channel_obj,
-                'view_count': talk_data["statistics"]["viewCount"],
-                'like_count': talk_data["statistics"]["likeCount"],
-                'dislike_count': talk_data["statistics"]["dislikeCount"],
+                'youtube_view_count': talk_data["statistics"]["viewCount"],
+                'youtube_like_count': talk_data["statistics"]["likeCount"],
+                'youtube_dislike_count': talk_data["statistics"]["dislikeCount"],
+                'youtube_favorite_count': talk_data["statistics"]["favoriteCount"],
                 'tags': ", ".join(talk_data["snippet"]["tags"]),
                 'created': talk_data["snippet"]["publishedAt"],
                 'updated': timezone.now(),
             },
         )
         if created:
-            self.stdout.write('Added talk "%s"' % talk_obj.title)
+            self.stdout.write('\tAdded talk "%s"' % talk_obj.title)
         else:
-            self.stdout.write('Updated talk "%s"' % talk_obj.title)
+            self.stdout.write('\tUpdated talk "%s"' % talk_obj.title)
 
         talk_obj = Talk.objects.get(code=talk_data["id"])
 
         # Add tags from cli arguments and talk_data
-        video_tags = [] # options['tags']
+        video_tags = []
         if "tags" in talk_data["snippet"]:
             video_tags += talk_data["snippet"]["tags"]
+        talk_obj.tags.clear()
         for tag in video_tags:
             talk_obj.tags.add(tag)
-            self.stdout.write('Tagged as "%s"' % tag)
+            self.stdout.write('\t\tTagged as "%s"' % tag)
 
         hours = 0
         minutes = 0
