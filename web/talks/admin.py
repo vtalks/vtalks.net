@@ -68,7 +68,8 @@ class TalkAdmin(admin.ModelAdmin):
         }),
         ('Statistics', {
             'classes': ('collapse',),
-            'fields': ('view_count', 'like_count', 'dislike_count'),
+            'fields': ('youtube_view_count', 'youtube_like_count',
+                       'youtube_dislike_count', 'youtube_favorite_count'),
         }),
         ('Rank', {
             'fields': ('wilsonscore_rank', 'hacker_hot'),
@@ -85,7 +86,9 @@ class TalkAdmin(admin.ModelAdmin):
     ordering = ['-updated', '-created']
     readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb', 'youtube_url',
-                       'view_count', 'like_count', 'dislike_count', 'duration')
+                       'youtube_view_count', 'youtube_like_count',
+                       'youtube_dislike_count', 'youtube_favorite_count',
+                       'duration')
     prepopulated_fields = {"slug": ("title",)}
 
 
