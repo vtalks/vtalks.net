@@ -11,6 +11,7 @@ from .views import DetailTagView
 
 from .api import ChannelResource
 from .api import PlaylistResource
+from .api import TalkResource
 
 app_name = 'talks'
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
 
     path('api/', include(ChannelResource().urls)),
     path('api/', include(PlaylistResource().urls)),
+    path('api/', include(TalkResource().urls)),
 ]
