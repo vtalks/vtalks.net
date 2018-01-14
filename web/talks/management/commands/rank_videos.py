@@ -1,5 +1,3 @@
-import sys
-
 from django.utils import timezone
 
 from django.core.management.base import BaseCommand
@@ -17,10 +15,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         talks = Talk.objects.all().order_by('updated')
         for talk in talks:
-            wilsonscore_rank = popularity.wilson_score(talk.youtube_like_count, talk.youtube_dislike_count)
+            wilsonscore_rank = popularity.wilson_score(talk.total_like_count, talk.total_dislike_count)
             talk.wilsonscore_rank = wilsonscore_rank
 
-            hacker_hot = popularity.hacker_hot(talk.youtube_view_count, talk.created)
+            hacker_hot = popularity.hacker_hot(talk.total_view_count, talk.created)
             talk.hacker_hot = hacker_hot
 
             talk.updated = timezone.now()

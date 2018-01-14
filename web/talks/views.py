@@ -1,8 +1,8 @@
-from django.views.generic import TemplateView
-
+from django.utils import timezone
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.paginator import Paginator
 
 from .models import Talk
+from .decay import popularity
 
 from taggit.models import Tag
 
@@ -42,6 +43,20 @@ class DetailTalkView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailTalkView, self).get_context_data(**kwargs)
+
+        # Views +1 (autoplay)
+        talk = self.get_object()
+        talk.view_count += 1
+
+        # Recalculate rank
+        wilsonscore_rank = popularity.wilson_score(talk.total_like_count, talk.total_dislike_count)
+        talk.wilsonscore_rank = wilsonscore_rank
+        hacker_hot = popularity.hacker_hot(talk.total_view_count, talk.created)
+        talk.hacker_hot = hacker_hot
+        talk.updated = timezone.now()
+
+        # Update talk to the database
+        talk.save()
 
         search_form = SearchForm()
         context['search_form'] = search_form
