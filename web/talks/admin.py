@@ -66,10 +66,14 @@ class TalkAdmin(admin.ModelAdmin):
             'fields': ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb'),
         }),
-        ('Statistics', {
+        ('Youtube Statistics', {
             'classes': ('collapse',),
             'fields': ('youtube_view_count', 'youtube_like_count',
                        'youtube_dislike_count', 'youtube_favorite_count'),
+        }),
+        ('Statistics', {
+            'classes': ('collapse',),
+            'fields': ('view_count', 'like_count', 'dislike_count', 'favorite_count'),
         }),
         ('Rank', {
             'fields': ('wilsonscore_rank', 'hacker_hot'),
