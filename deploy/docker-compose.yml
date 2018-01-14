@@ -32,5 +32,6 @@ services:
       - TWITTER_TOKEN
       - TWITTER_SECRET
       - YOUTUBE_API_KEY
+      - COVERALLS_REPO_TOKEN
     depends_on:
       - postgres
