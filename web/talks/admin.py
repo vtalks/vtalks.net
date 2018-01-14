@@ -58,25 +58,24 @@ class TalkAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
-        ('Youtube', {
+        ('Youtube Data', {
             'fields': ('youtube_url', 'channel', 'playlist', 'duration'),
+        }),
+        ('Youtube Statistics', {
+            'fields': ('youtube_view_count', 'youtube_like_count',
+                       'youtube_dislike_count', 'youtube_favorite_count'),
+        }),
+        ('Local Statistics', {
+            'fields': ('view_count', 'like_count', 'dislike_count',
+                       'favorite_count'),
+        }),
+        ('Rank', {
+            'fields': ('wilsonscore_rank', 'hacker_hot'),
         }),
         ('Thumbnails', {
             'classes': ('collapse',),
             'fields': ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb'),
-        }),
-        ('Youtube Statistics', {
-            'classes': ('collapse',),
-            'fields': ('youtube_view_count', 'youtube_like_count',
-                       'youtube_dislike_count', 'youtube_favorite_count'),
-        }),
-        ('Statistics', {
-            'classes': ('collapse',),
-            'fields': ('view_count', 'like_count', 'dislike_count', 'favorite_count'),
-        }),
-        ('Rank', {
-            'fields': ('wilsonscore_rank', 'hacker_hot'),
         }),
         ('Metadata', {
             'classes': ('collapse',),
