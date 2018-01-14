@@ -4,6 +4,20 @@ Changelog
 
 (unreleased)
 ------------
+- Merge branch 'release/0.0.35' into develop. [Raül Pérez]
+
+
+0.0.35 (2018-01-14)
+-------------------
+- Merge branch 'release/0.0.35' [Raül Pérez]
+- Bump 0.0.35. [Raül Pérez]
+- Enable autoplay on details talk view Increases local view count +1 on
+  details talk view Recalculates ranking on details talk view after
+  increasing the views. [Raül Pérez]
+- Split details talk template into partials. [Raül Pérez]
+- Youtube stats fields no longer readonly_fields on admin. [Raül Pérez]
+- Do not collapse talk sections on admin and better naming. [Raül Pérez]
+- Added CHANGELOG.md. [Raül Pérez]
 - Merge branch 'release/0.0.34' into develop. [Raül Pérez]
 
 
