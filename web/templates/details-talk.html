@@ -1,4 +1,5 @@
 {% extends "_layouts/default.html" %}
+{% load humanize %}
 {% load timedelta %}
 {% block title %}{{object.title}} - vtalks.net{% endblock %}
 {% block opengraph %}
@@ -44,17 +45,23 @@
                 <p class="text-muted small"><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
                 {% endif %}
                 <p class="text-muted small"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+                <h3>Statistics:</h3>
+                <p class="text-muted small"><i class="fas fa-eye"></i> {{object.total_view_count|intcomma}} views</p>
+                <p class="text-muted small"><i class="fas fa-thumbs-up"></i> {{object.total_like_count|intcomma}} likes</p>
+                <p class="text-muted small"><i class="fas fa-thumbs-down"></i> {{object.total_dislike_count|intcomma}} dislikes</p>
+                <p class="text-muted small"><i class="fas fa-heart"></i> {{object.total_favorite_count|intcomma}} favorites</p>
                 <h3>Description:</h3>
                 <p class="text-justify">{{object.description|linebreaks|urlize}}</p>
                 <h3>Metadata:</h3>
                 <ul class="list-unstyled">
                     {% for tag in object.tags.all %}
-                        <li class="d-inline">
-                        <a href="{% url 'talks:tag-details' tag.slug %}" class="badge badge-secondary badge-light text-muted p-3 mb-2"><i class="fas fa-tag"></i> {{tag.name}}</a>
-                        </li>
+                    <li class="d-inline">
+                    <a href="{% url 'talks:tag-details' tag.slug %}" class="badge badge-secondary badge-light text-muted p-3 mb-2"><i class="fas fa-tag"></i> {{tag.name}}</a>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
+            <!-- related talks -->
             <div class="related-talks col-md-4">
                 <h3>Related talks</h3>
                 {% if object.tags.similar_objects %}
