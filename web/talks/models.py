@@ -79,11 +79,17 @@ class Talk(models.Model):
     youtube_like_count = models.IntegerField('youtube like count', default=0)
     youtube_dislike_count = models.IntegerField('youtube dislike count', default=0)
     youtube_favorite_count = models.IntegerField('youtube favorite count', default=0)
+    view_count = models.IntegerField('view count', default=0)
+    like_count = models.IntegerField('like count', default=0)
+    dislike_count = models.IntegerField('dislike count', default=0)
+    favorite_count = models.IntegerField('favorite count', default=0)
     wilsonscore_rank = models.FloatField('wilson score rank', default=0)
     hacker_hot = models.FloatField('hackernews hot rank', default=0)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
-    
+
+    # Thumbnails
+
     @property
     def default_thumb(self):
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
@@ -104,9 +110,29 @@ class Talk(models.Model):
     def maxres_thumb(self):
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
+    # External URLs
+
     @property
     def youtube_url(self):
         return "https://www.youtube.com/watch?v={:s}".format(self.code)
+
+    # Total statistics
+
+    @property
+    def total_view_count(self):
+        return self.youtube_view_count + self.view_count
+
+    @property
+    def total_like_count(self):
+        return self.youtube_like_count + self.like_count
+
+    @property
+    def total_favorite_count(self):
+        return self.youtube_favorite_count + self.favorite_count
+
+    @property
+    def total_dislike_count(self):
+        return self.youtube_dislike_count + self.dislike_count
 
     def __str__(self):
         return self.title
