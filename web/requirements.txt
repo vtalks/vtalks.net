@@ -4,6 +4,6 @@ git+https://github.com/alex/django-taggit.git
 requests
 requests-mock
 oauth2
-coverage
+coverage==4.4.2
 psycopg2
-coveralls
+python-coveralls
