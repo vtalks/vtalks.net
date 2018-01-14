@@ -1,15 +1,16 @@
 from django.urls import path
 from django.urls import re_path
+from django.urls import include
 
 from .views import IndexView
-
 from .views import LatestTalksView
 from .views import BestTalksView
-
 from .views import SearchTalksView
-
 from .views import DetailTalkView
 from .views import DetailTagView
+
+from .api import ChannelResource
+from .api import PlaylistResource
 
 app_name = 'talks'
 urlpatterns = [
@@ -27,4 +28,7 @@ urlpatterns = [
 
     path('tag/<slug:slug>/', DetailTagView.as_view(), name='tag-details'),
     path('tag/<slug:slug>/page/<int:page>/', DetailTagView.as_view(), name='tag-details-paginated'),
+
+    path('api/', include(ChannelResource().urls)),
+    path('api/', include(PlaylistResource().urls)),
 ]
