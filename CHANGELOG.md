@@ -4,6 +4,9 @@ Changelog
 
 (unreleased)
 ------------
+- Added 0.4 and 0.5 milestones. [Raül Pérez]
+- Work on the ROADMAP 0.3.0 milestone. [Raül Pérez]
+- Initial ROADMAP. [Raül Pérez]
 - Added empty ROADMAP. [Raül Pérez]
 - Merge branch 'release/0.1.6' into develop. [Raül Pérez]
 

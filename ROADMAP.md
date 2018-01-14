@@ -4,12 +4,15 @@ ROADMAP
 0.5.0 (unreleased)
 ------------------
 - [ ] Add Speaker model.
-    - [ ] API CRUD support for model Conference/Event.
+    - [ ] API CRUD support for Speaker model.
+- [ ] Add Conference/Event model.
+    - [ ] API CRUD support for Conference/Event model.
 
 0.4.0 (unreleased)
 ------------------
-- [ ] Add Conference/Event model.
-    - [ ] API CRUD support for model Conference/Event.
+- [ ] Add/Deploy NATS as a broker.
+- [ ] Decouple rank calculation as a separate service.
+- [ ] Periodically update outdated videos.
 
 0.3.0 (unreleased)
 ------------------
@@ -17,10 +20,11 @@ ROADMAP
 - [ ] *add_playlist* command to use the API.
 - [ ] *rank_videos* command to use the API.
 - [ ] *update_videos* command to use the API.
-- [ ] Add/Deploy NATS as a broker.
 
 0.2.0 (unreleased)
 ------------------
+- [ ] Add support for coveralls.io
+    - [ ] Minimum of 50% coverage.
 - [ ] Content syndication with feeds.
 - [ ] Complete API with an key based authentication.
     - [ ] APIKey based authentication.
