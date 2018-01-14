@@ -12,17 +12,9 @@ from ...youtube.channel import fetch_channel_data
 from ...youtube.video import get_video_code
 from ...youtube.video import fetch_video_data
 
-"""
-TODO:
-* Support channel custom URLS
-"""
-
 
 class Command(BaseCommand):
-    help = 'Adds a video to the system.'
-
-    def add_arguments(self, parser):
-        pass
+    help = 'Update all videos on the database.'
 
     def update_video(self, youtube_url):
         video_code = get_video_code(youtube_url)
@@ -61,6 +53,8 @@ class Command(BaseCommand):
             talk_data["statistics"]["likeCount"] = 0
         if "dislikeCount" not in talk_data["statistics"]:
             talk_data["statistics"]["dislikeCount"] = 0
+        if "favoriteCount" not in talk_data["statistics"]:
+            talk_data["statistics"]["favoriteCount"] = 0
         talk_obj, created = Talk.objects.update_or_create(
             code=talk_data["id"],
             defaults={
