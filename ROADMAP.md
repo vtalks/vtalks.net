@@ -1,6 +1,16 @@
 ROADMAP
 =======
 
+0.5.0 (unreleased)
+------------------
+- [ ] Add Speaker model.
+    - [ ] API CRUD support for model Conference/Event.
+
+0.4.0 (unreleased)
+------------------
+- [ ] Add Conference/Event model.
+    - [ ] API CRUD support for model Conference/Event.
+
 0.3.0 (unreleased)
 ------------------
 - [ ] *add_video* command to use the API.
@@ -11,6 +21,7 @@ ROADMAP
 
 0.2.0 (unreleased)
 ------------------
+- [ ] Content syndication with feeds.
 - [ ] Complete API with an key based authentication.
     - [ ] APIKey based authentication.
     - [ ] CRUD support for model Channel.
