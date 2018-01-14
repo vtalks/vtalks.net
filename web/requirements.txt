@@ -1,5 +1,5 @@
 Django
-django-tastypie
+git+https://github.com/django-tastypie/django-tastypie.git
 git+https://github.com/alex/django-taggit.git
 requests
 requests-mock
