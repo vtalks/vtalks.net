@@ -89,6 +89,8 @@ class Command(BaseCommand):
                     talk_data["statistics"]["likeCount"] = 0
                 if "dislikeCount" not in talk_data["statistics"]:
                     talk_data["statistics"]["dislikeCount"] = 0
+                if "favoriteCount" not in talk_data["statistics"]:
+                    talk_data["statistics"]["favoriteCount"] = 0
                 talk_obj, created = Talk.objects.update_or_create(
                     code=talk_data["id"],
                     defaults={
@@ -100,6 +102,7 @@ class Command(BaseCommand):
                         'youtube_view_count': talk_data["statistics"]["viewCount"],
                         'youtube_like_count': talk_data["statistics"]["likeCount"],
                         'youtube_dislike_count': talk_data["statistics"]["dislikeCount"],
+                        'youtube_favorite_count': talk_data["statistics"]["favoriteCount"],
                         'created': talk_data["snippet"]["publishedAt"],
                         'updated': timezone.now(),
                     },
@@ -114,6 +117,7 @@ class Command(BaseCommand):
                 video_tags += options['tags']
                 if "tags" in talk_data["snippet"]:
                     video_tags += talk_data["snippet"]["tags"]
+                talk_obj.tags.clear()
                 for tag in video_tags:
                     talk_obj.tags.add(tag)
                     self.stdout.write('\t\t\tTagged as "%s"' % tag)
