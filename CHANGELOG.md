@@ -4,6 +4,67 @@ Changelog
 
 (unreleased)
 ------------
+- Added empty ROADMAP. [Raül Pérez]
+- Merge branch 'release/0.1.6' into develop. [Raül Pérez]
+
+
+0.1.6 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.6' [Raül Pérez]
+- Bump 0.1.6. [Raül Pérez]
+- Merge branch 'release/0.1.5' into develop. [Raül Pérez]
+
+
+0.1.5 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.5' [Raül Pérez]
+- Bump 0.1.5. [Raül Pérez]
+- Add APIKey based authorization for the API. [Raül Pérez]
+- Merge branch 'release/0.1.4' into develop. [Raül Pérez]
+
+
+0.1.4 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.4' [Raül Pérez]
+- Bump 0.1.4. [Raül Pérez]
+- Namespace support for the API. [Raül Pérez]
+- Merge branch 'release/0.1.3' into develop. [Raül Pérez]
+
+
+0.1.3 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.3' [Raül Pérez]
+- Bump 0.1.3. [Raül Pérez]
+- Added basic API support for talks. [Raül Pérez]
+- Merge branch 'release/0.1.2' into develop. [Raül Pérez]
+
+
+0.1.2 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.2' [Raül Pérez]
+- Bump 0.1.2. [Raül Pérez]
+- Merge pull request #22 from vtalks/feature/api. [Raül Pérez]
+
+  Feature/api
+- Add support for channels and playlists API. [Raül Pérez]
+- Get Channel resources API. [Raül Pérez]
+- Install django-tastypie. [Raül Pérez]
+- Merge branch 'release/0.1.1' into develop. [Raül Pérez]
+
+
+0.1.1 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.1' [Raül Pérez]
+- Bump 0.1.1. [Raül Pérez]
+- Merge branch 'release/0.1.0' into develop. [Raül Pérez]
+
+
+0.1.0 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.0' [Raül Pérez]
+- Bump 0.1.0. [Raül Pérez]
+- Updated management commands with latest changes. [Raül Pérez]
+- Generate changelog. [Raül Pérez]
 - Merge branch 'release/0.0.35' into develop. [Raül Pérez]
 
 
