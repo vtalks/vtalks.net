@@ -6,3 +6,4 @@ requests-mock
 oauth2
 coverage
 psycopg2
+coveralls
