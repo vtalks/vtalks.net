@@ -89,8 +89,6 @@ class TalkAdmin(admin.ModelAdmin):
     ordering = ['-updated', '-created']
     readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb', 'youtube_url',
-                       'youtube_view_count', 'youtube_like_count',
-                       'youtube_dislike_count', 'youtube_favorite_count',
                        'duration')
     prepopulated_fields = {"slug": ("title",)}
 
