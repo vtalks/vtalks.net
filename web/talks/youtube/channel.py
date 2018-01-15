@@ -1,6 +1,17 @@
 import requests
 
+from urllib.parse import urlsplit
+
 from django.core.management.base import CommandError
+
+
+def get_channel_code(url):
+    path = urlsplit(url).path
+    parts = path.split("/")
+    if "channel" not in parts:
+        raise CommandError('Invalid url "%s"' % url)
+    channel_code = parts[-1]
+    return channel_code
 
 
 def fetch_channel_data(youtube_api_key, channel_code):

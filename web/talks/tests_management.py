@@ -5,37 +5,13 @@ from django.utils.six import StringIO
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
-from .management.commands.add_video import get_video_code
-from .management.commands.add_playlist import get_playlist_code
+from .youtube.video import get_video_code
+from .youtube.playlist import get_playlist_code
 
 
 # Create your tests here.
 
-
-class AddVideoCommandUtilsTests(TestCase):
-
-    def test_get_video_code(self):
-        url = 'https://www.youtube.com/watch?v=code'
-        video_code = get_video_code(url)
-        self.assertEquals(video_code, 'code')
-
-    def test_get_video_code_fails(self):
-        url = 'invalid_url'
-        self.assertRaises(CommandError, get_video_code, url)
-
-
-class AddPlaylistCommandTests(TestCase):
-
-    def test_get_playlist_code(self):
-        url = 'https://www.youtube.com/playlist?list=code'
-        playlist_code = get_playlist_code(url)
-        self.assertEquals(playlist_code, 'code')
-
-    def test_get_playlist_code_fails(self):
-        url = 'invalid_url'
-        self.assertRaises(CommandError, get_playlist_code, url)
-
-
+"""
 class AddVideoCommandTests(TestCase):
 
     @patch("talks.management.commands.add_video.fetch_video_data")
@@ -211,3 +187,4 @@ class AddPlayListCommandTests(TestCase):
         output = out.getvalue()
         self.assertIn('Updated channel "updated channel title"', output)
         self.assertIn('Updated talk "updated video title"', output)
+"""
