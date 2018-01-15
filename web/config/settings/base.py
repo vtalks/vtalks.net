@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.humanize',
-    'tastypie',
     'taggit',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',
@@ -138,11 +137,3 @@ STATICFILES_DIRS = [
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
-
-# Tastypie Settings
-
-API_LIMIT_PER_PAGE = PAGE_SIZE
-TASTYPIE_FULL_DEBUG = True
-TASTYPIE_ALLOW_MISSING_SLASH = True
-TASTYPIE_DATETIME_FORMATTING = 'iso-8601'
-TASTYPIE_DEFAULT_FORMATS = ['json']
