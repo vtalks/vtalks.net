@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.humanize',
-    'tastypie',
     'taggit',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',
@@ -138,4 +137,3 @@ STATICFILES_DIRS = [
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
-
