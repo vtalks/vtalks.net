@@ -1,6 +1,10 @@
 ROADMAP
 =======
 
+0.6.0 (unreleased)
+------------------
+- [ ] Content syndication.
+
 0.5.0 (unreleased)
 ------------------
 - [ ] Add Speaker model.
@@ -23,11 +27,10 @@ ROADMAP
 
 0.2.0 (unreleased)
 ------------------
-- [x] Add support for coveralls.io
+- [x] Add support for coveralls.io.
     - [x] Minimum of 75% coverage.
-- [ ] Content syndication with feeds.
-- [ ] Complete API with an key based authentication.
-    - [ ] APIKey based authentication.
+- [ ] Read/Write public API.
+    - [x] APIKey based authentication.
     - [ ] CRUD support for model Channel.
     - [ ] CRUD support for model Playlist.
     - [ ] CRUD support for model Talk.
