@@ -32,4 +32,3 @@ class DumpYoutubeVideoCommandTests(TestCase):
         call_command('dump_youtube_video', 'https://www.youtube.com/watch?v=video_code', stdout=out)
         output = out.getvalue()
         self.assertIn('Fetch talk "fake_video_id"', output)
-
