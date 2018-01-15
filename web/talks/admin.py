@@ -12,7 +12,7 @@ class ChannelAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'slug', 'title', 'description')
         }),
-        ('Youtube', {
+        ('Youtube Data', {
             'fields': ('youtube_url',),
         }),
         ('Metadata', {
@@ -36,8 +36,8 @@ class PlaylistAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'title', 'description')
         }),
-        ('Youtube', {
-            'fields': (),
+        ('Youtube Data', {
+            'fields': ('youtube_url',),
         }),
         ('Metadata', {
             'classes': ('collapse',),
@@ -48,6 +48,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated', '-created']
+    readonly_fields = ('youtube_url',)
 
 
 admin.site.register(Playlist, PlaylistAdmin)
