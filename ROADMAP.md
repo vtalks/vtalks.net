@@ -29,11 +29,11 @@ ROADMAP
 ------------------
 - [x] Add support for coveralls.io.
     - [x] Minimum of 75% coverage.
+- [ ] Readonly API using Django REST Framework.
 - [ ] Read/Write public API.
-    - [x] APIKey based authentication.
-    - [ ] CRUD support for model Channel.
-    - [ ] CRUD support for model Playlist.
-    - [ ] CRUD support for model Talk.
+- [ ] CRUD support for model Channel.
+- [ ] CRUD support for model Playlist.
+- [ ] CRUD support for model Talk.
 
 0.1.0 (2018-01-14)
 ------------------
