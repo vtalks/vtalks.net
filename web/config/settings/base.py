@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.humanize',
+    'rest_framework',
     'taggit',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',
@@ -125,6 +126,7 @@ USE_TZ = True
 
 # Pagination
 # Default Page size
+
 PAGE_SIZE = 10
 
 # Static files (CSS, JavaScript, Images)
@@ -136,4 +138,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "web", "static"),
 ]
 
+# Django Taggit
+
 TAGGIT_CASE_INSENSITIVE = True
+
+# Django REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': PAGE_SIZE,
+}

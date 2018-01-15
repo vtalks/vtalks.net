@@ -9,6 +9,13 @@ from .views import SearchTalksView
 from .views import DetailTalkView
 from .views import DetailTagView
 
+from rest_framework import routers
+
+from .api import ChannelViewSet
+
+router = routers.DefaultRouter()
+router.register(r'channels', ChannelViewSet)
+
 app_name = 'talks'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -25,4 +32,6 @@ urlpatterns = [
 
     path('tag/<slug:slug>/', DetailTagView.as_view(), name='tag-details'),
     path('tag/<slug:slug>/page/<int:page>/', DetailTagView.as_view(), name='tag-details-paginated'),
+
+    path('api/', include(router.urls)),
 ]
