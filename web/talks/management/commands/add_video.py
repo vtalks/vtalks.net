@@ -12,20 +12,6 @@ from ...youtube.video import get_video_code
 from ...youtube.channel import fetch_channel_data
 from ...youtube.video import fetch_video_data
 
-"""
-TODO:
-
-#### Open questions
-
-* Support video favoriteCount
-* Support channel custom URLS
-* Support channel statistics (viewCount, subscriberCount)
-
-## Additional information
-
-https://developers.google.com/youtube/v3/docs/channels/list
-"""
-
 
 class Command(BaseCommand):
     help = 'Adds a video to the system.'

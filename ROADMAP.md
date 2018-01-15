@@ -24,7 +24,7 @@ ROADMAP
 0.2.0 (unreleased)
 ------------------
 - [x] Add support for coveralls.io
-    - [ ] Minimum of 75% coverage.
+    - [x] Minimum of 75% coverage.
 - [ ] Content syndication with feeds.
 - [ ] Complete API with an key based authentication.
     - [ ] APIKey based authentication.

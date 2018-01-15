@@ -6,12 +6,14 @@ omit =
     */.venv/*
     manage.py
 source =
+    config/
+    corporate/
     talks/
     user_profile/
 
 [report]
-skip_covered = True
-show_missing = True
+skip_covered = False
+show_missing = False
 
 [html]
 directory = .cover
