@@ -19,7 +19,10 @@ class Channel(models.Model):
 
     @property
     def youtube_url(self):
-        return "https://www.youtube.com/channel/{:s}".format(self.code)
+        url = ""
+        if self.code:
+            url = "https://www.youtube.com/channel/{:s}".format(self.code)
+        return url
 
     def __str__(self):
         return self.title
@@ -60,7 +63,10 @@ class Playlist(models.Model):
 
     @property
     def youtube_url(self):
-        return "https://www.youtube.com/playlist?list={:s}".format(self.code)
+        url = ""
+        if self.code:
+            url = "https://www.youtube.com/playlist?list={:s}".format(self.code)
+        return url
 
     def __str__(self):
         return self.title
@@ -120,7 +126,10 @@ class Talk(models.Model):
 
     @property
     def youtube_url(self):
-        return "https://www.youtube.com/watch?v={:s}".format(self.code)
+        url = ""
+        if self.code:
+            url = "https://www.youtube.com/watch?v={:s}".format(self.code)
+        return url
 
     # Total statistics
 
