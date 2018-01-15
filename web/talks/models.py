@@ -56,6 +56,12 @@ class Playlist(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
+    # External URLs
+
+    @property
+    def youtube_url(self):
+        return "https://www.youtube.com/playlist?list={:s}".format(self.code)
+
     def __str__(self):
         return self.title
 
