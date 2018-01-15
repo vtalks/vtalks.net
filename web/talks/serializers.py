@@ -7,4 +7,4 @@ class ChannelSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Channel
-        fields = ('code', 'title', 'description')
+        fields = ('code', 'title', 'slug', 'description', 'created', 'updated')
