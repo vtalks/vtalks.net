@@ -30,7 +30,7 @@ ROADMAP
 - [x] Add support for coveralls.io.
     - [x] Minimum of 75% coverage.
 - [ ] Readonly API.
-    - [ ] List support for model Channel.
+    - [x] List support for model Channel.
     - [ ] List support for model Playlist.
     - [ ] List support for model Talk.
     - [ ] Details view support for model Channel.
