@@ -4,6 +4,40 @@ Changelog
 
 (unreleased)
 ------------
+- Merge pull request #33 from vtalks/feature/coverage_75. [Raül Pérez]
+
+  Feature/coverage 75
+- Coverage > 75% [Raül Pérez]
+- More tests. [Raül Pérez]
+- More tests. [Raül Pérez]
+- More tests. [Raül Pérez]
+- More tests. [Raül Pérez]
+- Add initial timedelta tests. [Raül Pérez]
+- Merge branch 'release/0.1.8' into develop. [Raül Pérez]
+
+
+0.1.8 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.8' [Raül Pérez]
+- Bump 0.1.8. [Raül Pérez]
+- Merge pull request #32 from vtalks/feature/coveralls. [Raül Pérez]
+
+  Feature/coveralls
+- Add coveralls support. [Raül Pérez]
+- Add coveralls as a dependency. [Raül Pérez]
+- Working on coveralls.io. [Raül Pérez]
+- From 50% to 75% minimum coverage. [Raül Pérez]
+- Merge branch 'release/0.1.7' into develop. [Raül Pérez]
+
+
+0.1.7 (2018-01-14)
+------------------
+- Merge branch 'release/0.1.7' [Raül Pérez]
+- Bump 0.1.7. [Raül Pérez]
+- Update changelog. [Raül Pérez]
+- Merge pull request #31 from vtalks/feature/roadmap. [Raül Pérez]
+
+  Feature/roadmap
 - Added 0.4 and 0.5 milestones. [Raül Pérez]
 - Work on the ROADMAP 0.3.0 milestone. [Raül Pérez]
 - Initial ROADMAP. [Raül Pérez]

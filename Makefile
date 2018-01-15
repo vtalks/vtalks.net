@@ -11,6 +11,9 @@ cover:	## Execute tests and generate coverage reports
 	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings.test
 	$(DEPLOY) exec web coverage report
 	$(DEPLOY) exec web coverage html
+
+.PHONY: coveralls
+coveralls:  ## Send coverage report data to coveralls.io
 	$(DEPLOY) exec web coveralls --nogit
 
 .PHONY: help
