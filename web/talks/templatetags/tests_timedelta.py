@@ -17,6 +17,18 @@ class TimedeltaTests(TestCase):
         result = timedelta_nozeros(None)
         self.assertEquals(result, expected_result)
 
+    def test_timedelta_nozeros_second(self):
+        d = timedelta(seconds=8)
+        expected_results = '08'
+        result = timedelta_nozeros(d)
+        self.assertEquals(result, expected_results)
+
+    def test_timedelta_nozeros_seconds(self):
+        d = timedelta(seconds=48)
+        expected_results = '48'
+        result = timedelta_nozeros(d)
+        self.assertEquals(result, expected_results)
+
     def test_timedelta_nozeros_minute_seconds(self):
         d = timedelta(seconds=65)
         expected_results = '01:05'
