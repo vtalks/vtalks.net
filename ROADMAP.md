@@ -32,7 +32,7 @@ ROADMAP
 - [ ] Readonly API.
     - [x] List support for model Channel.
     - [x] List support for model Playlist.
-    - [ ] List support for model Talk.
+    - [x] List support for model Talk.
     - [ ] Details view support for model Channel.
     - [ ] Details view support for model Playlist.
     - [ ] Details view support for model Talk. 

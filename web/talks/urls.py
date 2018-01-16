@@ -13,10 +13,12 @@ from rest_framework import routers
 
 from .api import ChannelViewSet
 from .api import PlaylistViewSet
+from .api import TalkViewSet
 
 router = routers.DefaultRouter()
 router.register(r'channel', ChannelViewSet)
 router.register(r'playlist', PlaylistViewSet)
+router.register(r'talk', TalkViewSet)
 
 app_name = 'talks'
 urlpatterns = [
