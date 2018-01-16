@@ -14,6 +14,8 @@ class ChannelSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
     description = serializers.CharField(required=False, style={'base_template': 'textarea.html'})
     youtube_url = serializers.URLField(read_only=True)
+    created = serializers.DateTimeField(default=timezone.now)
+    updated = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
         model = Channel
@@ -28,6 +30,8 @@ class PlaylistSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
     description = serializers.CharField(required=False, style={'base_template': 'textarea.html'})
     youtube_url = serializers.URLField(read_only=True)
+    created = serializers.DateTimeField(default=timezone.now)
+    updated = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
         model = Playlist
