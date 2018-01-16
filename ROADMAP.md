@@ -31,7 +31,7 @@ ROADMAP
     - [x] Minimum of 75% coverage.
 - [ ] Readonly API.
     - [x] List support for model Channel.
-    - [ ] List support for model Playlist.
+    - [x] List support for model Playlist.
     - [ ] List support for model Talk.
     - [ ] Details view support for model Channel.
     - [ ] Details view support for model Playlist.
