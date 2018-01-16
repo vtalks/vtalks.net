@@ -49,7 +49,7 @@ class Channel(models.Model):
         verbose_name = "Channel"
         verbose_name_plural = "Channels"
         get_latest_by = "-created"
-        ordering = ['-created', '-updated']
+        ordering = ['-created']
 
 
 class Playlist(models.Model):
@@ -94,7 +94,7 @@ class Playlist(models.Model):
         verbose_name = "Playlist"
         verbose_name_plural = "Playlists"
         get_latest_by = "-created"
-        ordering = ['-created', '-updated']
+        ordering = ['-created']
 
 
 class Talk(models.Model):
@@ -193,4 +193,4 @@ class Talk(models.Model):
         verbose_name = "Talk"
         verbose_name_plural = "Talks"
         get_latest_by = "-created"
-        ordering = ['-created', '-updated']
+        ordering = ['-created']
