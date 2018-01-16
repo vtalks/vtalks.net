@@ -1,20 +1,20 @@
-PYTHON=python3
-DOCKER-COMPOSE=docker-compose
-DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
+# PYTHON=python3
+# DOCKER-COMPOSE=docker-compose
+# DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
 
-.PHONY: test
-test:	## Execute tests
-	$(DEPLOY) exec web $(PYTHON) manage.py test --settings=config.settings.test
+# .PHONY: test
+# test:	## Execute tests
+# 	$(DEPLOY) exec web $(PYTHON) manage.py test --settings=config.settings.test
 
-.PHONY: cover
-cover:	## Execute tests and generate coverage reports
-	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings.test
-	$(DEPLOY) exec web coverage report
-	$(DEPLOY) exec web coverage html
+# .PHONY: cover
+# cover:	## Execute tests and generate coverage reports
+# 	$(DEPLOY) exec web coverage run manage.py test --settings=config.settings.test
+# 	$(DEPLOY) exec web coverage report
+# 	$(DEPLOY) exec web coverage html
 
-.PHONY: coveralls
-coveralls:  ## Send coverage report data to coveralls.io
-	$(DEPLOY) exec web coveralls --nogit
+# .PHONY: coveralls
+# coveralls:  ## Send coverage report data to coveralls.io
+# 	$(DEPLOY) exec web coveralls --nogit
 
 .PHONY: help
 help:	## Show this help
