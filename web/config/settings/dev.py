@@ -18,13 +18,6 @@ DATABASES = {
     }
 }
 
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
-
 # Twitter configuration
 
 TWITTER_AUTHENTICATE_URL = 'https://api.twitter.com/oauth/authenticate'
