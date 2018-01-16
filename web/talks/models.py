@@ -48,7 +48,7 @@ class Channel(models.Model):
     class Meta:
         verbose_name = "Channel"
         verbose_name_plural = "Channels"
-        get_latest_by = "-created"
+        get_latest_by = ["-created"]
         ordering = ['-created']
 
 
@@ -93,7 +93,7 @@ class Playlist(models.Model):
     class Meta:
         verbose_name = "Playlist"
         verbose_name_plural = "Playlists"
-        get_latest_by = "-created"
+        get_latest_by = ["-created"]
         ordering = ['-created']
 
 
