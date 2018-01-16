@@ -12,9 +12,11 @@ from .views import DetailTagView
 from rest_framework import routers
 
 from .api import ChannelViewSet
+from .api import PlaylistViewSet
 
 router = routers.DefaultRouter()
-router.register(r'channels', ChannelViewSet)
+router.register(r'channel', ChannelViewSet)
+router.register(r'playlist', PlaylistViewSet)
 
 app_name = 'talks'
 urlpatterns = [
