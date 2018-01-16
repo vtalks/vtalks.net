@@ -15,14 +15,6 @@ from ...youtube.playlist import fetch_playlist_data
 from ...youtube.playlist import fetch_playlist_items
 from ...youtube.video import fetch_video_data
 
-"""
-TODO:
-
-#### Open questions
-
-* Support pagination when getting videos from a playlist
-"""
-
 
 class Command(BaseCommand):
     help = 'Adds all videos from a playlist to the system.'
