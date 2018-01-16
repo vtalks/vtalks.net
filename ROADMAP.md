@@ -33,14 +33,14 @@ ROADMAP
     - [x] List support for model Channel.
     - [x] List support for model Playlist.
     - [x] List support for model Talk.
-    - [ ] Details view support for model Channel.
-    - [ ] Details view support for model Playlist.
-    - [ ] Details view support for model Talk. 
+    - [x] Details view support for model Channel.
+    - [x] Details view support for model Playlist.
+    - [x] Details view support for model Talk. 
 - [ ] Read/Write API.
-    - [ ] Create support for model Channel.
+    - [x] Create support for model Channel.
     - [ ] Create support for model Playlist.
     - [ ] Create support for model Talk.
-    - [ ] Update support for model Channel.
+    - [x] Update support for model Channel.
     - [ ] Update support for model Playlist.
     - [ ] Update support for model Talk.
 
