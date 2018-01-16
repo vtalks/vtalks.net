@@ -23,7 +23,7 @@ class ChannelAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-updated', '-created']
+    ordering = ['-created']
     readonly_fields = ('youtube_url',)
     prepopulated_fields = {"slug": ("title",)}
 
@@ -47,7 +47,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-updated', '-created']
+    ordering = ['-created']
     readonly_fields = ('youtube_url',)
     prepopulated_fields = {"slug": ("title",)}
 
@@ -88,7 +88,7 @@ class TalkAdmin(admin.ModelAdmin):
     list_display = ('title', 'channel')
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-updated', '-created']
+    ordering = ['-created']
     readonly_fields = ('default_thumb', 'medium_thumb', 'high_thumb',
                        'standard_thumb', 'maxres_thumb', 'youtube_url',
                        'duration')
