@@ -145,8 +145,11 @@ TAGGIT_CASE_INSENSITIVE = True
 # Django REST Framework
 
 REST_FRAMEWORK = {
+    # Pagination
     'PAGE_SIZE': PAGE_SIZE,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+
+    # Available Renderers
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
