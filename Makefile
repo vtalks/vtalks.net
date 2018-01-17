@@ -1,3 +1,10 @@
+VERSION=`cat ../VERSION`
+
+.PHONY: help
+help:	## Show this help
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
+
 # PYTHON=python3
 # DOCKER-COMPOSE=docker-compose
 # DEPLOY=$(DOCKER-COMPOSE) -f deploy/docker-compose.yml
@@ -16,9 +23,15 @@
 # coveralls:  ## Send coverage report data to coveralls.io
 # 	$(DEPLOY) exec web coveralls --nogit
 
-.PHONY: help
-help:	## Show this help
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
+
+
+
+
+
+
+
+
 
 # Deploy development environment:
 # -------------------------------
@@ -47,15 +60,6 @@ help:	## Show this help
 # Add a playlist:
 # $ manage add_playlist https://www.youtube.com/playlist?list=PL2ntRZ1ySWBdD9bru6IR-_WXUgJqvrtx9
 
-# How to backup/restore database:
-# -------------------------------
-#
-# Backup database:
-# $ compose exec postgres pg_dump -U postgres postgres > .backup/vtalks.sql
-#
-# Restore database:
-# (use the correct environment!)
-# $ cat .backup/vtalks.sql | docker exec -i aec1c9299c98 psql -U postgres
 
 
 
@@ -64,9 +68,6 @@ help:	## Show this help
 
 
 
-
-
-# VERSION=`cat ../VERSION`
 
 # .PHONY: build
 # build: 	## Builds container images and tag them with the current version
@@ -77,8 +78,3 @@ help:	## Show this help
 # push:	build	## Pushes the built containers to the register
 # 	docker push vtalks/web:$(VERSION)
 # 	docker push vtalks/web:latest
-
-
-# .PHONY: help
-# help:	## Show this help
-# 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
