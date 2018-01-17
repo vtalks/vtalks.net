@@ -1,4 +1,18 @@
-VERSION=`cat ../VERSION`
+VERSION=`cat VERSION`
+
+default: help
+
+# Docker container images
+
+.PHONY: docker-build
+docker-build:	## Builds container and tag resulting image
+	docker build --force-rm --tag vtalks/web .
+	docker tag vtalks/web vtalks/web:$(VERSION)
+
+.PHONY: docker-publish
+docker-publish:	## Publishes container images
+	docker push vtalks/web:$(VERSION)
+	docker push vtalks/web:latest
 
 .PHONY: help
 help:	## Show this help
@@ -59,22 +73,3 @@ help:	## Show this help
 #
 # Add a playlist:
 # $ manage add_playlist https://www.youtube.com/playlist?list=PL2ntRZ1ySWBdD9bru6IR-_WXUgJqvrtx9
-
-
-
-
-
-
-
-
-
-
-# .PHONY: build
-# build: 	## Builds container images and tag them with the current version
-# 	docker build --force-rm -t vtalks/web .
-# 	docker tag vtalks/web vtalks/web:$(VERSION)
-
-# .PHONY: push
-# push:	build	## Pushes the built containers to the register
-# 	docker push vtalks/web:$(VERSION)
-# 	docker push vtalks/web:latest
