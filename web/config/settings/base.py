@@ -135,7 +135,7 @@ PAGE_SIZE = 10
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "web", "static"),
+    os.path.join(BASE_DIR, "static"),
 ]
 
 # Django Taggit
