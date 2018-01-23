@@ -19,16 +19,6 @@ jobs:
             . .venv/bin/activate
             cd web
             python manage.py test --settings=settings.test
-      - run:
-          command: |
-            . .venv/bin/activate
-            cd web
-            coverage run manage.py test --settings=settings.test
-      - run:
-          command: |
-            . .venv/bin/activate
-            cd web
-            coveralls
 
 workflows:
   version: 2
