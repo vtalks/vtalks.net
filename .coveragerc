@@ -3,14 +3,10 @@
 branch = True
 omit =
     */migrations/*.py
-    */.venv/*
-    config/wsgi.py
     manage.py
+    wsgi.py
 source =
-    config/
-    corporate/
-    talks/
-    user_profile/
+    web/
 
 [report]
 skip_covered = False
