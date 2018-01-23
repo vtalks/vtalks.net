@@ -8,7 +8,6 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
     def send_email(self):
-        """Sends email using the self.cleaned_data dictionary"""
         print(self.cleaned_data)
         # TODO:
         # - Send email to hello@vtalks.net

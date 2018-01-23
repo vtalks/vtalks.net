@@ -67,17 +67,21 @@ class TalkModelTests(TestCase):
         self.assertEquals(talk_1.slug, 'talk-title-1')
 
     def test_create_duplicate_title_slug(self):
-        """It is possible than two different talks have the same title, in
-        this case the slug will have the talk code as a suffix on the second
-        talk.
+        """Test duplicate talk title
+
+        It is possible than two different talks have the same title, in this
+        case the slug will have the talk code as a suffix on the second talk.
         """
         talk_12 = Talk.objects.get(code='12')
         self.assertEquals(talk_12.slug, 'talk-title-same-title-12')
 
     def test_save_talk_slug(self):
-        """If the title on already created talk is changed, the slug of the
-        talk is not modified when it is saved."""
-        talk_1 = Talk.objects.get(id=1)
+        """Test save talk slug
+
+        If the title on already created talk is changed, the slug of the talk
+        is not modified when it is saved.
+        """
+        talk_1 = Talk.objects.get(code=1)
         talk_1.title = "another title"
         talk_1.save()
         self.assertEquals(talk_1.slug, 'talk-title-1')

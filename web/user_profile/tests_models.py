@@ -13,6 +13,5 @@ class UserProfileModelTests(TestCase):
         User.objects.create_user('user_1', password='userpass')
 
     def test_instance_get_string_repr(self):
-        """UserProfile object string representation returns its user username"""
         user_profile_1 = UserProfile.objects.get(user__username='user_1')
         self.assertEquals(str(user_profile_1), 'user_1')

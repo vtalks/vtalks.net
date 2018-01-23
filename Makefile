@@ -1,6 +1,35 @@
 VERSION=`cat VERSION`
+PYTHON=python3
+DOCKER=docker
+DOCKER-COMPOSE=docker-compose
+
 
 default: help
+
+# Testing
+
+.PHONY: test
+test:	## Execute tests suite
+	$(DOCKER-COMPOSE) \
+		-f ../deploy/docker-compose.yml \
+		-f ../deploy/docker-compose-dev.yml \
+		exec web $(PYTHON) manage.py test \
+		--settings=settings.test
+
+.PHONY: cover
+cover:	## Generate coverage report
+	$(DOCKER-COMPOSE) \
+		-f ../deploy/docker-compose.yml \
+		-f ../deploy/docker-compose-dev.yml \
+		exec web coverage run manage.py test \
+		--settings=settings.test
+
+.PHONY: coveralls
+coveralls:	cover ## Send coverage report to coveralls.io
+	$(DOCKER-COMPOSE) \
+		-f ../deploy/docker-compose.yml \
+		-f ../deploy/docker-compose-dev.yml \
+		exec web coveralls
 
 # Docker container images
 
