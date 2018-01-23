@@ -5,6 +5,8 @@ jobs:
   web_test:
     docker:
       - image: circleci/python:latest
+    environment:
+      - COVERALLS_REPO_TOKEN: "6PupzE1VDfuYClfpHwO12K0B4dyprHmWp"
     steps:
       - checkout
       - run:
