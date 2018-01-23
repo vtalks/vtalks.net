@@ -5,6 +5,8 @@ jobs:
   web_test:
     docker:
       - image: circleci/python:latest
+    environment:
+      - COVERALLS_REPO_TOKEN: "6PupzE1VDfuYClfpHwO12K0B4dyprHmWp"
     steps:
       - checkout
       - run:
@@ -16,7 +18,17 @@ jobs:
           command: |
             . .venv/bin/activate
             cd web
-            python manage.py test --settings=config.settings.test
+            python manage.py test --settings=settings.test
+      - run:
+          command: |
+            . .venv/bin/activate
+            cd web
+            coverage run manage.py test --settings=settings.test
+      - run:
+          command: |
+            . .venv/bin/activate
+            cd web
+            coveralls
 
 workflows:
   version: 2
