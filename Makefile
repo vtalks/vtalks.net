@@ -25,7 +25,7 @@ cover:	## Generate coverage report
 		--settings=settings.test
 
 .PHONY: coveralls
-coveralls:	## Send coverage report to coveralls.io
+coveralls:	cover ## Send coverage report to coveralls.io
 	$(DOCKER-COMPOSE) \
 		-f ../deploy/docker-compose.yml \
 		-f ../deploy/docker-compose-dev.yml \
