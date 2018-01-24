@@ -111,3 +111,7 @@ environment.prod.sh
 web/static/admin
 
 /.backup
+
+static/admin
+static/rest_framework
+
