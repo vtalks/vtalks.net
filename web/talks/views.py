@@ -3,6 +3,7 @@ from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
 from django.views.generic import TemplateView
+from django.views.generic import RedirectView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
@@ -10,6 +11,7 @@ from django.conf import settings
 from django.core.paginator import Paginator
 
 from .models import Talk
+from .models import TalkLike
 from .decay import popularity
 
 from taggit.models import Tag
@@ -155,3 +157,19 @@ class DetailTagView(DetailView):
         context['object_list'] = paginator.get_page(page)
 
         return context
+
+
+class LikeTalkView(RedirectView):
+    permanent = False
+    pattern_name = 'talks:talk-details'
+
+    def get_redirect_url(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        talk = Talk.objects.get(slug=slug)
+
+        if self.request.user.is_authenticated:
+            liked = TalkLike.objects.get(user=self.request.user, talk=talk)
+            if not liked:
+                TalkLike.objects.create(user=self.request.user, talk=talk)
+
+        return super().get_redirect_url(*args, **kwargs)
