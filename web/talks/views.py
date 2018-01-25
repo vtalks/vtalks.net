@@ -171,5 +171,7 @@ class LikeTalkView(RedirectView):
             liked = TalkLike.objects.get(user=self.request.user, talk=talk)
             if not liked:
                 TalkLike.objects.create(user=self.request.user, talk=talk)
+                talk.like_count += 1
+                talk.save()
 
         return super().get_redirect_url(*args, **kwargs)
