@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import Channel
 from .models import Playlist
 from .models import Talk
+from .models import TalkLike
 
 # Register your models here.
 
@@ -84,7 +85,7 @@ class TalkAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
-    date_hierarchy = 'created'
+
     list_display = ('title', 'channel')
     list_filter = ['created', 'updated']
     search_fields = ['title']
@@ -96,3 +97,13 @@ class TalkAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Talk, TalkAdmin)
+
+
+class TalkLikeAdmin(admin.ModelAdmin):
+    list_display = ('created', 'user', 'talk')
+    list_filter = ['created',]
+    date_hierarchy = 'created'
+    ordering = ['-created']
+
+
+admin.site.register(TalkLike, TalkLikeAdmin)

@@ -41,6 +41,10 @@
                 {% include "_partials/details_talk_description.html" %}
                 <!-- details talk : metadata -->
                 {% include "_partials/details_talk_metadata.html" %}
+                <!-- datails talk : actions -->
+                {% if user.is_authenticated %}
+                {% include "_partials/details_talk_actions.html" %}
+                {%  endif %}
             </div>
             <!-- related talks -->
             <div class="related-talks col-md-4">

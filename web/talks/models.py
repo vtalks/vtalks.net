@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from django.conf import settings
+
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -192,5 +194,17 @@ class Talk(models.Model):
     class Meta:
         verbose_name = "Talk"
         verbose_name_plural = "Talks"
+        get_latest_by = "-created"
+        ordering = ['-created']
+
+
+class TalkLike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', default=1, on_delete=models.CASCADE)
+    created = models.DateTimeField('date created', default=timezone.now)
+
+    class Meta:
+        verbose_name = "Talk Like"
+        verbose_name_plural = "Talks Likes"
         get_latest_by = "-created"
         ordering = ['-created']

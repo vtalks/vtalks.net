@@ -7,6 +7,7 @@ from .views import LatestTalksView
 from .views import BestTalksView
 from .views import SearchTalksView
 from .views import DetailTalkView
+from .views import LikeTalkView
 from .views import DetailTagView
 
 from rest_framework import routers
@@ -33,6 +34,7 @@ urlpatterns = [
     path('search', SearchTalksView.as_view(), name='search'),
 
     path('talk/<slug:slug>/', DetailTalkView.as_view(), name='talk-details'),
+    path('talk/<slug:slug>/like', LikeTalkView.as_view(), name='talk-like'),
 
     path('tag/<slug:slug>/', DetailTagView.as_view(), name='tag-details'),
     path('tag/<slug:slug>/page/<int:page>/', DetailTagView.as_view(), name='tag-details-paginated'),
