@@ -3,6 +3,7 @@ from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
 from django.views.generic import TemplateView
+from django.views.generic import RedirectView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
@@ -155,3 +156,16 @@ class DetailTagView(DetailView):
         context['object_list'] = paginator.get_page(page)
 
         return context
+
+
+class LikeTalkView(RedirectView):
+    permanent = False
+    pattern_name = 'talks:talk-details'
+
+    def get_redirect_url(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        talk = Talk.objects.get(slug=slug)
+
+        print(self.request.user.username, talk.title)
+
+        return super().get_redirect_url(*args, **kwargs)
