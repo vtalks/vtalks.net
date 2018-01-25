@@ -100,8 +100,10 @@ admin.site.register(Talk, TalkAdmin)
 
 
 class TalkLikeAdmin(admin.ModelAdmin):
+    list_display = ('created', 'user', 'talk')
     list_filter = ['created',]
     date_hierarchy = 'created'
     ordering = ['-created']
+
 
 admin.site.register(TalkLike, TalkLikeAdmin)
