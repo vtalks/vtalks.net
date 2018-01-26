@@ -168,9 +168,11 @@ class LikeTalkView(RedirectView):
         talk = Talk.objects.get(slug=slug)
 
         if self.request.user.is_authenticated:
-            liked = TalkLike.objects.get(user=self.request.user, talk=talk)
+            liked = TalkLike.objects.filter(user=self.request.user, talk=talk)
             if not liked:
+                # create talk like
                 TalkLike.objects.create(user=self.request.user, talk=talk)
+                # update like count
                 talk.like_count += 1
                 talk.save()
 
