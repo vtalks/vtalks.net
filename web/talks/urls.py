@@ -15,6 +15,7 @@ from rest_framework import routers
 from .api import ChannelViewSet
 from .api import PlaylistViewSet
 from .api import TalkViewSet
+from .api import RandomTalkView
 
 router = routers.DefaultRouter()
 router.register(r'channel', ChannelViewSet)
@@ -40,4 +41,5 @@ urlpatterns = [
     path('tag/<slug:slug>/page/<int:page>/', DetailTagView.as_view(), name='tag-details-paginated'),
 
     path('api/', include(router.urls)),
+    path('api/random-talk/', RandomTalkView.as_view(), name='random-talk')
 ]
