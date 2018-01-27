@@ -199,6 +199,7 @@ class Talk(models.Model):
         # calculate raking
         wilsonscore_rank = popularity.wilson_score(self.total_like_count, self.total_dislike_count)
         self.wilsonscore_rank = wilsonscore_rank
+
         hacker_hot = popularity.hacker_hot(self.total_view_count, self.created)
         self.hacker_hot = hacker_hot
 
@@ -219,5 +220,17 @@ class TalkLike(models.Model):
     class Meta:
         verbose_name = "Talk Like"
         verbose_name_plural = "Talks Likes"
+        get_latest_by = "-created"
+        ordering = ['-created']
+
+
+class TalkFavorite(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', default=1, on_delete=models.CASCADE)
+    created = models.DateTimeField('date created', default=timezone.now)
+
+    class Meta:
+        verbose_name = "Talk Favorite"
+        verbose_name_plural = "Talks Favorites"
         get_latest_by = "-created"
         ordering = ['-created']
