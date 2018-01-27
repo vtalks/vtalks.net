@@ -8,6 +8,8 @@ from django.utils.text import slugify
 
 from taggit.managers import TaggableManager
 
+from .decay import popularity
+
 # Create your models here.
 
 
@@ -181,7 +183,11 @@ class Talk(models.Model):
         In case two different talks but with the same title we append the code
         as suffix to the slug to prevent unique slugs for each element on the
         database.
+
+        Also calculates the new ranking for the talk.
         """
+
+        # check for repeated slugs
         if not self.id:
             # generate slug from title
             self.slug = slugify(self.title)
@@ -189,6 +195,13 @@ class Talk(models.Model):
             # case we append the code to it.
             if Talk.objects.filter(slug=self.slug).count() > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
+
+        # calculate raking
+        wilsonscore_rank = popularity.wilson_score(self.total_like_count, self.total_dislike_count)
+        self.wilsonscore_rank = wilsonscore_rank
+        hacker_hot = popularity.hacker_hot(self.total_view_count, self.created)
+        self.hacker_hot = hacker_hot
+
         super(Talk, self).save(*args, **kwargs)
 
     class Meta:
