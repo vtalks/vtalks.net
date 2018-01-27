@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 
 from .models import Talk
 from .models import TalkLike
+from .models import TalkFavorite
 from .decay import popularity
 
 from taggit.models import Tag
@@ -174,6 +175,26 @@ class LikeTalkView(RedirectView):
                 TalkLike.objects.create(user=self.request.user, talk=talk)
                 # update like count
                 talk.like_count += 1
+                talk.save()
+
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class FavoriteTalkView(RedirectView):
+    permanent = False
+    pattern_name = 'talks:talk-details'
+
+    def get_redirect_url(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        talk = Talk.objects.get(slug=slug)
+
+        if self.request.user.is_authenticated:
+            favorited = TalkFavorite.objects.filter(user=self.request.user, talk=talk)
+            if not favorited:
+                # create talk like
+                TalkFavorite.objects.create(user=self.request.user, talk=talk)
+                # update like count
+                talk.favorite_count += 1
                 talk.save()
 
         return super().get_redirect_url(*args, **kwargs)
