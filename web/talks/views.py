@@ -51,13 +51,6 @@ class DetailTalkView(DetailView):
         talk = self.get_object()
         talk.view_count += 1
 
-        # Recalculate rank
-        wilsonscore_rank = popularity.wilson_score(talk.total_like_count, talk.total_dislike_count)
-        talk.wilsonscore_rank = wilsonscore_rank
-        hacker_hot = popularity.hacker_hot(talk.total_view_count, talk.created)
-        talk.hacker_hot = hacker_hot
-        talk.updated = timezone.now()
-
         # Update talk to the database
         talk.save()
 

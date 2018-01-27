@@ -50,12 +50,18 @@
             <div class="related-talks col-md-4">
                 <h3>Related talks</h3>
                 {% if object.tags.similar_objects %}
-                    {% include "_partials/list_related_talks.html" with object_list=object.tags.similar_objects|slice:":20" %}
+                    {% include "_partials/list_related_talks.html" with object_list=object.tags.similar_objects|slice:":15" %}
                 {% else %}
                     <p>No results.</p>
                 {% endif %}
             </div>
         </div>
     </div>
+    <!-- hot talks -->
+    <section name="container-fluid hot-talks">
+        <div class="container">
+            <h2>Hot talks</h2>
+        </div>
+    </section>
 </main>
 {% endblock %}
