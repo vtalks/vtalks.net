@@ -36,7 +36,10 @@ def hacker_hot(votes, published, gravity=1.8):
     """
     gravity = 1.4
 
-    d = timezone.now() - published
+    try:
+        d = timezone.now() - published
+    except TypeError:
+        return 0
     hour_age = d.total_seconds()//3600
     res = (votes - 1) / math.pow(hour_age + 2, gravity)
     return res
