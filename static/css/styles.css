@@ -18,3 +18,8 @@ section.search-form {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
+
+/* hot talks */
+section.hot-talks {
+    background-color: #ecf0f1;
+}
