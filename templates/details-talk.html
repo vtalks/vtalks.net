@@ -1,4 +1,6 @@
 {% extends "_layouts/default.html" %}
+{% load humanize %}
+{% load timedelta %}
 {% block title %}{{object.title}} - vtalks.net{% endblock %}
 {% block opengraph %}
 <!-- Open Graph http://ogp.me/ -->
@@ -58,9 +60,28 @@
         </div>
     </div>
     <!-- hot talks -->
-    <section name="container-fluid hot-talks">
+    <section class="container-fluid hot-talks">
         <div class="container">
-            <h2>Hot talks</h2>
+            <h3>Hot talks</h3>
+            {% if hot_talks %}
+            <div class="card-deck">
+                {% for object in hot_talks %}
+                <div class="card">
+                    <img class="card-img-top" src="{{ object.high_thumb }}" alt="{{ object.title }}">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ object.title }}</h6>
+                        <p class="card-text">
+                        <small class="text-muted">
+                        <i class="fas fa-clock"></i> {{object.duration|timedelta_nozeros}}
+                        <br/>
+                        <i class="far fa-calendar-alt"></i> {{object.created|naturaltime}}
+                        </small>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {%  endif %}
         </div>
     </section>
 </main>

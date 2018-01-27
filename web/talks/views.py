@@ -57,6 +57,9 @@ class DetailTalkView(DetailView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
+        hot_talks = Talk.objects.all().order_by('-hacker_hot', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:4]
+        context['hot_talks'] = hot_talks
+
         return context
 
 
