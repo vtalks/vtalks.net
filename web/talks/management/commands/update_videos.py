@@ -82,7 +82,7 @@ class Command(BaseCommand):
         video_tags = []
         if "tags" in talk_data["snippet"]:
             video_tags += talk_data["snippet"]["tags"]
-        talk_obj.tags.clear()
+        # talk_obj.tags.clear()
         for tag in video_tags:
             talk_obj.tags.add(tag)
             self.stdout.write('\t\tTagged as "%s"' % tag)
