@@ -11,6 +11,7 @@ from .views import LikeTalkView
 from .views import DislikeTalkView
 from .views import FavoriteTalkView
 from .views import DetailTagView
+from .views import RSSLatestView
 
 from rest_framework import routers
 
@@ -27,6 +28,7 @@ router.register(r'talk', TalkViewSet)
 app_name = 'talks'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
+    path('rss/latest', RSSLatestView(), name='latest-feed'),
 
     path('latest', LatestTalksView.as_view(), name='latest-talks'),
     re_path(r'^latest/page/(?P<page>\d+)/$', LatestTalksView.as_view(), name='latest-talks-paginated'),

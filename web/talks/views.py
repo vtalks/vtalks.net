@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
@@ -6,6 +5,9 @@ from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.syndication.views import Feed
+from django.utils.feedgenerator import Atom1Feed
+from django.urls import reverse
 
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -214,3 +216,30 @@ class FavoriteTalkView(RedirectView):
                 talk.save()
 
         return super().get_redirect_url(*args, **kwargs)
+
+
+class RSSLatestView(Feed):
+    feed_type = Atom1Feed
+    title = "Latest talks"
+    link = "/latest/"
+    description = "Latest published talks on vtalks.net."
+    description_template = "feeds/latest.html"
+
+    def items(self):
+        return Talk.objects.order_by('-created')[:10]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.description
+
+    def item_updateddate(self, item):
+        return item.updated
+
+    def item_pubdate(self, item):
+        return item.created
+
+    # item_link is only needed if NewsItem has no get_absolute_url method.
+    def item_link(self, item):
+        return reverse('talks:talk-details', kwargs={'slug': item.slug})
