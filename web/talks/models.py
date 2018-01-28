@@ -224,6 +224,18 @@ class TalkLike(models.Model):
         ordering = ['-created']
 
 
+class TalkDislike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', default=1, on_delete=models.CASCADE)
+    created = models.DateTimeField('date created', default=timezone.now)
+
+    class Meta:
+        verbose_name = "Talk Dislike"
+        verbose_name_plural = "Talks Dislikes"
+        get_latest_by = "-created"
+        ordering = ['-created']
+
+
 class TalkFavorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     talk = models.ForeignKey('Talk', default=1, on_delete=models.CASCADE)
