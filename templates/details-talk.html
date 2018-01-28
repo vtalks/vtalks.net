@@ -67,7 +67,9 @@
             <div class="card-deck">
                 {% for object in hot_talks %}
                 <div class="card">
+                    <a href="{% url 'talks:talk-details' object.slug %}">
                     <img class="card-img-top" src="{{ object.high_thumb }}" alt="{{ object.title }}">
+                    </a>
                     <div class="card-body">
                         <h6 class="card-title"><a href="{% url 'talks:talk-details' object.slug %}">{{ object.title }}</a></h6>
                         <p class="card-text">
