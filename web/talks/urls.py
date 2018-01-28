@@ -8,6 +8,7 @@ from .views import BestTalksView
 from .views import SearchTalksView
 from .views import DetailTalkView
 from .views import LikeTalkView
+from .views import DislikeTalkView
 from .views import FavoriteTalkView
 from .views import DetailTagView
 
@@ -37,6 +38,7 @@ urlpatterns = [
 
     path('talk/<slug:slug>/', DetailTalkView.as_view(), name='talk-details'),
     path('talk/<slug:slug>/like', LikeTalkView.as_view(), name='talk-like'),
+    path('talk/<slug:slug>/dislike', DislikeTalkView.as_view(), name='talk-dislike'),
     path('talk/<slug:slug>/favorite', FavoriteTalkView.as_view(), name='talk-favorite'),
 
     path('tag/<slug:slug>/', DetailTagView.as_view(), name='tag-details'),

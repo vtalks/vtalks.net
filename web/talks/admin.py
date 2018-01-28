@@ -4,6 +4,7 @@ from .models import Channel
 from .models import Playlist
 from .models import Talk
 from .models import TalkLike
+from .models import TalkDislike
 from .models import TalkFavorite
 
 # Register your models here.
@@ -108,6 +109,16 @@ class TalkLikeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(TalkLike, TalkLikeAdmin)
+
+
+class TalkDislikeAdmin(admin.ModelAdmin):
+    list_display = ('created', 'user', 'talk')
+    list_filter = ['created',]
+    date_hierarchy = 'created'
+    ordering = ['-created']
+
+
+admin.site.register(TalkDislike, TalkDislikeAdmin)
 
 
 class TalkFavoriteAdmin(admin.ModelAdmin):
