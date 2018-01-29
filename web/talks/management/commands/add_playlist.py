@@ -77,6 +77,8 @@ class Command(BaseCommand):
                 # Add Video
                 if "tags" not in talk_data["snippet"]:
                     talk_data["snippet"]["tags"] = []
+                if "viewCount" not in talk_data["statistics"]:
+                    talk_data["statistics"]["viewCount"] = 0
                 if "likeCount" not in talk_data["statistics"]:
                     talk_data["statistics"]["likeCount"] = 0
                 if "dislikeCount" not in talk_data["statistics"]:

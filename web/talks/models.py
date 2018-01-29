@@ -158,19 +158,19 @@ class Talk(models.Model):
 
     @property
     def total_view_count(self):
-        return self.youtube_view_count + self.view_count
+        return int(self.youtube_view_count) + int(self.view_count)
 
     @property
     def total_like_count(self):
-        return self.youtube_like_count + self.like_count
+        return int(self.youtube_like_count) + int(self.like_count)
 
     @property
     def total_favorite_count(self):
-        return self.youtube_favorite_count + self.favorite_count
+        return int(self.youtube_favorite_count) + int(self.favorite_count)
 
     @property
     def total_dislike_count(self):
-        return self.youtube_dislike_count + self.dislike_count
+        return int(self.youtube_dislike_count) + int(self.dislike_count)
 
     def __str__(self):
         return self.title
