@@ -158,3 +158,9 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
 }
+
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('MAILGUN_API_USER')
+EMAIL_HOST_PASSWORD = os.getenv('MAILGUN_API_KEY')
+EMAIL_USE_TLS = True

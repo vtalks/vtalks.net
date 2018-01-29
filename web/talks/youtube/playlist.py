@@ -31,6 +31,30 @@ def fetch_playlist_data(youtube_api_key, playlist_code):
     return channel_data
 
 
+def fetch_playlist_page_items(youtube_api_key, playlist_code, page_token):
+    videos_id_list = []
+
+    channel_url = "https://www.googleapis.com/youtube/v3/playlistItems"
+    payload = {'playlistId': playlist_code,
+               'maxResults': 50,
+               'part': 'snippet',
+               'key': youtube_api_key,
+               'pageToken': page_token}
+    resp = requests.get(channel_url, params=payload)
+    if resp.status_code != 200:
+        if resp.status_code == 404:
+            return []
+        else:
+            raise CommandError(
+                'Error fetching playlist items "%s"' % resp.status_code)
+    response_json = resp.json()
+    data_json = response_json["items"]
+    for item in data_json:
+        videos_id_list.append(item["snippet"]["resourceId"]["videoId"])
+
+    return response_json, videos_id_list
+
+
 def fetch_playlist_items(youtube_api_key, playlist_code):
     channel_url = "https://www.googleapis.com/youtube/v3/playlistItems"
     payload = {'playlistId': playlist_code,
@@ -48,4 +72,9 @@ def fetch_playlist_items(youtube_api_key, playlist_code):
     data_json = response_json["items"]
     for item in data_json:
         videos_id_list.append(item["snippet"]["resourceId"]["videoId"])
+
+    while 'nextPageToken' in response_json:
+        response_json, videos_pageid_list = fetch_playlist_page_items(youtube_api_key, playlist_code, response_json['nextPageToken'])
+        videos_id_list += videos_pageid_list
+
     return videos_id_list
