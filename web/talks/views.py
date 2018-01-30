@@ -185,8 +185,7 @@ class LikeTalkView(RedirectView):
             liked = TalkLike.objects.filter(user=self.request.user, talk=talk)
             if not liked:
                 # delete talk disliked
-                deleted = TalkDislike.objects.filter(user=self.request.user, talk=talk).delete()
-                print("---------", deleted)
+                TalkDislike.objects.filter(user=self.request.user, talk=talk).delete()
                 # create talk like
                 TalkLike.objects.create(user=self.request.user, talk=talk)
                 # update like count
@@ -208,8 +207,7 @@ class DislikeTalkView(RedirectView):
             disliked = TalkDislike.objects.filter(user=self.request.user, talk=talk)
             if not disliked:
                 # delete talk liked
-                deleted = TalkLike.objects.filter(user=self.request.user, talk=talk).delete()
-                print("---------", deleted)
+                TalkLike.objects.filter(user=self.request.user, talk=talk).delete()
                 # create talk dislike
                 TalkDislike.objects.create(user=self.request.user, talk=talk)
                 # update dislike count
