@@ -6,7 +6,7 @@
 <p><i class="fas fa-thumbs-up"></i> Liked on {{ liked.created }} </p>
 {% endif %}
 {%  if disliked %}
-<p><i class="fas fa-thumbs-down"></i> Disliked on {{ diliked.created }} </p>
+<p><i class="fas fa-thumbs-down"></i> Disliked on {{ disliked.created }} </p>
 {% endif %}
 <a class="btn btn-primary {%  if liked %}disabled{% endif %}" href="{% url 'talks:talk-like' object.slug %}" role="button"><i class="fas fa-thumbs-up"></i>  Like</a>
 <a class="btn btn-primary {%  if disliked %}disabled{% endif %}" href="{% url 'talks:talk-dislike' object.slug %}" role="button"><i class="fas fa-thumbs-down"></i>  Dislike</a>
