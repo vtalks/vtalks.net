@@ -8,6 +8,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -55,6 +56,20 @@ class DetailTalkView(DetailView):
 
         # Update talk to the database
         talk.save()
+
+        favorited = None
+        try:
+            favorited = TalkFavorite.objects.get(user=self.request.user, talk=talk)
+        except ObjectDoesNotExist:
+            pass
+        context['favorited'] = favorited
+
+        liked = None
+        try:
+            liked = TalkLike.objects.get(user=self.request.user, talk=talk)
+        except ObjectDoesNotExist:
+            pass
+        context['liked'] = liked
 
         search_form = SearchForm()
         context['search_form'] = search_form
@@ -169,6 +184,9 @@ class LikeTalkView(RedirectView):
         if self.request.user.is_authenticated:
             liked = TalkLike.objects.filter(user=self.request.user, talk=talk)
             if not liked:
+                # delete talk disliked
+                deleted = TalkDislike.objects.filter(user=self.request.user, talk=talk).delete()
+                print("---------", deleted)
                 # create talk like
                 TalkLike.objects.create(user=self.request.user, talk=talk)
                 # update like count
@@ -189,9 +207,12 @@ class DislikeTalkView(RedirectView):
         if self.request.user.is_authenticated:
             disliked = TalkDislike.objects.filter(user=self.request.user, talk=talk)
             if not disliked:
-                # create talk like
+                # delete talk liked
+                deleted = TalkLike.objects.filter(user=self.request.user, talk=talk).delete()
+                print("---------", deleted)
+                # create talk dislike
                 TalkDislike.objects.create(user=self.request.user, talk=talk)
-                # update like count
+                # update dislike count
                 talk.dislike_count += 1
                 talk.save()
 

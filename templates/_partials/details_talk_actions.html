@@ -1,7 +1,13 @@
 <h3>Actions:</h3>
-<a class="btn btn-primary" href="{% url 'talks:talk-like' object.slug %}" role="button"><i class="fas fa-thumbs-up"></i>  Like</a>
+{%  if favorited %}
+<p><i class="fas fa-heart"></i> Favorited on {{ favorited.created }} </p>
+{% endif %}
+{%  if liked %}
+<p><i class="fas fa-thumbs-up"></i> Liked on {{ liked.created }} </p>
+{% endif %}
+<a class="btn btn-primary {%  if liked %}disabled{% endif %}" href="{% url 'talks:talk-like' object.slug %}" role="button"><i class="fas fa-thumbs-up"></i>  Like</a>
 <a class="btn btn-primary" href="{% url 'talks:talk-dislike' object.slug %}" role="button"><i class="fas fa-thumbs-down"></i>  Dislike</a>
-<a class="btn btn-primary" href="{% url 'talks:talk-favorite' object.slug %}" role="button"><i class="fas fa-heart"></i>  Favorite</a>
+<a class="btn btn-primary {%  if favorited %}disabled{% endif %}" href="{% url 'talks:talk-favorite' object.slug %}" role="button" {%  if favorited %}aria-disabled="true"{% endif %}><i class="fas fa-heart"></i>  Favorite</a>
 {% if user.is_superuser %}
 <a class="btn btn-secondary" href="/admin/talks/talk/{{ object.id }}/change/" role="button"><i class="fas fa-edit"></i>  Edit on admin</a>
 {% endif %}
