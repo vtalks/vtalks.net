@@ -71,6 +71,13 @@ class DetailTalkView(DetailView):
             pass
         context['liked'] = liked
 
+        disliked = None
+        try:
+            disliked = TalkDislike.objects.get(user=self.request.user, talk=talk)
+        except ObjectDoesNotExist:
+            pass
+        context['disliked'] = disliked
+
         search_form = SearchForm()
         context['search_form'] = search_form
 
