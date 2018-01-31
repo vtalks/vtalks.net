@@ -10,6 +10,8 @@ from taggit.managers import TaggableManager
 
 from .decay import popularity
 
+from events.models import Edition
+
 # Create your models here.
 
 
@@ -120,6 +122,7 @@ class Talk(models.Model):
     favorite_count = models.IntegerField('favorite count', default=0)
     wilsonscore_rank = models.FloatField('wilson score rank', default=0)
     hacker_hot = models.FloatField('hackernews hot rank', default=0)
+    event_edition = models.ForeignKey(Edition, blank=True, null=True, default=None, on_delete=models.DO_NOTHING)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 

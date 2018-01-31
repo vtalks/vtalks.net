@@ -63,6 +63,9 @@ class TalkAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
+        ('EVent Data', {
+            'fields': ('event_edition',),
+        }),
         ('Youtube Data', {
             'fields': ('youtube_url', 'channel', 'playlist', 'duration'),
         }),
