@@ -58,24 +58,27 @@ class DetailTalkView(DetailView):
         talk.save()
 
         favorited = None
-        try:
-            favorited = TalkFavorite.objects.get(user=self.request.user, talk=talk)
-        except ObjectDoesNotExist:
-            pass
+        if self.request.user.is_authenticated:
+            try:
+                favorited = TalkFavorite.objects.get(user=self.request.user, talk=talk)
+            except ObjectDoesNotExist:
+                pass
         context['favorited'] = favorited
 
         liked = None
-        try:
-            liked = TalkLike.objects.get(user=self.request.user, talk=talk)
-        except ObjectDoesNotExist:
-            pass
+        if self.request.user.is_authenticated:
+            try:
+                liked = TalkLike.objects.get(user=self.request.user, talk=talk)
+            except ObjectDoesNotExist:
+                pass
         context['liked'] = liked
 
         disliked = None
-        try:
-            disliked = TalkDislike.objects.get(user=self.request.user, talk=talk)
-        except ObjectDoesNotExist:
-            pass
+        if self.request.user.is_authenticated:
+            try:
+                disliked = TalkDislike.objects.get(user=self.request.user, talk=talk)
+            except ObjectDoesNotExist:
+                pass
         context['disliked'] = disliked
 
         search_form = SearchForm()
