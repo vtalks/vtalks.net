@@ -23,3 +23,40 @@ section.search-form {
 section.hot-talks {
     background-color: #ECF0F1;
 }
+
+/* footer */
+footer a {
+    color: #868e96;
+}
+footer a:hover {
+    color: #646c74;
+}
+
+/* footer social */
+a.github,
+a.facebook,
+a.linkedin,
+a.twitter,
+a.rss {
+    transition: color .5s ease-out;
+}
+
+a.github:hover {
+    color: #000000;
+}
+
+a.facebook:hover {
+    color: #3B5998;
+}
+
+a.linkedin:hover {
+    color: #0077B5;
+}
+
+a.twitter:hover {
+    color: #1DA1F2;
+}
+
+a.rss:hover {
+    color: #f26522;
+}
