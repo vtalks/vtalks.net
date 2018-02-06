@@ -247,6 +247,7 @@ class TalkFavorite(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
 
     class Meta:
+        unique_together = ('user', 'talk')
         verbose_name = "Talk Favorite"
         verbose_name_plural = "Talks Favorites"
         get_latest_by = "-created"
