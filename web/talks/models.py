@@ -234,6 +234,7 @@ class TalkDislike(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
 
     class Meta:
+        unique_together = ('user', 'talk')
         verbose_name = "Talk Dislike"
         verbose_name_plural = "Talks Dislikes"
         get_latest_by = "-created"
