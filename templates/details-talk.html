@@ -51,8 +51,8 @@
             <!-- related talks -->
             <div class="related-talks col-md-4">
                 <h3>Related talks</h3>
-                {% if object.tags.similar_objects %}
-                    {% include "_partials/list_related_talks.html" with object_list=object.tags.similar_objects|slice:":15" %}
+                {% if related_talks %}
+                    {% include "_partials/list_related_talks.html" with object_list=related_talks %}
                 {% else %}
                     <p>No results.</p>
                 {% endif %}
