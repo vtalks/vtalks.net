@@ -2,6 +2,8 @@ from django.urls import path
 from django.urls import re_path
 from django.urls import include
 
+from django.views.generic import TemplateView
+
 from .views import IndexView
 from .views import LatestTalksView
 from .views import BestTalksView
@@ -28,6 +30,9 @@ router.register(r'talk', TalkViewSet)
 app_name = 'talks'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
+
+    path('robots.txt', TemplateView.as_view(template_name='templates/robots.txt')),
+
     path('rss/latest', RSSLatestView(), name='latest-feed'),
 
     path('latest', LatestTalksView.as_view(), name='latest-talks'),
