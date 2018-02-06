@@ -65,11 +65,11 @@
             </div>
             <div class="col">
                 <nav class="nav">
-                    <a class="nav-link" href="https://github.com/vtalks"><i class="fab fa-github-square fa-3x"></i> </a>
-                    <a class="nav-link" href="https://facebook.com/vtalks"><i class="fab fa-facebook-square fa-3x"></i> </a>
-                    <a class="nav-link" href="https://linkedin.com/in/vtalks"><i class="fab fa-linkedin fa-3x"></i> </a>
-                    <a class="nav-link" href="https://twitter.com/vtalksnet"><i class="fab fa-twitter fa-3x"></i> </a>
-                    <a class="nav-link" href="{% url 'talks:latest-feed' %}"><i class="fas fa-rss-square fa-3x"></i> </a>
+                    <a class="nav-link github" href="https://github.com/vtalks"><i class="fab fa-github-square fa-3x"></i> </a>
+                    <a class="nav-link facebook" href="https://facebook.com/vtalks"><i class="fab fa-facebook-square fa-3x"></i> </a>
+                    <a class="nav-link linkedin" href="https://linkedin.com/in/vtalks"><i class="fab fa-linkedin fa-3x"></i> </a>
+                    <a class="nav-link twitter" href="https://twitter.com/vtalksnet"><i class="fab fa-twitter fa-3x"></i> </a>
+                    <a class="nav-link rss" href="{% url 'talks:latest-feed' %}"><i class="fas fa-rss-square fa-3x"></i> </a>
                 </nav>
             </div>
         </div>
@@ -102,11 +102,8 @@
       xfbml      : true,
       version    : 'v2.10'
     });
-
     FB.AppEvents.logPageView();
-
   };
-
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
