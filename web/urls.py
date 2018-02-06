@@ -20,9 +20,11 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 
 from corporate.sitemaps import StaticSitemap
+from corporate.sitemaps import TalksSitemap
 
 sitemaps = {
     'static': StaticSitemap,
+    'talks': TalksSitemap,
 }
 
 urlpatterns = [

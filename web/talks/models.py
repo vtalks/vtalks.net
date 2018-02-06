@@ -208,6 +208,9 @@ class Talk(models.Model):
 
         super(Talk, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return "/talk/{}/".format(self.slug)
+
     class Meta:
         verbose_name = "Talk"
         verbose_name_plural = "Talks"
