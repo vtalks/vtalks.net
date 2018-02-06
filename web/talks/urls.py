@@ -31,7 +31,7 @@ app_name = 'talks'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
 
-    path('robots.txt', TemplateView.as_view(template_name='templates/robots.txt')),
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 
     path('rss/latest', RSSLatestView(), name='latest-feed'),
 
