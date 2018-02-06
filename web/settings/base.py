@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    'django.contrib.sites',
     'rest_framework',
     'taggit',
     'user_profile.apps.UserProfileConfig',
