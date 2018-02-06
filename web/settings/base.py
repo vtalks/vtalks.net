@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'taggit',
+    'taggit_serializer',
     'user_profile.apps.UserProfileConfig',
     'corporate.apps.CorporateConfig',
     'events.apps.EventsConfig',
