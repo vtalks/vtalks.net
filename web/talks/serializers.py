@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from taggit_serializer.serializers import TagListSerializerField
+from taggit_serializer.serializers import TaggitSerializer
 
 from django.utils import timezone
 
@@ -39,7 +41,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'slug', 'youtube_url')
 
 
-class TalkSerializer(serializers.ModelSerializer):
+class TalkSerializer(TaggitSerializer, serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     code = serializers.CharField(required=True, allow_blank=False, max_length=100)
     title = serializers.CharField(required=True, allow_blank=False, max_length=200)
@@ -66,6 +68,7 @@ class TalkSerializer(serializers.ModelSerializer):
     total_favorite_count = serializers.IntegerField(default=0, read_only=True)
     wilsonscore_rank = serializers.FloatField(default=0)
     hacker_hot = serializers.FloatField(default=0)
+    tags = TagListSerializerField()
     created = serializers.DateTimeField(default=timezone.now)
     updated = serializers.DateTimeField(default=timezone.now)
 
