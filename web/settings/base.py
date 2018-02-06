@@ -24,7 +24,7 @@ SECRET_KEY = 'u&&f-cvd7acpw3f)v@hc1h5)hnvf+a0ihyxs0&gjiq=q+w=5=x'
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'vtalks.net', 'www.vtalks.net']
 
 # Application definition
 
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.humanize',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'rest_framework',
     'taggit',
     'taggit_serializer',
@@ -165,3 +167,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('MAILGUN_API_USER')
 EMAIL_HOST_PASSWORD = os.getenv('MAILGUN_API_KEY')
 EMAIL_USE_TLS = True
+
+# Site ID fort sitemaps.xml
+SITE_ID = 1

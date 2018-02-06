@@ -17,9 +17,23 @@ from django.urls import path
 from django.urls import include
 from django.contrib import admin
 
+from django.contrib.sitemaps.views import sitemap
+
+from talks.sitemaps import HomeSitemap
+from talks.sitemaps import TalksSitemap
+from corporate.sitemaps import StaticSitemap
+
+sitemaps = {
+    'home': HomeSitemap,
+    'talks': TalksSitemap,
+    'static': StaticSitemap,
+}
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('user_profile.urls')),
     path('corporate/', include('corporate.urls')),
     path('', include('talks.urls')),
+
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
