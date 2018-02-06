@@ -87,6 +87,9 @@ class DetailTalkView(DetailView):
         hot_talks = Talk.objects.all().order_by('-hacker_hot', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:4]
         context['hot_talks'] = hot_talks
 
+        similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
+        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
+
         return context
 
 
