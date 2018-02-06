@@ -33,6 +33,9 @@ coveralls:	cover ## Send coverage report to coveralls.io
 
 # Docker container images
 
+.PHONY: docker
+docker: docker-build docker-publish
+
 .PHONY: docker-build
 docker-build:	## Builds container and tag resulting image
 	docker build --force-rm --tag vtalks/web .
