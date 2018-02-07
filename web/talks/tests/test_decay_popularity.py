@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from .popularity import reddit_hot
-from .popularity import wilson_score
-from .popularity import hacker_hot
+from talks.decay.popularity import reddit_hot
+from talks.decay.popularity import wilson_score
+from talks.decay.popularity import hacker_hot
 
 # Create your tests here.
 
