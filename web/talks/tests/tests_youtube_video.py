@@ -4,8 +4,8 @@ from django.conf import settings
 from django.test import TestCase
 from django.core.management.base import CommandError
 
-from .video import get_video_code
-from .video import fetch_video_data
+from talks.youtube.video import get_video_code
+from talks.youtube.video import fetch_video_data
 
 # Create your tests here.
 
