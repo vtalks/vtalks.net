@@ -4,8 +4,8 @@ from django.conf import settings
 from django.test import TestCase
 from django.core.management.base import CommandError
 
-from .channel import get_channel_code
-from .channel import fetch_channel_data
+from talks.youtube.channel import get_channel_code
+from talks.youtube.channel import fetch_channel_data
 
 # Create your tests here.
 

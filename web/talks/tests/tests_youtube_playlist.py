@@ -4,8 +4,8 @@ from django.conf import settings
 from django.test import TestCase
 from django.core.management.base import CommandError
 
-from .playlist import get_playlist_code
-from .playlist import fetch_playlist_items
+from talks.youtube.playlist import get_playlist_code
+from talks.youtube.playlist import fetch_playlist_items
 
 # Create your tests here.
 
