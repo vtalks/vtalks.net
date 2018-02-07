@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from .models import Channel
-from .models import Talk
+from talks.models import Channel
+from talks.models import Talk
 
 # Create your tests here.
 

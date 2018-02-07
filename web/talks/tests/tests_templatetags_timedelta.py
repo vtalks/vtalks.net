@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.test import TestCase
 
-from .timedelta import timedelta_nozeros
+from talks.templatetags.timedelta import timedelta_nozeros
 
 # Create your tests here.
 
