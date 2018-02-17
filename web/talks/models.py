@@ -255,3 +255,16 @@ class TalkFavorite(models.Model):
         verbose_name_plural = "Talks Favorites"
         get_latest_by = "-created"
         ordering = ['-created']
+
+
+class TalkWatch(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', default=1, on_delete=models.CASCADE)
+    created = models.DateTimeField('date created', default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'talk')
+        verbose_name = "Talk Watch"
+        verbose_name_plural = "Talks Watches"
+        get_latest_by = "-created"
+        ordering = ['-created']

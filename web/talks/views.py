@@ -17,6 +17,7 @@ from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
+from .models import TalkWatch
 
 from taggit.models import Tag
 
@@ -56,6 +57,14 @@ class DetailTalkView(DetailView):
 
         # Update talk to the database
         talk.save()
+
+        watched = None
+        if self.request.user.is_authenticated:
+            try:
+                watched = TalkWatch.objects.get(user=self.request.user, talk=talk)
+            except ObjectDoesNotExist:
+                pass
+        context['watched'] = watched
 
         favorited = None
         if self.request.user.is_authenticated:
@@ -243,8 +252,26 @@ class FavoriteTalkView(RedirectView):
             if not favorited:
                 # create talk like
                 TalkFavorite.objects.create(user=self.request.user, talk=talk)
-                # update like count
+                # update favorite count
                 talk.favorite_count += 1
+                talk.save()
+
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class WatchTalkView(RedirectView):
+    permanent = False
+    pattern_name = 'talks:talk-details'
+
+    def get_redirect_url(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        talk = Talk.objects.get(slug=slug)
+
+        if self.request.user.is_authenticated:
+            watched = TalkWatch.objects.filter(user=self.request.user, talk=talk)
+            if not watched:
+                # create talk like
+                TalkWatch.objects.create(user=self.request.user, talk=talk)
                 talk.save()
 
         return super().get_redirect_url(*args, **kwargs)
