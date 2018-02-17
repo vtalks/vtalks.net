@@ -6,6 +6,7 @@ from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
+from .models import TalkWatch
 
 # Register your models here.
 
@@ -132,3 +133,13 @@ class TalkFavoriteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(TalkFavorite, TalkFavoriteAdmin)
+
+
+class TalkWatchAdmin(admin.ModelAdmin):
+    list_display = ('created', 'user', 'talk')
+    list_filter = ['created',]
+    date_hierarchy = 'created'
+    ordering = ['-created']
+
+
+admin.site.register(TalkWatch, TalkWatchAdmin)
