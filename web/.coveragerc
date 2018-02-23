@@ -3,6 +3,7 @@ branch = True
 omit =
     /home/project/.venv*
     */migrations/*.py
+    */tests/*
     manage.py
     wsgi.py
 source =
