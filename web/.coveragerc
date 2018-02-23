@@ -6,7 +6,7 @@ omit =
     manage.py
     wsgi.py
 source =
-    web/
+    .
 
 [report]
 skip_covered = False
