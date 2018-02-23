@@ -4,6 +4,8 @@ omit =
     /home/project/.venv*
     */migrations/*.py
     */tests/*
+    */urls.py
+    */settings/*
     manage.py
     wsgi.py
 source =
