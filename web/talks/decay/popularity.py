@@ -34,12 +34,12 @@ def hacker_hot(votes, published, gravity=1.8):
     Hackernews' hot sort
     http://amix.dk/blog/post/19574
     """
-    gravity = 1.4
+    gravity = 1.1
 
     try:
         d = timezone.now() - published
     except TypeError:
         return 0
     hour_age = d.total_seconds()//3600
-    res = (votes - 1) / math.pow(hour_age + 2, gravity)
+    res = votes / math.pow(hour_age + 2, gravity)
     return res
