@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.test import TestCase
-from .apps import CorporateConfig
+from ..apps import CorporateConfig
 
 # Create your tests here.
 
