@@ -10,9 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='channel',
-            name='description',
-            field=models.TextField(blank=True),
-        ),
+
     ]

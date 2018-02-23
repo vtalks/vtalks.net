@@ -14,23 +14,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Channel',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(default=None, max_length=25, unique=True)),
-                ('title', models.CharField(default=None, max_length=200)),
-                ('description', models.TextField()),
-                ('created', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created')),
-                ('updated', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date updated')),
-            ],
-            options={
-                'verbose_name': 'Channel',
-                'verbose_name_plural': 'Channels',
-                'ordering': ['-created', '-updated'],
-                'get_latest_by': '-created',
-            },
-        ),
-        migrations.CreateModel(
             name='Talk',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -44,7 +27,7 @@ class Migration(migrations.Migration):
                 ('dislikeCount', models.IntegerField(default=0)),
                 ('created', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created')),
                 ('updated', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date updated')),
-                ('channel', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='talks.Channel')),
+                ('channel', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='channels.Channel')),
             ],
             options={
                 'verbose_name': 'Talk',
