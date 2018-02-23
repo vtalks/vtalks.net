@@ -8,6 +8,7 @@
             {% include "_partials/search_form.html" %}
         </div>
     </section>
+    {% if user.is_authenticated %}
     <!-- watched talks -->
     <section class="container watched-talks">
         <h3>Watched talks</h3>
@@ -17,6 +18,7 @@
             <p>No results.</p>
         {%  endif %}
     </section>
+    {%  endif %}
     <!-- latest talks -->
     <section class="container latest-talks">
         <h3>Latest talks</h3>
