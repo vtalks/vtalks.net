@@ -2,7 +2,7 @@
 [run]
 branch = True
 omit =
-    *.venv*
+    /home/project/.venv*
     */migrations/*.py
     manage.py
     wsgi.py
