@@ -4,4 +4,7 @@ Disallow:
 User-agent: *
 Disallow: /corporate/404
 
+User-agent: *
+Disallow: /corporate/500
+
 Sitemap: https://vtalks.net/sitemap.xml

@@ -1,0 +1,15 @@
+{% extends "_layouts/default.html" %}
+{% block title %}Internal server error - HTTP 500 - vtalks.net{% endblock %}
+{% block content %}
+<main role="main">
+    <!-- search form -->
+    <section class="container-fluid search-form">
+        <div class="container">
+            {% include "_partials/search_form.html" %}
+        </div>
+    </section>
+    <section class="container error text-center">
+        <h1>Something wrong happened :(<br/><small>HTTP 500</small></h1>
+    </section>
+</main>
+{% endblock %}
