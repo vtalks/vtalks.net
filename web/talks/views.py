@@ -101,7 +101,7 @@ class DetailTalkView(DetailView):
         context['hot_talks'] = hot_talks
 
         similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
-        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
+        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=channels.channel).exclude(playlist=talk.playlist)[:15]
 
         return context
 

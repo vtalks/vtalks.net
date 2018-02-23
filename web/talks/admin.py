@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import Channel
 from .models import Playlist
 from .models import Talk
 from .models import TalkLike
@@ -9,30 +8,6 @@ from .models import TalkFavorite
 from .models import TalkWatch
 
 # Register your models here.
-
-
-class ChannelAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': ('code', 'slug', 'title', 'description')
-        }),
-        ('Youtube Data', {
-            'fields': ('youtube_url',),
-        }),
-        ('Metadata', {
-            'classes': ('collapse',),
-            'fields': ('created', 'updated'),
-        }),
-    )
-    date_hierarchy = 'created'
-    list_filter = ['created', 'updated']
-    search_fields = ['title']
-    ordering = ['-created']
-    readonly_fields = ('youtube_url',)
-    prepopulated_fields = {"slug": ("title",)}
-
-
-admin.site.register(Channel, ChannelAdmin)
 
 
 class PlaylistAdmin(admin.ModelAdmin):

@@ -13,24 +13,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='channel',
-            name='code',
-            field=models.CharField(max_length=25, unique=True),
-        ),
-        migrations.AlterField(
-            model_name='channel',
-            name='created',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
-        ),
-        migrations.AlterField(
-            model_name='channel',
-            name='title',
-            field=models.CharField(max_length=200),
-        ),
-        migrations.AlterField(
             model_name='talk',
             name='channel',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='talks.Channel'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='channels.Channel'),
         ),
         migrations.AlterField(
             model_name='talk',
