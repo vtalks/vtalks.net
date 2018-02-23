@@ -21,7 +21,7 @@ cover:	## Generate coverage report
 	$(DOCKER-COMPOSE) \
 		-f ../deploy/docker-compose.yml \
 		-f ../deploy/docker-compose-dev.yml \
-		exec web coverage run --rcfile=./web/.coveragerc manage.py test \
+		exec web coverage run --rcfile=.coveragerc manage.py test \
 		--settings=settings.test
 
 .PHONY: coveralls
