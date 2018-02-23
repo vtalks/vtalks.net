@@ -203,7 +203,8 @@ class Talk(models.Model):
         wilsonscore_rank = popularity.wilson_score(self.total_like_count, self.total_dislike_count)
         self.wilsonscore_rank = wilsonscore_rank
 
-        hacker_hot = popularity.hacker_hot(self.total_view_count, self.created)
+        votes = abs(self.total_like_count - self.total_dislike_count)
+        hacker_hot = popularity.hacker_hot(votes, self.created)
         self.hacker_hot = hacker_hot
 
         super(Talk, self).save(*args, **kwargs)

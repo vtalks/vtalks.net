@@ -16,17 +16,16 @@ class Command(BaseCommand):
         talks = Talk.objects.all().order_by('updated')
         for talk in talks:
             wilsonscore_rank = popularity.wilson_score(talk.total_like_count, talk.total_dislike_count)
-            talk.wilsonscore_rank = wilsonscore_rank
 
-            hacker_hot = popularity.hacker_hot(talk.total_view_count, talk.created)
-            talk.hacker_hot = hacker_hot
+            votes = abs(talk.total_like_count - talk.total_dislike_count)
+            hacker_hot = popularity.hacker_hot(votes, talk.created)
 
             talk.updated = timezone.now()
 
             self.stdout.write(self.style.SUCCESS('Rank for "%s"' % talk.title))
             self.stdout.write('\tVotes: (+%d/-%d)' % (talk.youtube_like_count, talk.youtube_dislike_count))
-            self.stdout.write('\tWilsonScore rank: %f ' % talk.wilsonscore_rank)
+            self.stdout.write('\tWilsonScore rank: %f ' % wilsonscore_rank)
             self.stdout.write('\tViews: %d' % talk.youtube_view_count)
-            self.stdout.write('\tHackerNews hot rank: %f' % talk.hacker_hot)
+            self.stdout.write('\tHackerNews hot rank: %f' % hacker_hot)
 
             talk.save()
