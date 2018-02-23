@@ -1,5 +1,4 @@
 [run]
-branch = True
 omit =
     /home/project/.venv*
     */migrations/*.py
