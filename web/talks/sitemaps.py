@@ -5,6 +5,7 @@ from .models import Talk
 
 
 class HomeSitemap(sitemaps.Sitemap):
+    protocol = 'https'
     priority = 0.6
     changefreq = 'daily'
 
@@ -16,6 +17,7 @@ class HomeSitemap(sitemaps.Sitemap):
 
 
 class TalksSitemap(sitemaps.Sitemap):
+    protocol = 'https'
     priority = 0.7
     changefreq = 'daily'
 
