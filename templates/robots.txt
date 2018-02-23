@@ -1,2 +1,7 @@
 User-agent: *
 Disallow:
+
+User-agent: *
+Disallow: /corporate/404
+
+Sitemap: https://vtalks.net/sitemap.xml
