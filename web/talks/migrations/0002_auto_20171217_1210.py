@@ -11,9 +11,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='channel',
-            name='created',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date creadted'),
-        ),
+
     ]

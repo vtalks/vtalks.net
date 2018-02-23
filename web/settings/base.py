@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'taggit',
     'taggit_serializer',
-    'user_profile.apps.UserProfileConfig',
-    'corporate.apps.CorporateConfig',
-    'events.apps.EventsConfig',
-    'talks.apps.TalksConfig',
+    'user_profile',
+    'corporate',
+    'events',
+    'channels',
+    'talks',
 ]
 
 MIDDLEWARE = [

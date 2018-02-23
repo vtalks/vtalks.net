@@ -10,9 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='channel',
-            name='slug',
-            field=models.SlugField(default=None, max_length=200, unique=True),
-        ),
+
     ]

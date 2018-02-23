@@ -11,11 +11,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='channel',
-            name='title',
-            field=models.CharField(default=None, max_length=200),
-        ),
-        migrations.AlterField(
             model_name='talk',
             name='code',
             field=models.CharField(default=None, max_length=25, unique=True),
