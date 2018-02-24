@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user_profile',
     'corporate',
     'events',
+    'playlists',
     'channels',
     'talks',
 ]

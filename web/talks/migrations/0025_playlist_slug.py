@@ -10,9 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='playlist',
-            name='slug',
-            field=models.SlugField(max_length=200, blank=True, null=True),
-        ),
+
     ]

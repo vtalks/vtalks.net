@@ -19,6 +19,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='talk',
+            name='playlist',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to='playlists.Playlist'),
+        ),
+        migrations.AlterField(
+            model_name='talk',
             name='code',
             field=models.CharField(max_length=25, unique=True),
         ),
