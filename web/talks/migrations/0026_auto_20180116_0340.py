@@ -11,10 +11,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name='playlist',
-            options={'get_latest_by': ['-created'], 'ordering': ['-created'], 'verbose_name': 'Playlist', 'verbose_name_plural': 'Playlists'},
-        ),
-        migrations.AlterModelOptions(
             name='talk',
             options={'get_latest_by': '-created', 'ordering': ['-created'], 'verbose_name': 'Talk', 'verbose_name_plural': 'Talks'},
         ),

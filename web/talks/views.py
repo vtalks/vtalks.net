@@ -13,7 +13,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.core.paginator import Paginator
 
-from channels.models import Channel
 from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike

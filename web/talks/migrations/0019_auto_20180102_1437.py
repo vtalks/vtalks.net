@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
             name='wilsonscore_rank',
             field=models.FloatField(default=0, verbose_name='wilson score rank'),
         ),
-        migrations.AlterField(
-            model_name='playlist',
-            name='code',
-            field=models.CharField(default=None, max_length=25, unique=True),
-        ),
     ]

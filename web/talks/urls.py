@@ -18,12 +18,10 @@ from .views import RSSLatestView
 
 from rest_framework import routers
 
-from .api import PlaylistViewSet
 from .api import TalkViewSet
 from .api import RandomTalkView
 
 router = routers.DefaultRouter()
-router.register(r'playlist', PlaylistViewSet)
 router.register(r'talk', TalkViewSet)
 
 app_name = 'talks'

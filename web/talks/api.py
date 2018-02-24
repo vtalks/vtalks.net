@@ -6,16 +6,9 @@ from rest_framework.response import Response
 
 from django.db.models.aggregates import Count
 
-from .models import Playlist
 from .models import Talk
 
-from .serializers import PlaylistSerializer
 from .serializers import TalkSerializer
-
-
-class PlaylistViewSet(viewsets.ModelViewSet):
-    queryset = Playlist.objects.all()
-    serializer_class = PlaylistSerializer
 
 
 class TalkViewSet(viewsets.ModelViewSet):

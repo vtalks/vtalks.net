@@ -12,27 +12,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Playlist',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(default=None, max_length=100, unique=True)),
-                ('title', models.CharField(default=None, max_length=200)),
-                ('slug', models.SlugField(default=None, max_length=200, unique=True)),
-                ('description', models.TextField(blank=True)),
-                ('created', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created')),
-                ('updated', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date updated')),
-            ],
-            options={
-                'verbose_name': 'Playlist',
-                'verbose_name_plural': 'Playlists',
-                'ordering': ['-created', '-updated'],
-                'get_latest_by': '-created',
-            },
-        ),
         migrations.AddField(
             model_name='talk',
             name='playlist',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='talks.Playlist'),
+            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='playlists.Playlist'),
         ),
     ]
