@@ -29,7 +29,7 @@ class Channel(models.Model):
 
         If it is a new object (it has the property 'id' as null on saving)
         generates an slug string from the title.
-        In case two different talks but with the same title we append the code
+        In case two different channels but with the same title we append the code
         as suffix to the slug to prevent unique slugs for each element on the
         database.
         """

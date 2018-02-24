@@ -24,6 +24,20 @@ cover:	## Generate coverage report
 		exec web coverage run --rcfile=.coveragerc manage.py test \
 		--settings=settings.test
 
+.PHONY: coverage-report
+coverage-report:
+	$(DOCKER-COMPOSE) \
+		-f ../deploy/docker-compose.yml \
+		-f ../deploy/docker-compose-dev.yml \
+		exec web coverage report --show-missing --skip-covered --rcfile=.coveragerc
+
+.PHONY: coverage-html
+coverage-html:
+	$(DOCKER-COMPOSE) \
+		-f ../deploy/docker-compose.yml \
+		-f ../deploy/docker-compose-dev.yml \
+		exec web coverage html --directory ../.cover --rcfile=.coveragerc
+
 .PHONY: coveralls
 coveralls:	cover ## Send coverage report to coveralls.io
 	$(DOCKER-COMPOSE) \

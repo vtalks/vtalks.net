@@ -13,6 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.core.paginator import Paginator
 
+from channels.models import Channel
 from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
@@ -101,7 +102,7 @@ class DetailTalkView(DetailView):
         context['hot_talks'] = hot_talks
 
         similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
-        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=channels.channel).exclude(playlist=talk.playlist)[:15]
+        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
 
         return context
 

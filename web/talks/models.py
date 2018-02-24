@@ -157,6 +157,8 @@ class Talk(models.Model):
             if Talk.objects.filter(slug=self.slug).count() > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
 
+        self.updated = timezone.now()
+
         # calculate raking
         wilsonscore_rank = popularity.wilson_score(self.total_like_count, self.total_dislike_count)
         self.wilsonscore_rank = wilsonscore_rank

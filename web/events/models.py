@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.utils import timezone
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -15,6 +16,25 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Overrides save method.
+
+        If it is a new object (it has the property 'id' as null on saving)
+        generates an slug string from the title.
+        In case two different events but with the same title we append the code
+        as suffix to the slug to prevent unique slugs for each element on the
+        database.
+        """
+        if not self.id:
+            # generate slug from title
+            self.slug = slugify(self.title)
+            # check if the generated slug is already being used and, in such
+            # case we append the code to it.
+            count = Event.objects.filter(slug=self.slug).count()
+            if count > 0:
+                self.slug = "{:s}-{:d}".format(self.slug, count)
+        super(Event, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Event"
@@ -37,6 +57,25 @@ class Edition(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Overrides save method.
+
+        If it is a new object (it has the property 'id' as null on saving)
+        generates an slug string from the title.
+        In case two different events but with the same title we append the code
+        as suffix to the slug to prevent unique slugs for each element on the
+        database.
+        """
+        if not self.id:
+            # generate slug from title
+            self.slug = slugify(self.title)
+            # check if the generated slug is already being used and, in such
+            # case we append the code to it.
+            count = Edition.objects.filter(slug=self.slug).count()
+            if count > 0:
+                self.slug = "{:s}-{:d}".format(self.slug, count)
+        super(Edition, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Edition"
