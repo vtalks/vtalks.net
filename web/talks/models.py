@@ -39,6 +39,7 @@ class Talk(Rankable, models.Model):
     favorite_count = models.IntegerField('favorite count', default=0)
 
     event_edition = models.ForeignKey(Edition, blank=True, null=True, default=None, on_delete=models.DO_NOTHING)
+
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
