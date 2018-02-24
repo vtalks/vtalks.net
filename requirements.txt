@@ -8,4 +8,3 @@ coverage==4.4.2
 psycopg2
 djangorestframework
 python-coveralls
-plotly

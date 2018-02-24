@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.test import TestCase
-from .apps import ChannelsConfig
+from web.channels.apps import ChannelsConfig
 
 # Create your tests here.
 
