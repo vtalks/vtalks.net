@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created')),
                 ('updated', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date updated')),
                 ('channel', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='channels.Channel')),
+                ('playlist', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='playlists.Playlist')),
             ],
             options={
                 'verbose_name': 'Talk',
