@@ -8,35 +8,38 @@ from django.utils.text import slugify
 
 from taggit.managers import TaggableManager
 
-from .decay import popularity
-
 from channels.models import Channel
 from playlists.models import Playlist
 from events.models import Edition
 
+from .behaviours import Rankable
+
 # Create your models here.
 
 
-class Talk(models.Model):
+class Talk(Rankable, models.Model):
     code = models.CharField(max_length=25, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
     description = models.TextField()
-    channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
-    playlist = models.ForeignKey(Playlist, blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     tags = TaggableManager(blank=True)
     duration = models.DurationField(default=timedelta())
+
+    channel = models.ForeignKey(Channel, on_delete=models.DO_NOTHING)
+    playlist = models.ForeignKey(Playlist, blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
+
     youtube_view_count = models.IntegerField('youtube view count', default=0)
     youtube_like_count = models.IntegerField('youtube like count', default=0)
     youtube_dislike_count = models.IntegerField('youtube dislike count', default=0)
     youtube_favorite_count = models.IntegerField('youtube favorite count', default=0)
+
     view_count = models.IntegerField('view count', default=0)
     like_count = models.IntegerField('like count', default=0)
     dislike_count = models.IntegerField('dislike count', default=0)
     favorite_count = models.IntegerField('favorite count', default=0)
-    wilsonscore_rank = models.FloatField('wilson score rank', default=0)
-    hacker_hot = models.FloatField('hackernews hot rank', default=0)
+
     event_edition = models.ForeignKey(Edition, blank=True, null=True, default=None, on_delete=models.DO_NOTHING)
+
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
@@ -116,11 +119,11 @@ class Talk(models.Model):
         self.updated = timezone.now()
 
         # calculate raking
-        wilsonscore_rank = popularity.wilson_score(self.total_like_count, self.total_dislike_count)
+        wilsonscore_rank = self.get_wilson_score(self.total_like_count, self.total_dislike_count)
         self.wilsonscore_rank = wilsonscore_rank
 
         votes = abs(self.total_like_count - self.total_dislike_count)
-        hacker_hot = popularity.hacker_hot(votes, self.created)
+        hacker_hot = self.get_hacker_hot(votes, self.created)
         self.hacker_hot = hacker_hot
 
         super(Talk, self).save(*args, **kwargs)
