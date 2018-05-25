@@ -42,7 +42,7 @@ class TalkAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ('title', 'channel')
+    list_display = ('title', 'channel', 'updated')
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-created']
