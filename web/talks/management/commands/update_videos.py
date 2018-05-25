@@ -20,6 +20,13 @@ class Command(BaseCommand):
         video_code = get_video_code(youtube_url)
         talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
+        if talk_data is None:
+            Talk.objects.filter(code=video_code).delete()
+            self.stdout.write(
+                self.style.SUCCESS(
+                    'Deleted talk with code "%s"' % video_code))
+            return
+
         self.stdout.write(
             self.style.SUCCESS('Fetch talk with code "%s"' % talk_data["id"]))
 
@@ -114,4 +121,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         talks = Talk.objects.all().order_by('updated')
         for talk in talks:
+            self.stdout.write('Updating talk "%s"' % talk.id)
             self.update_video(talk.youtube_url)
