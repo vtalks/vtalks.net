@@ -47,32 +47,41 @@ class Talk(Rankable, models.Model):
 
     @property
     def default_thumb(self):
+        if self.code is None:
+            return ""
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
 
     @property
     def medium_thumb(self):
+        if self.code is None:
+            return ""
         return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
 
     @property
     def high_thumb(self):
+        if self.code is None:
+            return ""
         return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
 
     @property
     def standard_thumb(self):
+        if self.code is None:
+            return ""
         return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
 
     @property
     def maxres_thumb(self):
+        if self.code is None:
+            return ""
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
 
     # External URLs
 
     @property
     def youtube_url(self):
-        url = ""
-        if self.code:
-            url = "https://www.youtube.com/watch?v={:s}".format(self.code)
-        return url
+        if self.code is None:
+            return ""
+        return "https://www.youtube.com/watch?v={:s}".format(self.code)
 
     # Total statistics
 

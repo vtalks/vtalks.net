@@ -14,7 +14,7 @@ class TalkAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
-        ('EVent Data', {
+        ('Event Data', {
             'fields': ('event_edition',),
         }),
         ('Youtube Data', {
@@ -42,7 +42,7 @@ class TalkAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ('title', 'channel', 'updated')
+    list_display = ('title', 'channel', 'event_edition', 'updated')
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated']
