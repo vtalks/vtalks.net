@@ -6,6 +6,11 @@ from .models import Edition
 # Register your models here.
 
 
+class EditionItemInline(admin.StackedInline):
+    model = Edition
+    extra = 1
+
+
 class EventAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
@@ -21,6 +26,7 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ['title']
     ordering = ['-created']
     prepopulated_fields = {"slug": ("title",)}
+    inlines = [EditionItemInline]
 
 
 admin.site.register(Event, EventAdmin)
