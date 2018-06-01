@@ -16,6 +16,11 @@ DATABASES = {
     }
 }
 
+# Disable browseable API interface in prod
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
+)
+
 # Twitter configuration
 
 TWITTER_AUTHENTICATE_URL = 'https://api.twitter.com/oauth/authenticate'
