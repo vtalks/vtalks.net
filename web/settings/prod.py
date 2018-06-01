@@ -17,9 +17,16 @@ DATABASES = {
 }
 
 # Disable browseable API interface in prod
-DEFAULT_RENDERER_CLASSES = (
-    'rest_framework.renderers.JSONRenderer',
-)
+REST_FRAMEWORK = {
+    # Pagination
+    'PAGE_SIZE': PAGE_SIZE,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+
+    # Available Renderers
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}
 
 # Twitter configuration
 
