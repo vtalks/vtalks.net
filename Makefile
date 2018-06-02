@@ -47,7 +47,7 @@ coveralls:	cover ## Send coverage report to coveralls.io
 
 # Docker container images
 
-.PHONY: docker
+.PHONY: docker	## Builds and publishes the container
 docker: docker-build docker-publish
 
 .PHONY: docker-build
