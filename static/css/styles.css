@@ -1,9 +1,14 @@
 html, body {
-
+    font-family: 'Roboto', sans-serif;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 15px;
 }
 
 section {
@@ -24,6 +29,11 @@ section.hot-talks {
     background-color: #ECF0F1;
 }
 
+/* details talk */
+.details-talk .embed-responsive {
+    margin-bottom: 15px;
+}
+
 /* footer */
 footer a {
     color: #868e96;
@@ -33,27 +43,27 @@ footer a:hover {
 }
 
 /* footer social */
-a.github,
-a.facebook,
-a.linkedin,
-a.twitter,
-a.rss {
+footer a.github,
+footer a.facebook,
+footer a.linkedin,
+footer a.twitter,
+footer a.rss {
     transition: color .5s ease-out;
 }
 
-a.github:hover {
+footer a.github:hover {
     color: #000000;
 }
 
-a.facebook:hover {
+footer a.facebook:hover {
     color: #3B5998;
 }
 
-a.linkedin:hover {
+footer a.linkedin:hover {
     color: #0077B5;
 }
 
-a.twitter:hover {
+footer a.twitter:hover {
     color: #1DA1F2;
 }
 
