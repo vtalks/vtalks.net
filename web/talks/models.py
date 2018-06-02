@@ -20,7 +20,7 @@ from .behaviours import Rankable
 class Talk(Rankable, models.Model):
     code = models.CharField(max_length=25, unique=True, default=None)
     title = models.CharField(max_length=200, default=None)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     tags = TaggableManager(blank=True)
     duration = models.DurationField(default=timedelta())
