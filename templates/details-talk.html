@@ -37,6 +37,7 @@
                 {% include "_partials/details_talk_video.html" %}
                 <!-- details talk : description -->
                 {% include "_partials/details_talk_description.html" %}
+                <hr/>
                 <!-- details talk : details -->
                 {% include "_partials/details_talk_details.html" %}
                 <!-- details talk : statistics -->
@@ -45,6 +46,7 @@
                 {% include "_partials/details_talk_metadata.html" %}
                 <!-- datails talk : actions -->
                 {% if user.is_authenticated %}
+                <hr/>
                 {% include "_partials/details_talk_actions.html" %}
                 {%  endif %}
             </div>
