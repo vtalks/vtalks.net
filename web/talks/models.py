@@ -14,6 +14,8 @@ from events.models import Edition
 
 from .behaviours import Rankable
 
+from .managers import PublishedTalkManager
+
 # Create your models here.
 
 
@@ -42,6 +44,13 @@ class Talk(Rankable, models.Model):
 
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
+
+    published = models.BooleanField('is published', default=True)
+
+    # Managers
+
+    objects = models.Manager()
+    published_objects = PublishedTalkManager()
 
     # Thumbnails
 

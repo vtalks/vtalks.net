@@ -16,5 +16,5 @@
 <a class="btn btn-primary {%  if disliked %}disabled{% endif %}" href="{% url 'talks:talk-dislike' object.slug %}" role="button"><i class="fas fa-thumbs-down"></i>  Dislike</a>
 <a class="btn btn-primary {%  if favorited %}disabled{% endif %}" href="{% url 'talks:talk-favorite' object.slug %}" role="button" {%  if favorited %}aria-disabled="true"{% endif %}><i class="fas fa-heart"></i>  Favorite</a>
 {% if user.is_superuser %}
-<a class="btn btn-secondary" href="/admin/talks/talk/{{ object.id }}/change/" role="button"><i class="fas fa-edit"></i>  Edit on admin</a>
+<a class="btn btn-secondary" href="/admin/talks/talk/{{ object.id }}/change/" role="button" target="_admin"><i class="fas fa-edit"></i>  Edit on admin</a>
 {% endif %}
