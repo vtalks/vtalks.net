@@ -11,10 +11,6 @@ h1 {
     margin-bottom: 15px;
 }
 
-section {
-    padding: 20px 0;
-}
-
 .btn-primary,
 .btn-primary.disabled{
     background-color: #2c3e50;
@@ -34,7 +30,6 @@ section {
 nav.navbar {
     background-color: #2c3e50;
 }
-
 nav.navbar a,
 nav.navbar a:visited
 nav.navbar a:link {
@@ -47,20 +42,84 @@ nav.navbar a:hover {
 /* search form */
 section.search-form {
     background-color: #ecf0f1;
+    padding: 20px 0;
 }
-.search-form button[type="submit"] {
+section.search-form button[type="submit"] {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
 
+/* latest talks */
+section.latest-talks {
+    padding: 20px 0;
+}
+
+/* best talks */
+section.best-talks {
+    padding: 20px 0;
+}
+
 /* hot talks */
 section.hot-talks {
+    padding: 20px 0;
     background-color: #ECF0F1;
+}
+
+/* section about */
+section.about {
+    padding: 20px 0;
+}
+
+/* section about */
+section.about {
+    padding: 20px 0;
+}
+
+/* section help */
+section.help {
+    padding: 20px 0;
+}
+
+/* section contact */
+section.contact {
+    padding: 20px 0;
+}
+
+/* section privacy-policy */
+section.privacy-policy {
+    padding: 20px 0;
+}
+
+/* section terms */
+section.terms {
+    padding: 20px 0;
+}
+
+/* section login */
+section.login {
+    padding: 20px 0;
+}
+
+/* section settings */
+section.settings {
+    padding: 20px 0;
 }
 
 /* details talk */
 .details-talk .embed-responsive {
     margin-bottom: 15px;
+}
+.details-talk section.details-talk-details {
+    font-size: 0.95rem;
+}
+.details-talk section.details-talk-details p {
+    margin-bottom: 10px;
+}
+.details-talk section.details-talk-statistics {
+    font-size: 0.95rem;
+}
+.details-talk section.details-talk-statistics p {
+    margin-bottom: 10px;
 }
 
 /* footer */
@@ -70,7 +129,6 @@ footer a {
 footer a:hover {
     color: #646c74;
 }
-
 /* footer social */
 footer a.github,
 footer a.facebook,
@@ -79,23 +137,18 @@ footer a.twitter,
 footer a.rss {
     transition: color .5s ease-out;
 }
-
 footer a.github:hover {
     color: #000000;
 }
-
 footer a.facebook:hover {
     color: #3B5998;
 }
-
 footer a.linkedin:hover {
     color: #0077B5;
 }
-
 footer a.twitter:hover {
     color: #1DA1F2;
 }
-
 footer a.rss:hover {
     color: #f26522;
 }
