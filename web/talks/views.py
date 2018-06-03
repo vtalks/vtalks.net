@@ -35,14 +35,14 @@ class IndexView(TemplateView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        latest_talks = Talk.objects.all().order_by('-created', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-updated')[:3]
+        latest_talks = Talk.published_objects.all().order_by('-created', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-updated')[:3]
         context['latest_talks'] = latest_talks
 
-        best_talks = Talk.objects.all().order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:3]
+        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:3]
         context['best_talks'] = best_talks
 
         if self.request.user.is_authenticated:
-            watched_talks = self.request.user.talkwatch_set.all()
+            watched_talks = self.request.user.talkwatch_set.filter()
             context['watched_talks'] = watched_talks
 
         return context
@@ -97,11 +97,11 @@ class DetailTalkView(DetailView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        hot_talks = Talk.objects.all().order_by('-hacker_hot', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:4]
+        hot_talks = Talk.published_objects.all().order_by('-hacker_hot', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:4]
         context['hot_talks'] = hot_talks
 
         similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
-        context['related_talks'] = Talk.objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
+        context['related_talks'] = Talk.published_objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
 
         return context
 
@@ -145,7 +145,7 @@ class SearchTalksView(ListView):
         vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
         query = SearchQuery(q)
         rank = SearchRank(vector, query)
-        search_results = Talk.objects.annotate(rank=rank)
+        search_results = Talk.published_objects.annotate(rank=rank)
         # Filter by minimum rank
         search_results = search_results.filter(rank__gte=0.1)
         # Sort by rank (descendant)
@@ -187,7 +187,7 @@ class DetailTagView(DetailView):
         slug = self.kwargs['slug']
         context['object'] = Tag.objects.get(slug=slug)
 
-        tagged_talks = Talk.objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')
+        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')
         paginator = Paginator(tagged_talks, self.paginate_by)
 
         page = 1
@@ -205,7 +205,7 @@ class LikeTalkView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         slug = self.kwargs['slug']
-        talk = Talk.objects.get(slug=slug)
+        talk = Talk.published_objects.get(slug=slug)
 
         if self.request.user.is_authenticated:
             liked = TalkLike.objects.filter(user=self.request.user, talk=talk)
@@ -227,7 +227,7 @@ class DislikeTalkView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         slug = self.kwargs['slug']
-        talk = Talk.objects.get(slug=slug)
+        talk = Talk.published_objects.get(slug=slug)
 
         if self.request.user.is_authenticated:
             disliked = TalkDislike.objects.filter(user=self.request.user, talk=talk)
@@ -249,7 +249,7 @@ class FavoriteTalkView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         slug = self.kwargs['slug']
-        talk = Talk.objects.get(slug=slug)
+        talk = Talk.published_objects.get(slug=slug)
 
         if self.request.user.is_authenticated:
             favorited = TalkFavorite.objects.filter(user=self.request.user, talk=talk)
@@ -269,7 +269,7 @@ class WatchTalkView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         slug = self.kwargs['slug']
-        talk = Talk.objects.get(slug=slug)
+        talk = Talk.published_objects.get(slug=slug)
 
         if self.request.user.is_authenticated:
             watched = TalkWatch.objects.filter(user=self.request.user, talk=talk)
@@ -289,7 +289,7 @@ class RSSLatestView(Feed):
     description_template = "feeds/latest.html"
 
     def items(self):
-        return Talk.objects.order_by('-created')[:10]
+        return Talk.published_objects.order_by('-created')[:10]
 
     def item_title(self, item):
         return item.title

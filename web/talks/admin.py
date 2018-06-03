@@ -14,6 +14,9 @@ class TalkAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
         }),
+        ('Status', {
+            'fields': ('published',),
+        }),
         ('Event Data', {
             'fields': ('event_edition',),
         }),
