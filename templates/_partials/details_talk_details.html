@@ -1,10 +1,12 @@
 {% load timedelta %}
-<h3>Details:</h3>
-<p class="text-muted"><i class="far fa-clock"></i> Duration: {{object.duration|timedelta_nozeros}}</p>
-<p class="text-muted"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
-<p class="text-muted"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
-<p class="text-muted"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
-{% if object.playlist %}
-    <p class="text-muted"><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
-{% endif %}
-<p class="text-muted"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+<section class="details-talk-details">
+    <h3>Details:</h3>
+    <p class="text-muted"><i class="far fa-clock"></i> Duration: {{object.duration|timedelta_nozeros}}</p>
+    <p class="text-muted"><i class="far fa-calendar-alt"></i> Published: {{object.created}}</p>
+    <p class="text-muted"><i class="far fa-calendar-alt"></i> Updated: {{object.updated}}</p>
+    <p class="text-muted"><i class="fas fa-folder"></i> Channel: {{object.channel}}</p>
+    {% if object.playlist %}
+        <p class="text-muted"><i class="fas fa-folder"></i> Playlist: {{object.playlist}}</p>
+    {% endif %}
+    <p class="text-muted"><i class="fab fa-youtube"></i> Original link: <a href="{{object.youtube_url}}" rel="nofollow">{{object.youtube_url}}</a></p>
+</section>
