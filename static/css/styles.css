@@ -50,6 +50,11 @@ section.search-form button[type="submit"] {
 }
 
 /* watched talks */
+section.search-results {
+    padding: 20px 0;
+}
+
+/* watched talks */
 section.watched-talks {
     padding: 20px 0;
 }
@@ -120,11 +125,25 @@ section.settings {
 .details-talk section.details-talk-details p {
     margin-bottom: 10px;
 }
+.details-talk section.details-talk-details a,
+.details-talk section.details-talk-details a:link,
+.details-talk section.details-talk-details a:visited,
+.details-talk section.details-talk-details a:hover {
+    color: #7f8c8d;
+    text-decoration: none;
+}
 .details-talk section.details-talk-statistics {
     font-size: 0.95rem;
 }
 .details-talk section.details-talk-statistics p {
     margin-bottom: 10px;
+}
+.details-talk section.details-talk-description a,
+.details-talk section.details-talk-description a:link,
+.details-talk section.details-talk-description a:visited,
+.details-talk section.details-talk-description a:hover {
+    color: #7f8c8d;
+    text-decoration: none;
 }
 
 /* footer */

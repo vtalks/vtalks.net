@@ -10,17 +10,19 @@
         </div>
     </section>
     <!-- best talks -->
-    <section class="container best-talks">
-        <h3>Best talks</h3>
-        {% if object_list %}
-            {% include "_partials/pagination.html" with url_target='talks:best-talks-paginated' %}
-            <hr/>
-            {% include "_partials/list_talks.html" %}
-            <hr/>
-            {% include "_partials/pagination.html" with url_target='talks:best-talks-paginated' %}
-        {% else %}
-            <p>No results.</p>
-        {% endif %}
+    <section class="container-fluid best-talks">
+        <div class="container">
+            <h3>Best talks</h3>
+            {% if object_list %}
+                {% include "_partials/pagination.html" with url_target='talks:best-talks-paginated' %}
+                <hr/>
+                {% include "_partials/list_talks.html" %}
+                <hr/>
+                {% include "_partials/pagination.html" with url_target='talks:best-talks-paginated' %}
+            {% else %}
+                <p>No results.</p>
+            {% endif %}
+        </div>
     </section>
 </main>
 {% endblock %}
