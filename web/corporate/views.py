@@ -15,10 +15,6 @@ class ContactView(FormView):
     form_class = ContactForm
     success_url = '.'
 
-    def get_context_data(self, **kwargs):
-        context = super(ContactView, self).get_context_data(**kwargs)
-        return context
-
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
