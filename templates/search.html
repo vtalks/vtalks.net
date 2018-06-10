@@ -2,16 +2,16 @@
 {% load humanize %}
 {% block title %}Search - vtalks.net{% endblock %}
 {% block content %}
-<main role="main">
-    <!-- search form -->
-    <section class="container-fluid search-form">
+<!-- search form -->
+<section class="container-fluid search-form p-0 py-4">
+    <div class="container">
+        {% include "_partials/search_form.html" %}
+    </div>
+</section>
+{% if search_query %}
+    <!-- search results -->
+    <section class="container-fluid search-results p-0 py-4">
         <div class="container">
-            {% include "_partials/search_form.html" %}
-        </div>
-    </section>
-    {% if search_query %}
-        <!-- search results -->
-        <section class="container search-results">
             <h2>Search results for: "{{search_query}}"</h2>
             <hr/>
             {% if object_list %}
@@ -23,7 +23,7 @@
             {% else %}
                 <p>Search has no results.</p>
             {% endif %}
-        </section>
-    {% endif %}
-</main>
+        </div>
+    </section>
+{% endif %}
 {% endblock  %}
