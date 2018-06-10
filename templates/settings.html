@@ -28,7 +28,6 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Update Profile</button>
         </div>
-
         </form>
     </section>
     <!-- activity -->
@@ -45,28 +44,28 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-watched" role="tabpanel" aria-labelledby="nav-watched-tab">
                 {%  if watched_talks %}
-                     {% include "_partials/watched_talks.html" with object_list=watched_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=watched_talks %}
                 {% else %}
                     <p>No results.</p>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-liked" role="tabpanel" aria-labelledby="nav-liked-tab">
                 {%  if liked_talks %}
-                     {% include "_partials/watched_talks.html" with object_list=liked_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=liked_talks %}
                 {% else %}
                     <p>No results.</p>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-disliked" role="tabpanel" aria-labelledby="nav-disliked-tab">
                 {%  if disliked_talks %}
-                     {% include "_partials/watched_talks.html" with object_list=disliked_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=disliked_talks %}
                 {% else %}
                     <p>No results.</p>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-favorited" role="tabpanel" aria-labelledby="nav-favorited-tab">
                 {%  if favorited_talks %}
-                     {% include "_partials/watched_talks.html" with object_list=favorited_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=favorited_talks %}
                 {% else %}
                     <p>No results.</p>
                 {%  endif %}
