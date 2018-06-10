@@ -28,8 +28,58 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Update Profile</button>
         </div>
-
         </form>
+    </section>
+    <!-- activity -->
+    <section class="container activity">
+        <h3>Activity</h3>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-watched-tab" data-toggle="tab" href="#nav-watched" role="tab" aria-controls="nav-watched" aria-selected="true">Watched Talks</a>
+            <a class="nav-item nav-link" id="nav-liked-tab" data-toggle="tab" href="#nav-liked" role="tab" aria-controls="nav-liked" aria-selected="false">Liked Talks</a>
+            <a class="nav-item nav-link" id="nav-disliked-tab" data-toggle="tab" href="#nav-disliked" role="tab" aria-controls="nav-disliked" aria-selected="false">Disliked Talks</a>
+            <a class="nav-item nav-link" id="nav-favorited-tab" data-toggle="tab" href="#nav-favorited" role="tab" aria-controls="nav-favorited" aria-selected="false">Favorited Talks</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-watched" role="tabpanel" aria-labelledby="nav-watched-tab">
+                {%  if watched_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=watched_talks %}
+                {% else %}
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
+                {%  endif %}
+            </div>
+            <div class="tab-pane fade" id="nav-liked" role="tabpanel" aria-labelledby="nav-liked-tab">
+                {%  if liked_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=liked_talks %}
+                {% else %}
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
+                {%  endif %}
+            </div>
+            <div class="tab-pane fade" id="nav-disliked" role="tabpanel" aria-labelledby="nav-disliked-tab">
+                {%  if disliked_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=disliked_talks %}
+                {% else %}
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
+                {%  endif %}
+            </div>
+            <div class="tab-pane fade" id="nav-favorited" role="tabpanel" aria-labelledby="nav-favorited-tab">
+                {%  if favorited_talks %}
+                     {% include "_partials/list_activity_talks.html" with object_list=favorited_talks %}
+                {% else %}
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
+                {%  endif %}
+            </div>
+        </div>
+
     </section>
 </main>
 {% endblock %}

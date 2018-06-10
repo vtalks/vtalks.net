@@ -54,11 +54,6 @@ section.search-results {
     padding: 20px 0;
 }
 
-/* watched talks */
-section.watched-talks {
-    padding: 20px 0;
-}
-
 /* latest talks */
 section.latest-talks {
     padding: 20px 0;
@@ -112,6 +107,11 @@ section.login {
 
 /* section settings */
 section.settings {
+    padding: 20px 0;
+}
+
+/* section activity */
+section.activity {
     padding: 20px 0;
 }
 
