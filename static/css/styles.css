@@ -42,77 +42,15 @@ nav.navbar a:hover {
 /* search form */
 section.search-form {
     background-color: #ecf0f1;
-    padding: 20px 0;
 }
 section.search-form button[type="submit"] {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
 
-/* watched talks */
-section.search-results {
-    padding: 20px 0;
-}
-
-/* latest talks */
-section.latest-talks {
-    padding: 20px 0;
-}
-
-/* best talks */
-section.best-talks {
-    padding: 20px 0;
-}
-
 /* hot talks */
 section.hot-talks {
-    padding: 20px 0;
     background-color: #ECF0F1;
-}
-
-/* section about */
-section.about {
-    padding: 20px 0;
-}
-
-/* section about */
-section.about {
-    padding: 20px 0;
-}
-
-/* section help */
-section.help {
-    padding: 20px 0;
-}
-
-/* section contact */
-section.contact {
-    padding: 20px 0;
-}
-
-/* section privacy-policy */
-section.privacy-policy {
-    padding: 20px 0;
-}
-
-/* section terms */
-section.terms {
-    padding: 20px 0;
-}
-
-/* section login */
-section.login {
-    padding: 20px 0;
-}
-
-/* section settings */
-section.settings {
-    padding: 20px 0;
-}
-
-/* section activity */
-section.activity {
-    padding: 20px 0;
 }
 
 /* details talk */

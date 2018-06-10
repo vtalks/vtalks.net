@@ -1,15 +1,15 @@
 {% extends "_layouts/default.html" %}
 {% block title %}vtalks.net{% endblock %}
 {% block content %}
-<main role="main">
+
     <!-- search form -->
-    <section class="container-fluid search-form">
+    <section class="container-fluid search-form p-0 py-4">
         <div class="container">
             {% include "_partials/search_form.html" %}
         </div>
     </section>
     <!-- latest talks -->
-    <section class="container-fluid latest-talks">
+    <section class="container-fluid latest-talks p-0 py-4">
         <div class="container">
             <h3>Latest talks</h3>
             {% if latest_talks %}
@@ -22,7 +22,7 @@
         </div>
     </section>
     <!-- best talks -->
-    <section class="container-fluid best-talks">
+    <section class="container-fluid best-talks p-0 py-4">
         <div class="container">
             <h3>Best talks</h3>
             {% if best_talks %}
@@ -34,5 +34,5 @@
             {% endif %}
         </div>
     </section>
-</main>
+
 {% endblock %}
