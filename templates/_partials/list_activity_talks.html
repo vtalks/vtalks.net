@@ -1,23 +1,16 @@
 {% load humanize %}
 {% load timedelta %}
-<div class="card-deck">
-{%  if watched_talks %}
-    {% for object in watched_talks %}
-    <div class="card">
-        <a href="{% url 'talks:talk-details' object.talk.slug %}">
-        <img class="card-img-top" src="{{ object.talk.high_thumb }}" alt="{{ object.talk.title }}">
-        </a>
-        <div class="card-body">
-            <h6 class="card-title"><a href="{% url 'talks:talk-details' object.talk.slug %}">{{ object.talk.title }}</a></h6>
-            <p class="card-text">
-            <small class="text-muted">
-            <i class="fas fa-clock"></i> {{object.talk.duration|timedelta_nozeros}}
-            <br/>
-            <i class="far fa-calendar-alt"></i> {{object.talk.created|naturaltime}}
-            </small>
-            </p>
+<div class="list-talks">
+{% for object in object_list %}
+    <div class="row mt-4 list-talks-item">
+        <div class="col-md-4">
+            <a href="{% url 'talks:talk-details' object.talk.slug %}"><img class="figure-img img-thumbnail" src="{{object.talk.high_thumb}}" alt="{{object.talk.title}}"></a>
+        </div>
+        <div class="col-md-8">
+            <a href="{% url 'talks:talk-details' object.talk.slug %}"><h4>{{object.talk.title}}</h4></a>
+            <p class="text-muted small"><i class="fas fa-clock"></i> {{object.talk.duration|timedelta_nozeros}} · <i class="far fa-calendar-alt"></i> Published {{object.talk.created|naturaltime}}</p>
+            <p class="text-justify">{{object.talk.description|linebreaks|truncatechars:250|urlize}}</p>
         </div>
     </div>
-    {% endfor %}
-{%  endif %}
+{% endfor %}
 </div>

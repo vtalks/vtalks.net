@@ -46,28 +46,36 @@
                 {%  if watched_talks %}
                      {% include "_partials/list_activity_talks.html" with object_list=watched_talks %}
                 {% else %}
-                    <p>No results.</p>
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-liked" role="tabpanel" aria-labelledby="nav-liked-tab">
                 {%  if liked_talks %}
                      {% include "_partials/list_activity_talks.html" with object_list=liked_talks %}
                 {% else %}
-                    <p>No results.</p>
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-disliked" role="tabpanel" aria-labelledby="nav-disliked-tab">
                 {%  if disliked_talks %}
                      {% include "_partials/list_activity_talks.html" with object_list=disliked_talks %}
                 {% else %}
-                    <p>No results.</p>
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
                 {%  endif %}
             </div>
             <div class="tab-pane fade" id="nav-favorited" role="tabpanel" aria-labelledby="nav-favorited-tab">
                 {%  if favorited_talks %}
                      {% include "_partials/list_activity_talks.html" with object_list=favorited_talks %}
                 {% else %}
-                    <p>No results.</p>
+                    <div class="list-talks">
+                        <p>No results.</p>
+                    </div>
                 {%  endif %}
             </div>
         </div>
