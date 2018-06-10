@@ -115,6 +115,11 @@ section.settings {
     padding: 20px 0;
 }
 
+/* section activity */
+section.activity {
+    padding: 20px 0;
+}
+
 /* details talk */
 .details-talk .embed-responsive {
     margin-bottom: 15px;

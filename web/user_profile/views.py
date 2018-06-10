@@ -112,4 +112,5 @@ class AuthProfileSettingsView(UpdateView):
         context = super(AuthProfileSettingsView, self).get_context_data(**kwargs)
         profile_obj = UserProfile.objects.get(user__id=self.request.user.id)
         context['profile_form'] = AuthProfileSettingsForm(instance=profile_obj)
+        context['watched_talks'] = self.request.user.talkwatch_set.filter()
         return context
