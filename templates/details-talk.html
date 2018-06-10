@@ -21,16 +21,16 @@
 <meta name="twitter:image" content="{{object.high_thumb}}">
 {% endblock %}
 {% block content %}
-<main role="main">
-    <!-- search form -->
-    <section class="container-fluid search-form">
-        <div class="container">
-            {% include "_partials/search_form.html" %}
-        </div>
-    </section>
-    <!-- details talk -->
-    <section class="container mb-4">
-        <div class="row pt-3">
+<!-- search form -->
+<section class="container-fluid search-form p-0 py-4">
+    <div class="container">
+        {% include "_partials/search_form.html" %}
+    </div>
+</section>
+<!-- details talk -->
+<section class="container-fluid details-talk p-0 py-4">
+    <div class="container">
+        <div class="row">
             <div class="details-talk col-md-8">
                 <h1>{{object.title}}</h1>
                 <!-- details talk : embed video -->
@@ -62,33 +62,33 @@
                 {% endif %}
             </div>
         </div>
-    </section>
-    <!-- hot talks -->
-    <section class="container-fluid hot-talks">
-        <div class="container">
-            <h3>Hot talks</h3>
-            {% if hot_talks %}
-            <div class="card-deck">
-                {% for object in hot_talks %}
-                <div class="card">
-                    <a href="{% url 'talks:talk-details' object.slug %}">
+    </div>
+</section>
+<!-- hot talks -->
+<section class="container-fluid hot-talks p-0 py-4">
+    <div class="container">
+        <h2>Hot talks</h2>
+        {% if hot_talks %}
+        <div class="card-deck">
+            {% for object in hot_talks %}
+            <div class="card">
+                <a href="{% url 'talks:talk-details' object.slug %}">
                     <img class="card-img-top" src="{{ object.high_thumb }}" alt="{{ object.title }}">
-                    </a>
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="{% url 'talks:talk-details' object.slug %}">{{ object.title }}</a></h6>
-                        <p class="card-text">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'talks:talk-details' object.slug %}">{{ object.title }}</a></h5>
+                    <p class="card-text">
                         <small class="text-muted">
                         <i class="fas fa-clock"></i> {{object.duration|timedelta_nozeros}}
                         <br/>
                         <i class="far fa-calendar-alt"></i> {{object.created|naturaltime}}
-                        </small>
-                        </p>
-                    </div>
+                    </small>
+                    </p>
                 </div>
-                {% endfor %}
             </div>
-            {%  endif %}
+            {% endfor %}
         </div>
-    </section>
-</main>
+        {%  endif %}
+    </div>
+</section>
 {% endblock %}
