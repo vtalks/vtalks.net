@@ -24,7 +24,7 @@ class EventAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-created']
+    ordering = ['title', '-created']
     prepopulated_fields = {"slug": ("title",)}
     inlines = [EditionItemInline]
 
@@ -46,7 +46,7 @@ class EditionAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-created']
+    ordering = ['title', '-created']
     prepopulated_fields = {"slug": ("title",)}
 
 
