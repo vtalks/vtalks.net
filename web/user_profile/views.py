@@ -113,4 +113,7 @@ class AuthProfileSettingsView(UpdateView):
         profile_obj = UserProfile.objects.get(user__id=self.request.user.id)
         context['profile_form'] = AuthProfileSettingsForm(instance=profile_obj)
         context['watched_talks'] = self.request.user.talkwatch_set.filter()
+        context['liked_talks'] = self.request.user.talklike_set.filter()
+        context['disliked_talks'] = self.request.user.talkdislike_set.filter()
+        context['favorited_talks'] = self.request.user.talkfavorite_set.filter()
         return context
