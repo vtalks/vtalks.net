@@ -2,16 +2,17 @@
 {% load timedelta %}
 {% block title %}Talks tagged as {{object.name}} - vtalks.net{% endblock %}
 {% block content %}
-<main role="main">
-    <!-- search form -->
-    <section class="container-fluid search-form">
-        <div class="container">
-            {% include "_partials/search_form.html" %}
-        </div>
-    </section>
-    <!-- list talks -->
-    <section class="container latest-talks">
-        <h3>Talks tagged as "{{object.name}}"</h3>
+<!-- search form -->
+<section class="container-fluid search-form p-0 py-4">
+    <div class="container">
+        {% include "_partials/search_form.html" %}
+    </div>
+</section>
+<!-- list tagged talks -->
+<section class="container-fluid latest-talks p-0 py-4">
+    <div class="container">
+        <h2>Talks tagged as "{{object.name}}"</h2>
+        <hr/>
         {% if object_list %}
             {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
             <hr/>
@@ -21,6 +22,6 @@
         {% else %}
             <p>No results.</p>
         {% endif %}
-    </section>
-</main>
+    </div>
+</section>
 {% endblock %}
