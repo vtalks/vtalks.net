@@ -13,7 +13,7 @@ class AboutView(TemplateView):
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm
-    success_url = 'http://www.google.com'
+    success_url = '.'
 
     def form_valid(self, form):
         form.save()
