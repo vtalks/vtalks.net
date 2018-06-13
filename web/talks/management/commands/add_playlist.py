@@ -9,11 +9,11 @@ from django.core.management.base import BaseCommand
 from ...models import Channel
 from ...models import Talk
 from ...models import Playlist
-from ...youtube.channel import fetch_channel_data
-from ...youtube.playlist import get_playlist_code
-from ...youtube.playlist import fetch_playlist_data
-from ...youtube.playlist import fetch_playlist_items
-from ...youtube.video import fetch_video_data
+from youtube_data_api3.channel import fetch_channel_data
+from youtube_data_api3.playlist import get_playlist_code
+from youtube_data_api3.playlist import fetch_playlist_data
+from youtube_data_api3.playlist import fetch_playlist_items
+from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):

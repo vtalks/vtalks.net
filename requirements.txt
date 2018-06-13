@@ -8,3 +8,4 @@ coverage==4.4.2
 psycopg2
 djangorestframework
 python-coveralls
+youtube_data_api3

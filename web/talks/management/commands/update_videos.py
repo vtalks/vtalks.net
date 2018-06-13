@@ -8,9 +8,9 @@ from django.core.management.base import BaseCommand
 
 from ...models import Channel
 from ...models import Talk
-from ...youtube.channel import fetch_channel_data
-from ...youtube.video import get_video_code
-from ...youtube.video import fetch_video_data
+from youtube_data_api3.channel import fetch_channel_data
+from youtube_data_api3.video import get_video_code
+from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
