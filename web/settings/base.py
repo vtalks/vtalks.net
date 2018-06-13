@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'taggit_serializer',
     'user_profile',
     'corporate',
+    'topics',
     'events',
     'playlists',
     'channels',
