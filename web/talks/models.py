@@ -12,7 +12,7 @@ from channels.models import Channel
 from playlists.models import Playlist
 from events.models import Edition
 
-from .behaviours import Rankable
+from .mixins import Rankable
 
 from .managers import PublishedTalkManager
 
