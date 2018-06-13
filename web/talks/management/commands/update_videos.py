@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 
-from ...models import Channel
+from ....channels.models import Channel
 from ...models import Talk
 from youtube_data_api3.channel import fetch_channel_data
 from youtube_data_api3.video import get_video_code
