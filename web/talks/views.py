@@ -18,6 +18,7 @@ from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
 from .models import TalkWatch
+from topics.models import Topic
 
 from taggit.models import Tag
 
@@ -40,6 +41,9 @@ class IndexView(TemplateView):
 
         best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:3]
         context['best_talks'] = best_talks
+
+        topics_list = Topic.objects.all().order_by('-updated')
+        context['topics_list'] = topics_list
 
         if self.request.user.is_authenticated:
             watched_talks = self.request.user.talkwatch_set.filter()
