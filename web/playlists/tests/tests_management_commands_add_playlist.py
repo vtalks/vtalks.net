@@ -9,10 +9,10 @@ from django.core.management import call_command
 
 class AddPlayListCommandTests(TestCase):
 
-    @patch("talks.management.commands.add_playlist.fetch_channel_data")
-    @patch("talks.management.commands.add_playlist.fetch_video_data")
-    @patch("talks.management.commands.add_playlist.fetch_playlist_data")
-    @patch("talks.management.commands.add_playlist.fetch_playlist_items")
+    @patch("playlists.management.commands.add_playlist.fetch_channel_data")
+    @patch("playlists.management.commands.add_playlist.fetch_video_data")
+    @patch("playlists.management.commands.add_playlist.fetch_playlist_data")
+    @patch("playlists.management.commands.add_playlist.fetch_playlist_items")
     def test_command(self, fake_fetch_playlist_items, fake_fetch_playlist_data, fake_fetch_video_data, fake_fetch_channel_data):
         # mock fetch playlist items
         fake_fetch_playlist_items.return_value = ['fake_video_id']

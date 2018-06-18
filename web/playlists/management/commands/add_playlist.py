@@ -6,9 +6,9 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 
-from ...models import Channel
-from ...models import Talk
-from ...models import Playlist
+from channels.models import Channel
+from talks.models import Talk
+from playlists.models import Playlist
 from youtube_data_api3.channel import fetch_channel_data
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
