@@ -25,7 +25,7 @@ class Topic(models.Model):
 
         If it is a new object (it has the property 'id' as null on saving)
         generates an slug string from the title.
-        In case two different events but with the same title we append the code
+        In case two different channels but with the same title we append the code
         as suffix to the slug to prevent unique slugs for each element on the
         database.
         """
@@ -34,9 +34,8 @@ class Topic(models.Model):
             self.slug = slugify(self.title)
             # check if the generated slug is already being used and, in such
             # case we append the code to it.
-            count = Topic.objects.filter(slug=self.slug).count()
-            if count > 0:
-                self.slug = "{:s}-{:d}".format(self.slug, count)
+            if Topic.objects.filter(slug=self.slug).count() > 0:
+                self.slug = "{:s}-{:s}".format(self.slug, self.code)
         super(Topic, self).save(*args, **kwargs)
 
     class Meta:
