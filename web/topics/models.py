@@ -35,7 +35,7 @@ class Topic(models.Model):
             # check if the generated slug is already being used and, in such
             # case we append the code to it.
             if Topic.objects.filter(slug=self.slug).count() > 0:
-                self.slug = "{:s}-{:s}".format(self.slug, self.code)
+                self.slug = "{:s}-{:s}".format(self.slug, self.id)
         super(Topic, self).save(*args, **kwargs)
 
     class Meta:
