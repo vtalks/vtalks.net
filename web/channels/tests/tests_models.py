@@ -17,7 +17,7 @@ class ChannelModelTests(TestCase):
         self.assertEquals(str(channel_1), channel_1.title)
 
     def test_instance_get_youtube_valid_url(self):
-        """All Channel models have a property that returns the external
+        """ All Channel models have a property that returns the external
         youtube url.
         """
         channel_1 = Channel.objects.get(code='1')
