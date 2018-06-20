@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class EventsConfig(AppConfig):
+class TopicsConfig(AppConfig):
     name = 'topics'

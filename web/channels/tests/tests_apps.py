@@ -6,6 +6,7 @@ from ..apps import ChannelsConfig
 
 
 class ChannelsConfigTest(TestCase):
+
     def test_apps(self):
         self.assertEqual(ChannelsConfig.name, 'channels')
         self.assertEqual(apps.get_app_config('channels').name, 'channels')
