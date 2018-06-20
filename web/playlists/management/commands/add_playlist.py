@@ -1,5 +1,6 @@
 import re
 
+from datetime import datetime
 from datetime import timedelta
 
 from django.conf import settings
@@ -85,6 +86,7 @@ class Command(BaseCommand):
                     talk_data["statistics"]["dislikeCount"] = 0
                 if "favoriteCount" not in talk_data["statistics"]:
                     talk_data["statistics"]["favoriteCount"] = 0
+
                 talk_obj, created = Talk.objects.update_or_create(
                     code=talk_data["id"],
                     defaults={
@@ -97,7 +99,7 @@ class Command(BaseCommand):
                         'youtube_like_count': talk_data["statistics"]["likeCount"],
                         'youtube_dislike_count': talk_data["statistics"]["dislikeCount"],
                         'youtube_favorite_count': talk_data["statistics"]["favoriteCount"],
-                        'created': talk_data["snippet"]["publishedAt"],
+                        'created': datetime.strptime(talk_data["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%S.000Z").replace(tzinfo=timezone.utc),
                         'updated': timezone.now(),
                     },
                 )

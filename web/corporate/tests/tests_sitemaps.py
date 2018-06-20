@@ -7,6 +7,7 @@ from talks.models import Talk
 
 
 class SitemapTest(TestCase):
+
     def setUp(self):
         chanel_1 = Channel.objects.create(code='1', title='channel title 1')
         Talk.objects.create(code='1', title='talk title 1', channel=chanel_1)

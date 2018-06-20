@@ -1,7 +1,8 @@
 # vtalks.net 
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CircleCI](https://circleci.com/gh/vtalks/vtalks.net.svg?style=svg)](https://circleci.com/gh/vtalks/vtalks.net)
-[![Coverage Status](https://coveralls.io/repos/github/vtalks/vtalks.net/badge.svg?branch=master)](https://coveralls.io/github/vtalks/vtalks.net?branch=master)
+[![codecov](https://codecov.io/gh/vtalks/vtalks.net/branch/develop/graph/badge.svg)](https://codecov.io/gh/vtalks/vtalks.net)
 
 ## License
 
