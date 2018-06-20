@@ -43,7 +43,7 @@ coveralls:	cover ## Send coverage report to coveralls.io
 	$(DOCKER-COMPOSE) \
 		-f ../deploy/docker-compose.yml \
 		-f ../deploy/docker-compose-dev.yml \
-		exec web coveralls
+		exec web codecov
 
 # Docker container images
 
