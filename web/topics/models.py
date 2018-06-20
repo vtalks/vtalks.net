@@ -34,8 +34,9 @@ class Topic(models.Model):
             self.slug = slugify(self.title)
             # check if the generated slug is already being used and, in such
             # case we append the code to it.
-            if Topic.objects.filter(slug=self.slug).count() > 0:
-                self.slug = "{:s}-{:s}".format(self.slug, self.id)
+            count = Topic.objects.filter(slug=self.slug).count()
+            if count > 0:
+                self.slug = "{:s}-{:s}".format(self.slug, str(count))
         super(Topic, self).save(*args, **kwargs)
 
     class Meta:
