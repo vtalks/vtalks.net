@@ -1,7 +1,6 @@
 # vtalks.net 
 
 [![CircleCI](https://circleci.com/gh/vtalks/vtalks.net.svg?style=svg)](https://circleci.com/gh/vtalks/vtalks.net)
-[![Coverage Status](https://coveralls.io/repos/github/vtalks/vtalks.net/badge.svg?branch=master)](https://coveralls.io/github/vtalks/vtalks.net?branch=master)
 
 ## License
 
