@@ -1,20 +1,9 @@
-import re
-
-from datetime import datetime
-from datetime import timedelta
-
 from django.conf import settings
-from django.utils import timezone
 from django.core.management.base import BaseCommand
 
-from channels.models import Channel
-from talks.models import Talk
 from playlists.models import Playlist
-from youtube_data_api3.channel import fetch_channel_data
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
-from youtube_data_api3.playlist import fetch_playlist_items
-from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
@@ -35,11 +24,34 @@ class Command(BaseCommand):
             exit(1)
 
         # Check if the playlist is already on the database
-        playlist = Playlist.objects.get(code=playlist_code)
-        if playlist is not None:
-            print("ERROR: Playlist {:s} is already on the database".format(playlist_code))
+        playlist = None
+        try:
+            playlist = Playlist.objects.get(code=playlist_code)
+        except Playlist.DoesNotExist:
+            print("ERROR: Playlist {:s} is not present on the database".format(playlist_code))
             exit(1)
 
+        print("Updating playlist id:{:d} - code:{:s} - youtube_url:{:s}".format(
+            playlist.id,
+            playlist_code,
+            youtube_url_playlist)
+        )
+
+        # Fetch playlist data from Youtube API
+        youtube_playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
+
+        # If no data is received do nothing
+        if youtube_playlist_data is None:
+            print("ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_code))
+            exit(1)
+
+        playlist.update_playlist_model(youtube_playlist_data)
+
+        playlist.save()
+
+        print("Playlist updated successfully")
+
+        """
         # Add playlist
         playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
         playlist_obj = None
@@ -151,3 +163,4 @@ class Command(BaseCommand):
                 talk_obj.duration = d
 
                 talk_obj.save()
+        """
