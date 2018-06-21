@@ -1,3 +1,4 @@
+from datetime import datetime
 from datetime import timedelta
 
 from django.conf import settings
@@ -119,6 +120,7 @@ class Talk(Rankable, models.Model):
         self.title = youtube_video_data["snippet"]["title"]
         self.description = youtube_video_data["snippet"]["description"]
         self.duration = parse_duration(youtube_video_data["contentDetails"]["duration"])
+        self.created = datetime.strptime(youtube_video_data["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%S.000Z").replace(tzinfo=timezone.utc)
 
     def save(self, *args, **kwargs):
         """Overrides save method.
