@@ -49,11 +49,14 @@ class Command(BaseCommand):
             exit(0)
 
         # if uploadStatus on youtube is failed we un-publish the video
-        if youtube_video_data['status']['uploadStatus'] == "failed":
-            print("Un-publish video because youtube statusUpload is failed")
-            talk.published = False
-            talk.save()
-            exit(0)
+        if "status" in youtube_video_data:
+            status = youtube_video_data['status']
+            if "uploadStatus" in status:
+                if status['uploadStatus'] == "failed":
+                    print("Un-publish video because youtube statusUpload is failed")
+                    talk.published = False
+                    talk.save()
+                    exit(0)
 
         talk.update_video_model(youtube_video_data)
 

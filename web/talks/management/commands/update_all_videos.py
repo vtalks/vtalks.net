@@ -28,11 +28,14 @@ class Command(BaseCommand):
             exit(0)
 
         # if uploadStatus on youtube is failed we un-publish the video
-        if talk_data['status']['uploadStatus'] == "failed":
-            print("Un-publish video because youtube statusUpload is failed")
-            talk.published = False
-            talk.save()
-            exit(0)
+        if "status" in talk_data:
+            status = talk_data['status']
+            if "uploadStatus" in status:
+                if status['uploadStatus'] == "failed":
+                    print("Un-publish video because youtube statusUpload is failed")
+                    talk.published = False
+                    talk.save()
+                    exit(0)
 
         self.stdout.write(
             self.style.SUCCESS('Fetch talk with code "%s"' % talk_data["id"]))
