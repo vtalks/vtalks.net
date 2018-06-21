@@ -1,20 +1,10 @@
-import re
-
-from datetime import datetime
-from datetime import timedelta
-
 from django.conf import settings
-from django.utils import timezone
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
-from channels.models import Channel
-from talks.models import Talk
 from playlists.models import Playlist
-from youtube_data_api3.channel import fetch_channel_data
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
-from youtube_data_api3.playlist import fetch_playlist_items
-from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
@@ -35,16 +25,39 @@ class Command(BaseCommand):
             exit(1)
 
         # Check if the playlist is already on the database
-        playlist = Playlist.objects.get(code=playlist_code)
-        if playlist is not None:
+        if Playlist.objects.filter(code=playlist_code).exists():
             print("ERROR: Playlist {:s} is already on the database".format(playlist_code))
             exit(1)
 
+        print("Creating playlist code:{:s} - youtube_url:{:s}".format(
+            playlist_code,
+            youtube_url_playlist)
+        )
+
+        # Fetch playlist data from Youtube API
+        youtube_playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
+
+        # If no data is received do nothing
+        if youtube_playlist_data is None:
+            print("ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_code))
+            exit(1)
+
+        # Create playlist
+        playlist = Playlist.objects.create(
+            code=youtube_playlist_data["id"],
+            title=youtube_playlist_data["snippet"]["title"],
+            description=youtube_playlist_data["snippet"]["description"],
+            created=youtube_playlist_data["snippet"]["publishedAt"],
+            updated=timezone.now(),
+        )
+
+        print("Playlist created successfully")
+
+        """
         # Add playlist
-        playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
         playlist_obj = None
         if playlist_data:
-            playlist_obj, created = Playlist.objects.update_or_create(
+            playlist_obj, created = Playlist.objects.create(
                 code=playlist_data["id"],
                 defaults={
                     'code': playlist_data["id"],
@@ -151,3 +164,4 @@ class Command(BaseCommand):
                 talk_obj.duration = d
 
                 talk_obj.save()
+        """
