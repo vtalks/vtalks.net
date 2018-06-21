@@ -34,6 +34,12 @@ class Command(BaseCommand):
             print("ERROR: Invalid URL playlist {:s}".format(youtube_url_playlist))
             exit(1)
 
+        # Check if the playlist is already on the database
+        playlist = Playlist.objects.get(code=playlist_code)
+        if playlist is not None:
+            print("ERROR: Playlist {:s} is already on the database".format(playlist_code))
+            exit(1)
+
         # Add playlist
         playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
         playlist_obj = None
