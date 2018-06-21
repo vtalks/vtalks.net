@@ -41,8 +41,6 @@
                 <h2>{{ object.title }}</h2>
                 {% if object.get_talks %}
                     {% include "_partials/list_talks.html" with object_list=object.get_talks %}
-                    <hr/>
-                    <a href="#" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
                 {% else %}
                     <p>No results.</p>
                 {% endif %}
