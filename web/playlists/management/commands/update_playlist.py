@@ -1,12 +1,17 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
+from channels.models import Channel
 from playlists.models import Playlist
 from talks.models import Talk
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
 from youtube_data_api3.playlist import fetch_playlist_items
 from youtube_data_api3.video import fetch_video_data
+from youtube_data_api3.channel import fetch_channel_data
 
 
 class Command(BaseCommand):
@@ -65,55 +70,66 @@ class Command(BaseCommand):
         print("{:d} videos on {:s} playlist".format(len(youtube_playlist_items_data), playlist.code))
 
         for video_code in youtube_playlist_items_data:
+            if not Talk.objects.filter(code=video_code).exists():
+                self.create_video(video_code, playlist)
             self.update_video(video_code)
 
-        """
-        for video_code in playlist_videos:
-                # Add Channel
-                channel_obj, created = Channel.objects.update_or_create(
-                    code=channel_data["id"],
-                    defaults={
-                        'code': channel_data["id"],
-                        'title': channel_data["snippet"]["title"],
-                        'description': channel_data["snippet"]["description"],
-                        'created': channel_data["snippet"]["publishedAt"],
-                        'updated': timezone.now(),
-                    },
-                )
-                if created:
-                    self.stdout.write('\tAdded channel "%s"' % channel_obj.title)
-                else:
-                    self.stdout.write('\tUpdated channel "%s"' % channel_obj.title)
+    def create_update_channel(self, channel_code):
+        youtube_channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
 
-                # Add Video
-                if "tags" not in talk_data["snippet"]:
-                    talk_data["snippet"]["tags"] = []
-                if "viewCount" not in talk_data["statistics"]:
-                    talk_data["statistics"]["viewCount"] = 0
-                if "likeCount" not in talk_data["statistics"]:
-                    talk_data["statistics"]["likeCount"] = 0
-                if "dislikeCount" not in talk_data["statistics"]:
-                    talk_data["statistics"]["dislikeCount"] = 0
-                if "favoriteCount" not in talk_data["statistics"]:
-                    talk_data["statistics"]["favoriteCount"] = 0
+        published_at = youtube_channel_data["snippet"]["publishedAt"]
+        datetime_published_at = datetime.strptime(published_at,"%Y-%m-%dT%H:%M:%S.000Z")
+        datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
 
-                talk_obj, created = Talk.objects.update_or_create(
-                    code=talk_data["id"],
-                    defaults={
-                        'code': talk_data["id"],
-                        'title': talk_data["snippet"]["title"],
-                        'description': talk_data["snippet"]["description"],
-                        'channel': channel_obj,
-                        'playlist': playlist_obj,
-                        'youtube_view_count': talk_data["statistics"]["viewCount"],
-                        'youtube_like_count': talk_data["statistics"]["likeCount"],
-                        'youtube_dislike_count': talk_data["statistics"]["dislikeCount"],
-                        'youtube_favorite_count': talk_data["statistics"]["favoriteCount"],
-                        'created': datetime.strptime(talk_data["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%S.000Z").replace(tzinfo=timezone.utc),
-                        'updated': timezone.now(),
-                    },
-                )
-        """
+        # Create or Update Channel
+        channel, created = Channel.objects.update_or_create(
+            code=youtube_channel_data["id"],
+            defaults={
+                'code': youtube_channel_data["id"],
+                'title': youtube_channel_data["snippet"]["title"],
+                'description': youtube_channel_data["snippet"]["description"],
+                'created': datetime_published_at,
+                'updated': timezone.now(),
+            },
+        )
+        if created:
+            print("Created channel {:s} successfully".format(channel_code))
+        else:
+            print("Updated channel {:s} successfully".format(channel_code))
+
+        return channel
+
+    def create_video(self, video_code, playlist):
+        print("Creating video code:{:s}".format(video_code))
+
+        # Fetch video data from Youtube API
+        youtube_video_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
+
+        # If no data is received do nothing
+        if youtube_video_data is None:
+            print("ERROR: Youtube Data API does not return anything for playlist {:s}".format(video_code))
+            return
+
+        # Create or update channel
+        channel_code = youtube_video_data["snippet"]["channelId"]
+        channel = self.create_update_channel(channel_code)
+
+        published_at = youtube_video_data["snippet"]["publishedAt"]
+        datetime_published_at = datetime.strptime(published_at,"%Y-%m-%dT%H:%M:%S.000Z")
+        datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
+
+        # Create playlist
+        talk = Talk.objects.create(
+            code=youtube_video_data["id"],
+            title=youtube_video_data["snippet"]["title"],
+            description=youtube_video_data["snippet"]["description"],
+            channel=channel,
+            playlist=playlist,
+            created=datetime_published_at,
+            updated=timezone.now(),
+        )
+
+        print("Talk created successfully")
 
     def update_video(self, video_code):
         # Get talk from the database
