@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 
-from ....channels.models import Channel
+from channels.models import Channel
 from ...models import Talk
 from youtube_data_api3.channel import fetch_channel_data
 from youtube_data_api3.video import get_video_code
@@ -119,7 +119,12 @@ class Command(BaseCommand):
         talk_obj.save()
 
     def handle(self, *args, **options):
-        talks = Talk.objects.all().order_by('updated')
+        talks = Talk.published_objects.all()
         for talk in talks:
-            self.stdout.write('Updating talk "%s"' % talk.id)
-            self.update_video(talk.youtube_url)
+            print(
+                "Updating video id:{:d} - code:{:s} - youtube_url:{:s}".format(
+                    talk.id,
+                    talk.code,
+                    talk.youtube_url)
+            )
+            # self.update_video(talk.youtube_url)
