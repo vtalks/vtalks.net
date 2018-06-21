@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from taggit.models import Tag
+from talks.models import Talk
 
 
 # Create your models here.
@@ -16,6 +17,15 @@ class Topic(models.Model):
     tags = models.ManyToManyField(Tag)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
+
+    @property
+    def get_talks(self, count=3):
+        """ Get talks from this Topic
+        """
+        tags_slugs = set(tag.slug for tag in self.tags.all())
+        tagged_talks = Talk.published_objects.filter(
+            tags__slug__in=tags_slugs).order_by('-wilsonscore_rank').distinct()[:count]
+        return tagged_talks
 
     def __str__(self):
         return self.title

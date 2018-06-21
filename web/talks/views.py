@@ -18,6 +18,7 @@ from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
 from .models import TalkWatch
+from topics.models import Topic
 
 from taggit.models import Tag
 
@@ -35,11 +36,13 @@ class IndexView(TemplateView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        latest_talks = Talk.published_objects.all().order_by('-created', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-updated')[:3]
+        latest_talks = Talk.published_objects.all().order_by('-created')[:3]
         context['latest_talks'] = latest_talks
 
-        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:3]
+        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank')[:3]
         context['best_talks'] = best_talks
+
+        context['topics'] = Topic.objects.all().order_by('?')[:5]
 
         return context
 
@@ -93,7 +96,7 @@ class DetailTalkView(DetailView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        hot_talks = Talk.published_objects.all().order_by('-hacker_hot', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:4]
+        hot_talks = Talk.published_objects.all().order_by('-hacker_hot')[:4]
         context['hot_talks'] = hot_talks
 
         similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
@@ -106,7 +109,7 @@ class LatestTalksView(ListView):
     model = Talk
     template_name = 'latest-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-created', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-updated']
+    ordering = ['-created']
 
     def get_context_data(self, **kwargs):
         context = super(LatestTalksView, self).get_context_data(**kwargs)
@@ -121,7 +124,7 @@ class BestTalksView(ListView):
     model = Talk
     template_name = 'best-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated']
+    ordering = ['-wilsonscore_rank']
 
     def get_context_data(self, **kwargs):
         context = super(BestTalksView, self).get_context_data(**kwargs)
@@ -183,7 +186,7 @@ class DetailTagView(DetailView):
         slug = self.kwargs['slug']
         context['object'] = Tag.objects.get(slug=slug)
 
-        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')
+        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank')
         paginator = Paginator(tagged_talks, self.paginate_by)
 
         page = 1
