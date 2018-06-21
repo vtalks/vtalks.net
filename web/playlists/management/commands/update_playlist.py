@@ -2,8 +2,11 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from playlists.models import Playlist
+from talks.models import Talk
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
+from youtube_data_api3.playlist import fetch_playlist_items
+from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
@@ -51,39 +54,21 @@ class Command(BaseCommand):
 
         print("Playlist updated successfully")
 
+        # Fetch playlist items data from Youtube API
+        youtube_playlist_items_data = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist.code)
+
+        # If no data is received do nothing
+        if youtube_playlist_items_data is None:
+            print("ERROR: Youtube Data API does not return anything for playlist items {:s}".format(playlist_code))
+            exit(1)
+
+        print("{:d} videos on {:s} playlist".format(len(youtube_playlist_items_data), playlist.code))
+
+        for video_code in youtube_playlist_items_data:
+            self.update_video(video_code)
+
         """
-        # Add playlist
-        playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
-        playlist_obj = None
-        if playlist_data:
-            playlist_obj, created = Playlist.objects.update_or_create(
-                code=playlist_data["id"],
-                defaults={
-                    'code': playlist_data["id"],
-                    'title': playlist_data["snippet"]["title"],
-                    'description': playlist_data["snippet"]["description"],
-                    'created': playlist_data["snippet"]["publishedAt"],
-                    'updated': timezone.now(),
-                },
-            )
-            if created:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        'Added playlist "%s"' % playlist_obj.title))
-            else:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        'Updated playlist "%s"' % playlist_obj.title))
-
-        playlist_videos = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist_code)
         for video_code in playlist_videos:
-            talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
-
-            # Check if there is data (private videos do not returns anything)
-            if talk_data:
-                channel_code = talk_data["snippet"]["channelId"]
-                channel_data = fetch_channel_data(settings.YOUTUBE_API_KEY, channel_code)
-
                 # Add Channel
                 channel_obj, created = Channel.objects.update_or_create(
                     code=channel_data["id"],
@@ -128,39 +113,51 @@ class Command(BaseCommand):
                         'updated': timezone.now(),
                     },
                 )
-                if created:
-                    self.stdout.write('\t\tAdded talk "%s"' % talk_obj.title)
-                else:
-                    self.stdout.write('\t\tUpdated talk "%s"' % talk_obj.title)
-
-                # Add tags from cli arguments and talk_data
-                video_tags = []
-                if "tags" in talk_data["snippet"]:
-                    video_tags += talk_data["snippet"]["tags"]
-                for tag in video_tags:
-                    talk_obj.tags.add(tag)
-                    self.stdout.write('\t\t\tTagged as "%s"' % tag)
-
-                hours = 0
-                minutes = 0
-                seconds = 0
-                duration = talk_data["contentDetails"]["duration"]
-                try:
-                    hours = re.compile('(\d+)H').search(duration).group(1)
-                except AttributeError:
-                    hours = 0
-                try:
-                    minutes = re.compile('(\d+)M').search(duration).group(1)
-                except AttributeError:
-                    minutes = 0
-                try:
-                    seconds = re.compile('(\d+)S').search(duration).group(1)
-                except AttributeError:
-                    seconds = 0
-
-                d = timedelta(hours=int(hours), minutes=int(minutes),
-                              seconds=int(seconds))
-                talk_obj.duration = d
-
-                talk_obj.save()
         """
+
+    def update_video(self, video_code):
+        # Get talk from the database
+        talk = None
+        try:
+            talk = Talk.objects.get(code=video_code)
+        except Talk.DoesNotExist:
+            print("ERROR: Video does not exist on the database")
+            return
+
+        print("Updating video id:{:d} - code:{:s} - youtube_url:{:s}".format(
+            talk.id,
+            talk.code,
+            talk.youtube_url)
+        )
+
+        # Fetch video data from Youtube API
+        youtube_video_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
+
+        # if no data is received we un-publish the video
+        if youtube_video_data is None:
+            print("Un-publish video because youtube API does not return data")
+            talk.published = False
+            talk.save()
+            return
+
+        # if uploadStatus on youtube is failed we un-publish the video
+        if "status" in youtube_video_data:
+            status = youtube_video_data['status']
+            if "uploadStatus" in status:
+                if status['uploadStatus'] == "failed":
+                    print("Un-publish video because youtube statusUpload is failed")
+                    talk.published = False
+                    talk.save()
+                    return
+
+        talk.update_video_model(youtube_video_data)
+
+        talk.update_video_tags(youtube_video_data)
+
+        talk.update_video_statistics(youtube_video_data)
+
+        talk.recalculate_video_sortrank()
+
+        talk.save()
+
+        print("Video updated successfully")
