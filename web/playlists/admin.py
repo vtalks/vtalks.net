@@ -21,7 +21,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['-created']
+    ordering = ['-updated']
     readonly_fields = ('youtube_url',)
     prepopulated_fields = {"slug": ("title",)}
 

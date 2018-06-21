@@ -5,8 +5,8 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from channels.models import Channel
-from talks.models import Talk
 from playlists.models import Playlist
+from talks.models import Talk
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
 from youtube_data_api3.playlist import fetch_playlist_items
@@ -32,11 +32,15 @@ class Command(BaseCommand):
             exit(1)
 
         # Check if the playlist is already on the database
-        if Playlist.objects.filter(code=playlist_code).exists():
-            print("ERROR: Playlist {:s} is already on the database".format(playlist_code))
+        playlist = None
+        try:
+            playlist = Playlist.objects.get(code=playlist_code)
+        except Playlist.DoesNotExist:
+            print("ERROR: Playlist {:s} is not present on the database".format(playlist_code))
             exit(1)
 
-        print("Creating playlist code:{:s} - youtube_url:{:s}".format(
+        print("Updating playlist id:{:d} - code:{:s} - youtube_url:{:s}".format(
+            playlist.id,
             playlist_code,
             youtube_url_playlist)
         )
@@ -49,16 +53,11 @@ class Command(BaseCommand):
             print("ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_code))
             exit(1)
 
-        # Create playlist
-        playlist = Playlist.objects.create(
-            code=youtube_playlist_data["id"],
-            title=youtube_playlist_data["snippet"]["title"],
-            description=youtube_playlist_data["snippet"]["description"],
-            created=youtube_playlist_data["snippet"]["publishedAt"],
-            updated=timezone.now(),
-        )
+        playlist.update_playlist_model(youtube_playlist_data)
 
-        print("Playlist created successfully")
+        playlist.save()
+
+        print("Playlist updated successfully")
 
         # Fetch playlist items data from Youtube API
         youtube_playlist_items_data = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist.code)
@@ -94,9 +93,9 @@ class Command(BaseCommand):
             },
         )
         if created:
-            print("Created channel successfully")
+            print("Created channel {:s} successfully".format(channel_code))
         else:
-            print("Updated channel successfully")
+            print("Updated channel {:s} successfully".format(channel_code))
 
         return channel
 
@@ -119,7 +118,7 @@ class Command(BaseCommand):
         datetime_published_at = datetime.strptime(published_at,"%Y-%m-%dT%H:%M:%S.000Z")
         datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
 
-        # Create talk
+        # Create playlist
         talk = Talk.objects.create(
             code=youtube_video_data["id"],
             title=youtube_video_data["snippet"]["title"],
@@ -130,7 +129,7 @@ class Command(BaseCommand):
             updated=timezone.now(),
         )
 
-        print("Video created successfully")
+        print("Talk created successfully")
 
     def update_video(self, video_code):
         # Get talk from the database
