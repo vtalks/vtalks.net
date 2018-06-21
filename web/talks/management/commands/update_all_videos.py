@@ -1,103 +1,12 @@
-import re
-
-from datetime import timedelta
-
 from django.conf import settings
-from django.utils import timezone
 from django.core.management.base import BaseCommand
 
-from ...models import Talk
+from talks.models import Talk
 from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
     help = 'Update all videos on the database.'
-
-    def update_video(self, talk):
-        # Fetch video data from Youtube API
-        talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, talk.code)
-
-        # if no data is received we un-publish the video
-        if talk_data is None:
-            print(
-                "Un-publish video because youtube API does not return data")
-            talk.published = False
-            talk.save()
-            exit(0)
-
-        # if uploadStatus on youtube is failed we un-publish the video
-        if "status" in talk_data:
-            status = talk_data['status']
-            if "uploadStatus" in status:
-                if status['uploadStatus'] == "failed":
-                    print("Un-publish video because youtube statusUpload is failed")
-                    talk.published = False
-                    talk.save()
-                    exit(0)
-
-        # Add Video
-        if "tags" not in talk_data["snippet"]:
-            talk_data["snippet"]["tags"] = []
-        if "viewCount" not in talk_data["statistics"]:
-            talk_data["statistics"]["viewCount"] = 0
-        if "likeCount" not in talk_data["statistics"]:
-            talk_data["statistics"]["likeCount"] = 0
-        if "dislikeCount" not in talk_data["statistics"]:
-            talk_data["statistics"]["dislikeCount"] = 0
-        if "favoriteCount" not in talk_data["statistics"]:
-            talk_data["statistics"]["favoriteCount"] = 0
-        talk_obj, created = Talk.objects.update_or_create(
-            code=talk_data["id"],
-            defaults={
-                'code': talk_data["id"],
-                'title': talk_data["snippet"]["title"],
-                'description': talk_data["snippet"]["description"],
-                'youtube_view_count': talk_data["statistics"]["viewCount"],
-                'youtube_like_count': talk_data["statistics"]["likeCount"],
-                'youtube_dislike_count': talk_data["statistics"]["dislikeCount"],
-                'youtube_favorite_count': talk_data["statistics"]["favoriteCount"],
-                'tags': ", ".join(talk_data["snippet"]["tags"]),
-                'created': talk_data["snippet"]["publishedAt"],
-                'updated': timezone.now(),
-            },
-        )
-        if created:
-            self.stdout.write('\tAdded talk "%s"' % talk_obj.title)
-        else:
-            self.stdout.write('\tUpdated talk "%s"' % talk_obj.title)
-
-        talk_obj = Talk.objects.get(code=talk_data["id"])
-
-        # Add tags from cli arguments and talk_data
-        video_tags = []
-        if "tags" in talk_data["snippet"]:
-            video_tags += talk_data["snippet"]["tags"]
-        # talk_obj.tags.clear()
-        for tag in video_tags:
-            talk_obj.tags.add(tag)
-            self.stdout.write('\t\tTagged as "%s"' % tag)
-
-        hours = 0
-        minutes = 0
-        seconds = 0
-        duration = talk_data["contentDetails"]["duration"]
-        try:
-            hours = re.compile('(\d+)H').search(duration).group(1)
-        except AttributeError:
-            hours = 0
-        try:
-            minutes = re.compile('(\d+)M').search(duration).group(1)
-        except AttributeError:
-            minutes = 0
-        try:
-            seconds = re.compile('(\d+)S').search(duration).group(1)
-        except AttributeError:
-            seconds = 0
-
-        d = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        talk_obj.duration = d
-
-        talk_obj.save()
 
     def handle(self, *args, **options):
         talks = Talk.published_objects.all()
@@ -108,5 +17,35 @@ class Command(BaseCommand):
                     talk.code,
                     talk.youtube_url)
             )
-            self.update_video(talk)
+
+            # Fetch video data from Youtube API
+            youtube_video_data = fetch_video_data(settings.YOUTUBE_API_KEY, talk.code)
+
+            # if no data is received we un-publish the video
+            if youtube_video_data is None:
+                print("Un-publish video because youtube API does not return data")
+                talk.published = False
+                talk.save()
+                exit(0)
+
+            # if uploadStatus on youtube is failed we un-publish the video
+            if "status" in youtube_video_data:
+                status = youtube_video_data['status']
+                if "uploadStatus" in status:
+                    if status['uploadStatus'] == "failed":
+                        print("Un-publish video because youtube statusUpload is failed")
+                        talk.published = False
+                        talk.save()
+                        exit(0)
+
+            talk.update_video_model(youtube_video_data)
+
+            talk.update_video_tags(youtube_video_data)
+
+            talk.update_video_statistics(youtube_video_data)
+
+            talk.recalculate_video_sortrank()
+
+            talk.save()
+
             print("Video updated successfully")
