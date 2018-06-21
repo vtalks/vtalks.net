@@ -165,11 +165,12 @@ REST_FRAMEWORK = {
     ),
 }
 
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('MAILGUN_API_USER')
-EMAIL_HOST_PASSWORD = os.getenv('MAILGUN_API_KEY')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = os.getenv("MAILGUN_SMTP_USER")
+EMAIL_HOST_PASSWORD = os.getenv("MAILGUN_SMTP_PASSWORD")
+EMAIL_PORT = 587
 
 # Site ID fort sitemaps.xml
 SITE_ID = 1
