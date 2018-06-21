@@ -33,12 +33,19 @@
         {% endif %}
     </div>
 </section>
-<!-- {{ object.slug }} topic talks -->
-{% if topics_list %}
-    {% for object in topics_list %}
+<!-- topic talks -->
+{% if topics %}
+    {% for object in topics %}
         <section class="container-fluid {{ object.slug }}-topic-talks p-0 py-4">
             <div class="container">
                 <h2>{{ object.title }}</h2>
+                {% if object.get_talks %}
+                    {% include "_partials/list_talks.html" with object_list=object.get_talks %}
+                    <hr/>
+                    <a href="#" class="btn btn-primary btn-sm">View more <i class="fas fa-angle-right"></i></a>
+                {% else %}
+                    <p>No results.</p>
+                {% endif %}
             </div>
         </section>
     {% endfor %}
