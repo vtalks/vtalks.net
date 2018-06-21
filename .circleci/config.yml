@@ -5,8 +5,6 @@ jobs:
   web_test:
     docker:
       - image: circleci/python:latest
-    environment:
-      - COVERALLS_REPO_TOKEN: "chNSsvQKfb726Uj3oN9RjsA4WTOwIBLUG"
     steps:
       - checkout
       - run:
@@ -20,7 +18,7 @@ jobs:
             cd web
             python manage.py test --settings=settings.test
             coverage run manage.py test --settings=settings.test
-            coveralls
+            codecov
 
 workflows:
   version: 2

@@ -7,4 +7,6 @@ oauth2
 coverage==4.4.2
 psycopg2
 djangorestframework
-python-coveralls
+codecov
+youtube_data_api3
+ranking_sorting

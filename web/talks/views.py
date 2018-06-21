@@ -41,10 +41,6 @@ class IndexView(TemplateView):
         best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-youtube_view_count', '-youtube_like_count', 'youtube_dislike_count', '-created', '-updated')[:3]
         context['best_talks'] = best_talks
 
-        if self.request.user.is_authenticated:
-            watched_talks = self.request.user.talkwatch_set.filter()
-            context['watched_talks'] = watched_talks
-
         return context
 
 

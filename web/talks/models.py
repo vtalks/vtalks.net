@@ -1,3 +1,4 @@
+from datetime import datetime
 from datetime import timedelta
 
 from django.conf import settings
@@ -12,7 +13,8 @@ from channels.models import Channel
 from playlists.models import Playlist
 from events.models import Edition
 
-from .behaviours import Rankable
+from .utils import parse_duration
+from .mixins import Rankable
 
 from .managers import PublishedTalkManager
 
@@ -56,30 +58,40 @@ class Talk(Rankable, models.Model):
 
     @property
     def default_thumb(self):
+        """ Returns an URL of the default thumbnail of the video
+        """
         if self.code is None:
             return ""
         return "https://i.ytimg.com/vi/{:s}/default.jpg".format(self.code)
 
     @property
     def medium_thumb(self):
+        """ Returns an URL of the medium sized thumbnail of the video
+        """
         if self.code is None:
             return ""
         return "https://i.ytimg.com/vi/{:s}/mqdefault.jpg".format(self.code)
 
     @property
     def high_thumb(self):
+        """ Returns an URL of the high resolution thumbnail of the video
+        """
         if self.code is None:
             return ""
         return "https://i.ytimg.com/vi/{:s}/hqdefault.jpg".format(self.code)
 
     @property
     def standard_thumb(self):
+        """ Returns an URL of the standard size thumbnail of the video
+        """
         if self.code is None:
             return ""
         return "https://i.ytimg.com/vi/{:s}/sddefault.jpg".format(self.code)
 
     @property
     def maxres_thumb(self):
+        """ Returns an URL iof the maximum resolution thumbnail of the video
+        """
         if self.code is None:
             return ""
         return "https://i.ytimg.com/vi/{:s}/maxresdefault.jpg".format(self.code)
@@ -88,6 +100,8 @@ class Talk(Rankable, models.Model):
 
     @property
     def youtube_url(self):
+        """ Returns a Youtube URL of the video
+        """
         if self.code is None:
             return ""
         return "https://www.youtube.com/watch?v={:s}".format(self.code)
@@ -96,22 +110,88 @@ class Talk(Rankable, models.Model):
 
     @property
     def total_view_count(self):
+        """ Returns the total amount of views of a video
+        """
         return int(self.youtube_view_count) + int(self.view_count)
 
     @property
     def total_like_count(self):
+        """ Returns the total amount of 'likes' of a video
+        """
         return int(self.youtube_like_count) + int(self.like_count)
 
     @property
     def total_favorite_count(self):
+        """ Returns the total amount of 'favorites' of a video
+        """
         return int(self.youtube_favorite_count) + int(self.favorite_count)
 
     @property
     def total_dislike_count(self):
+        """ Returns the total amount of 'dislikes' of a video
+        """
         return int(self.youtube_dislike_count) + int(self.dislike_count)
 
-    def __str__(self):
-        return self.title
+    def update_video_model(self, youtube_video_data):
+        """ Updates model's common properties
+        """
+        self.code = youtube_video_data["id"]
+        if "snippet" in youtube_video_data:
+            snippet = youtube_video_data["snippet"]
+            if "title" in snippet:
+                self.title = youtube_video_data["snippet"]["title"]
+            if "description" in snippet:
+                self.description = youtube_video_data["snippet"]["description"]
+            if "publishedAt" in snippet:
+                published_at = youtube_video_data["snippet"]["publishedAt"]
+                datetime_published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%S.000Z")
+                datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
+                self.created = datetime_published_at
+        if "contentDetails" in youtube_video_data:
+            content_details = youtube_video_data["contentDetails"]
+            if "duration" in content_details:
+                self.duration = parse_duration(content_details["duration"])
+
+    def update_video_tags(self, youtube_video_data):
+        """ Updates tags associated to this model instance
+        """
+        tags = []
+        if "snippet" in youtube_video_data:
+            snippet = youtube_video_data["snippet"]
+            if "tags" in snippet:
+                tags += snippet["tags"]
+        for tag in tags:
+            self.tags.add(tag)
+
+    def update_video_statistics(self, youtube_video_data):
+        """ Updates youtube video statistics ( likes, dislikes, favorites and
+        views )
+        """
+        if "statistics" in youtube_video_data:
+            statistics = youtube_video_data["statistics"]
+            if "viewCount" in statistics:
+                self.youtube_view_count = statistics["viewCount"]
+            if "likeCount" in statistics:
+                self.youtube_like_count = statistics["likeCount"]
+            if "dislikeCount" in statistics:
+                self.youtube_dislike_count = statistics["dislikeCount"]
+            if "favoriteCount" in statistics:
+                self.youtube_favorite_count = statistics["favoriteCount"]
+
+    def recalculate_video_sortrank(self):
+        """ Recalculates sort and ranking values given model's statistics
+        """
+        # wilson score
+        wilsonscore_rank = self.get_wilson_score(self.total_like_count,
+                                                 self.total_dislike_count)
+        self.wilsonscore_rank = wilsonscore_rank
+
+        # hacker news hot
+        votes = abs(self.total_like_count - self.total_dislike_count)
+        hacker_hot = self.get_hacker_hot(votes, self.created)
+        self.hacker_hot = hacker_hot
+
+    # Override methods
 
     def save(self, *args, **kwargs):
         """Overrides save method.
@@ -122,7 +202,7 @@ class Talk(Rankable, models.Model):
         as suffix to the slug to prevent unique slugs for each element on the
         database.
 
-        Also calculates the new ranking for the talk.
+        Also recalculates the sort ranking values for the talk.
         """
 
         # check for repeated slugs
@@ -136,18 +216,19 @@ class Talk(Rankable, models.Model):
 
         self.updated = timezone.now()
 
-        # calculate raking
-        wilsonscore_rank = self.get_wilson_score(self.total_like_count, self.total_dislike_count)
-        self.wilsonscore_rank = wilsonscore_rank
-
-        votes = abs(self.total_like_count - self.total_dislike_count)
-        hacker_hot = self.get_hacker_hot(votes, self.created)
-        self.hacker_hot = hacker_hot
+        self.recalculate_video_sortrank()
 
         super(Talk, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        """ Returns the absolute url for this video
+        """
         return "/talk/{}/".format(self.slug)
+
+    def __str__(self):
+        """ Returns the string representation of this object
+        """
+        return self.title
 
     class Meta:
         verbose_name = "Talk"
