@@ -94,9 +94,9 @@ class Command(BaseCommand):
             },
         )
         if created:
-            print("Created channel {:s} successfully".format(channel_code))
+            print("Created channel successfully")
         else:
-            print("Updated channel {:s} successfully".format(channel_code))
+            print("Updated channel successfully")
 
         return channel
 
@@ -130,7 +130,7 @@ class Command(BaseCommand):
             updated=timezone.now(),
         )
 
-        print("Talk created successfully")
+        print("Video created successfully")
 
     def update_video(self, video_code):
         # Get talk from the database
