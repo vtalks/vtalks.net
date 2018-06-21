@@ -9,23 +9,30 @@ from django.core.management.base import BaseCommand
 from channels.models import Channel
 from ...models import Talk
 from youtube_data_api3.channel import fetch_channel_data
-from youtube_data_api3.video import get_video_code
 from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
     help = 'Update all videos on the database.'
 
-    def update_video(self, youtube_url):
-        video_code = get_video_code(youtube_url)
-        talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
+    def update_video(self, talk):
+        # Fetch video data from Youtube API
+        talk_data = fetch_video_data(settings.YOUTUBE_API_KEY, talk.code)
 
+        # if no data is received we un-publish the video
         if talk_data is None:
-            Talk.objects.filter(code=video_code).delete()
-            self.stdout.write(
-                self.style.SUCCESS(
-                    'Deleted talk with code "%s"' % video_code))
-            return
+            print(
+                "Un-publish video because youtube API does not return data")
+            talk.published = False
+            talk.save()
+            exit(0)
+
+        # if uploadStatus on youtube is failed we un-publish the video
+        if talk_data['status']['uploadStatus'] == "failed":
+            print("Un-publish video because youtube statusUpload is failed")
+            talk.published = False
+            talk.save()
+            exit(0)
 
         self.stdout.write(
             self.style.SUCCESS('Fetch talk with code "%s"' % talk_data["id"]))
@@ -127,5 +134,5 @@ class Command(BaseCommand):
                     talk.code,
                     talk.youtube_url)
             )
-            self.update_video(talk.youtube_url)
+            self.update_video(talk)
             print("Video updated successfully")
