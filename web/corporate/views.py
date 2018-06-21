@@ -1,5 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
-from django.views.generic import FormView
+from django.views import View
+from django.shortcuts import render
+from django.core.mail import send_mail
 
 from .forms import ContactForm
 
@@ -10,14 +13,27 @@ class AboutView(TemplateView):
     template_name = 'about.html'
 
 
-class ContactView(FormView):
+class ContactView(View):
     template_name = 'contact.html'
     form_class = ContactForm
-    success_url = '.'
 
-    def form_valid(self, form):
-        form.save()
-        return super(ContactView, self).form_valid(form)
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            send_mail(
+                form.cleaned_data['subject'],
+                form.cleaned_data['message'],
+                form.cleaned_data['email'],
+                ['hello@vtalks.net'],
+                fail_silently=True
+            )
+            return HttpResponseRedirect('/')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class HelpView(TemplateView):
