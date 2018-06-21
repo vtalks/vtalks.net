@@ -122,6 +122,17 @@ class Talk(Rankable, models.Model):
         self.duration = parse_duration(youtube_video_data["contentDetails"]["duration"])
         self.created = datetime.strptime(youtube_video_data["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%S.000Z").replace(tzinfo=timezone.utc)
 
+    def recalculate_video_sortrank(self):
+        # wilson score
+        wilsonscore_rank = self.get_wilson_score(self.total_like_count,
+                                                 self.total_dislike_count)
+        self.wilsonscore_rank = wilsonscore_rank
+
+        # hackernews hot
+        votes = abs(self.total_like_count - self.total_dislike_count)
+        hacker_hot = self.get_hacker_hot(votes, self.created)
+        self.hacker_hot = hacker_hot
+
     def save(self, *args, **kwargs):
         """Overrides save method.
 
@@ -145,13 +156,7 @@ class Talk(Rankable, models.Model):
 
         self.updated = timezone.now()
 
-        # calculate raking
-        wilsonscore_rank = self.get_wilson_score(self.total_like_count, self.total_dislike_count)
-        self.wilsonscore_rank = wilsonscore_rank
-
-        votes = abs(self.total_like_count - self.total_dislike_count)
-        hacker_hot = self.get_hacker_hot(votes, self.created)
-        self.hacker_hot = hacker_hot
+        self.recalculate_video_sortrank()
 
         super(Talk, self).save(*args, **kwargs)
 

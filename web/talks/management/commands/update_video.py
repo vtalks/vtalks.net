@@ -61,7 +61,7 @@ class Command(BaseCommand):
 
         # talk.update_video_statistics()
 
-        # talk.reacalculate_video_ranking()
+        talk.recalculate_video_sortrank()
 
         # Save video to database
         talk.save()
