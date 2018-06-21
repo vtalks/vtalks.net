@@ -127,4 +127,5 @@ class Command(BaseCommand):
                     talk.code,
                     talk.youtube_url)
             )
-            # self.update_video(talk.youtube_url)
+            self.update_video(talk.youtube_url)
+            print("Video updated successfully")
