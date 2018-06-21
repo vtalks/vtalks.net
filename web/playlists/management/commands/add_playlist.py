@@ -18,11 +18,10 @@ from youtube_data_api3.video import fetch_video_data
 
 
 class Command(BaseCommand):
-    help = 'Adds all videos from a playlist to the system.'
+    help = 'Adds all videos from a youtube playlist to the database.'
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url', type=str)
-        parser.add_argument('--tags', type=str, nargs='*', default=[], help='tags to assign to videos')
 
     def handle(self, *args, **options):
         playlist_code = get_playlist_code(options['youtube_url'])
@@ -110,10 +109,8 @@ class Command(BaseCommand):
 
                 # Add tags from cli arguments and talk_data
                 video_tags = []
-                video_tags += options['tags']
                 if "tags" in talk_data["snippet"]:
                     video_tags += talk_data["snippet"]["tags"]
-                talk_obj.tags.clear()
                 for tag in video_tags:
                     talk_obj.tags.add(tag)
                     self.stdout.write('\t\t\tTagged as "%s"' % tag)
