@@ -12,6 +12,7 @@ from channels.models import Channel
 from playlists.models import Playlist
 from events.models import Edition
 
+from .utils import parse_duration
 from .mixins import Rankable
 
 from .managers import PublishedTalkManager
@@ -112,6 +113,12 @@ class Talk(Rankable, models.Model):
 
     def __str__(self):
         return self.title
+
+    def update_video_model(self, youtube_video_data):
+        self.code = youtube_video_data["id"]
+        self.title = youtube_video_data["snippet"]["title"]
+        self.description = youtube_video_data["snippet"]["description"]
+        self.duration = parse_duration(youtube_video_data["contentDetails"]["duration"])
 
     def save(self, *args, **kwargs):
         """Overrides save method.
