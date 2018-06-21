@@ -163,6 +163,21 @@ class Talk(Rankable, models.Model):
         for tag in tags:
             self.tags.add(tag)
 
+    def update_video_statistics(self, youtube_video_data):
+        """ Updates youtube video statistics ( likes, dislikes, favorites and
+        views )
+        """
+        if "statistics" in youtube_video_data:
+            statistics = youtube_video_data["statistics"]
+            if "viewCount" in statistics:
+                self.youtube_view_count = statistics["viewCount"]
+            if "likeCount" in statistics:
+                self.youtube_like_count = statistics["likeCount"]
+            if "dislikeCount" in statistics:
+                self.youtube_dislike_count = statistics["dislikeCount"]
+            if "favoriteCount" in statistics:
+                self.youtube_favorite_count = statistics["favoriteCount"]
+
     def recalculate_video_sortrank(self):
         """ Recalculates sort and ranking values given model's statistics
         """
@@ -187,7 +202,7 @@ class Talk(Rankable, models.Model):
         as suffix to the slug to prevent unique slugs for each element on the
         database.
 
-        Also calculates the new ranking for the talk.
+        Also recalculates the sort ranking values for the talk.
         """
 
         # check for repeated slugs
@@ -206,6 +221,8 @@ class Talk(Rankable, models.Model):
         super(Talk, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        """ Returns the absolute url for this video
+        """
         return "/talk/{}/".format(self.slug)
 
     def __str__(self):

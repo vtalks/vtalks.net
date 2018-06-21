@@ -59,11 +59,10 @@ class Command(BaseCommand):
 
         talk.update_video_tags(youtube_video_data)
 
-        # talk.update_video_statistics()
+        talk.update_video_statistics(youtube_video_data)
 
         talk.recalculate_video_sortrank()
 
-        # Save video to database
         talk.save()
 
         print("Video updated successfully")
