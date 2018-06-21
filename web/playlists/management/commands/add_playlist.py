@@ -21,10 +21,18 @@ class Command(BaseCommand):
     help = 'Adds all videos from a youtube playlist to the database.'
 
     def add_arguments(self, parser):
-        parser.add_argument('youtube_url', type=str)
+        parser.add_argument('youtube_url_playlist', type=str)
 
     def handle(self, *args, **options):
-        playlist_code = get_playlist_code(options['youtube_url'])
+        youtube_url_playlist = options['youtube_url_playlist']
+
+        # Get code from youtube url
+        playlist_code = ""
+        try:
+            playlist_code = get_playlist_code(youtube_url_playlist)
+        except Exception:
+            print("ERROR: Invalid URL playlist {:s}".format(youtube_url_playlist))
+            exit(1)
 
         # Add playlist
         playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
