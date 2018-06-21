@@ -21,7 +21,7 @@ class Command(BaseCommand):
         try:
             video_code = get_video_code(youtube_url_video)
         except Exception:
-            print("ERROR: Invalid youtube URL video {:s}".format(youtube_url_video))
+            print("ERROR: Invalid URL video {:s}".format(youtube_url_video))
             exit(1)
 
         # Get talk from the database
@@ -41,23 +41,23 @@ class Command(BaseCommand):
         # Fetch video data from Youtube API
         youtube_video_data = fetch_video_data(settings.YOUTUBE_API_KEY, video_code)
 
-        # if no data is received we unpublish the video
+        # if no data is received we un-publish the video
         if youtube_video_data is None:
-            print("Mark video unpublished because youtube API does not return data")
+            print("Un-publish video because youtube API does not return data")
             talk.published = False
             talk.save()
             exit(0)
 
-        # if uploadStatus on youtube is failed we unpublish the video
+        # if uploadStatus on youtube is failed we un-publish the video
         if youtube_video_data['status']['uploadStatus'] == "failed":
-            print("Mark video unpublished because youtube statusUpload is failed")
+            print("Un-publish video because youtube statusUpload is failed")
             talk.published = False
             talk.save()
             exit(0)
 
         talk.update_video_model(youtube_video_data)
 
-        # talk.update_video_tags()
+        talk.update_video_tags(youtube_video_data)
 
         # talk.update_video_statistics()
 
