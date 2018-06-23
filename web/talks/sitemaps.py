@@ -10,7 +10,7 @@ class HomeSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
 
     def items(self):
-        return ['talks:index']
+        return ['home:index']
 
     def location(self, item):
         return reverse(item)
