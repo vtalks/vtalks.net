@@ -36,10 +36,10 @@ class IndexView(TemplateView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        latest_talks = Talk.published_objects.all().order_by('-created')[:3]
+        latest_talks = Talk.published_objects.all()[:3]
         context['latest_talks'] = latest_talks
 
-        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank')[:3]
+        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-created')[:3]
         context['best_talks'] = best_talks
 
         context['topics'] = Topic.objects.all().order_by('?')[:5]
@@ -124,7 +124,7 @@ class BestTalksView(ListView):
     model = Talk
     template_name = 'best-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-wilsonscore_rank']
+    ordering = ['-wilsonscore_rank', '-created']
 
     def get_context_data(self, **kwargs):
         context = super(BestTalksView, self).get_context_data(**kwargs)
@@ -146,9 +146,9 @@ class SearchTalksView(ListView):
         rank = SearchRank(vector, query)
         search_results = Talk.published_objects.annotate(rank=rank)
         # Filter by minimum rank
-        search_results = search_results.filter(rank__gte=0.1)
+        search_results = search_results.filter(rank__gte=0.1).distinct()
         # Sort by rank (descendant)
-        search_results = search_results.order_by('-rank')
+        search_results = search_results.order_by('-rank', '-created')
         return search_results
 
     def get_context_data(self, **kwargs):
@@ -186,7 +186,7 @@ class DetailTagView(DetailView):
         slug = self.kwargs['slug']
         context['object'] = Tag.objects.get(slug=slug)
 
-        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank')
+        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-created')
         paginator = Paginator(tagged_talks, self.paginate_by)
 
         page = 1
