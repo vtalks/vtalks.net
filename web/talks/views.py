@@ -1,7 +1,6 @@
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchQuery
 from django.contrib.postgres.search import SearchRank
-from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -9,42 +8,20 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-
-from django.conf import settings
 from django.core.paginator import Paginator
+from django.conf import settings
 
 from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
 from .models import TalkWatch
-from topics.models import Topic
-
-from taggit.models import Tag
 
 from .forms import SearchForm
 
+from taggit.models import Tag
+
 # Create your views here.
-
-
-class IndexView(TemplateView):
-    template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-
-        search_form = SearchForm()
-        context['search_form'] = search_form
-
-        latest_talks = Talk.published_objects.all()[:3]
-        context['latest_talks'] = latest_talks
-
-        best_talks = Talk.published_objects.all().order_by('-wilsonscore_rank', '-created')[:3]
-        context['best_talks'] = best_talks
-
-        context['topics'] = Topic.objects.all().order_by('?')[:5]
-
-        return context
 
 
 class DetailTalkView(DetailView):
