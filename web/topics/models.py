@@ -18,6 +18,14 @@ class Topic(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
+    # Properties
+
+    @property
+    def talks_count(self):
+        """ Get the number of talks on this Topic
+        """
+        return self.get_talks(count=None).count()
+
     def get_talks(self, count=3):
         """ Get talks from this Topic
         """
