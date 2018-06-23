@@ -14,13 +14,14 @@ class EditionItemInline(admin.StackedInline):
 class EventAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'description', 'url')
+            'fields': ('title', 'slug', 'description', 'url', 'twitter')
         }),
         ('Metadata', {
             'classes': ('collapse',),
             'fields': ('created', 'updated'),
         }),
     )
+    list_display = ('title', 'url', 'created')
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
@@ -35,7 +36,7 @@ admin.site.register(Event, EventAdmin)
 class EditionAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'description', 'url', 'venue', 'event', 'event_start', 'event_end')
+            'fields': ('title', 'slug', 'description', 'url', 'country', 'city', 'venue', 'event', 'event_start', 'event_end')
         }),
         ('Metadata', {
             'classes': ('collapse',),

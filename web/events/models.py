@@ -11,6 +11,7 @@ class Event(models.Model):
     slug = models.SlugField(max_length=200, unique=True, default=None)
     description = models.TextField(blank=True)
     url = models.URLField(blank=True)
+    twitter = models.CharField(max_length=200, null=True, blank=True, default=None)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
@@ -34,6 +35,9 @@ class Event(models.Model):
             count = Event.objects.filter(slug=self.slug).count()
             if count > 0:
                 self.slug = "{:s}-{:d}".format(self.slug, count)
+
+        self.updated = timezone.now()
+
         super(Event, self).save(*args, **kwargs)
 
     class Meta:
@@ -49,6 +53,8 @@ class Edition(models.Model):
     slug = models.SlugField(max_length=200, unique=True, default=None)
     description = models.TextField(blank=True)
     url = models.URLField(blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True, default=None)
+    city = models.CharField(max_length=200, null=True, blank=True, default=None)
     venue = models.CharField(max_length=400, null=True, blank=True, default=None)
     event_start = models.DateField('start', null=True, blank=True)
     event_end = models.DateField('end', null=True, blank=True)
