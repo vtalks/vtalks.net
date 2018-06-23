@@ -14,11 +14,11 @@ class TopicsViewsTest(TestCase):
     def setUp(self):
         tag_1 = Tag.objects.create(name='Tag 1')
         tag_2 = Tag.objects.create(name='Tag 2')
-        chanel_1 = Channel.objects.create(code='1', title='channel title 1')
-        Talk.objects.create(code='1', title='talk title 1', channel=chanel_1, tags=['tag_1', 'tag_2'])
-        Talk.objects.create(code='2', title='talk title 2', channel=chanel_1, tags=['tag_1', 'tag_2'])
-        Talk.objects.create(code='3', title='talk title 3', channel=chanel_1)
-        Talk.objects.create(code='4', title='talk title 4', channel=chanel_1)
+        channel_1 = Channel.objects.create(code='1', title='channel title 1')
+        Talk.objects.create(code='1', title='talk title 1', channel=channel_1, tags=['tag_1', 'tag_2'])
+        Talk.objects.create(code='2', title='talk title 2', channel=channel_1, tags=['tag_1', 'tag_2'])
+        Talk.objects.create(code='3', title='talk title 3', channel=channel_1)
+        Talk.objects.create(code='4', title='talk title 4', channel=channel_1)
         topic = Topic.objects.create(title='topic title 1')
         topic.tags.add(tag_1, tag_2)
         # Every test needs a client.
