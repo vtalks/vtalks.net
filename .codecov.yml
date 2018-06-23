@@ -2,4 +2,4 @@ codecov:
     branch: master
 
 fixes:
-    - "::/"
+    - "::/web/"
