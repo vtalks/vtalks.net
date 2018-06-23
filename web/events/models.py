@@ -35,6 +35,9 @@ class Event(models.Model):
             count = Event.objects.filter(slug=self.slug).count()
             if count > 0:
                 self.slug = "{:s}-{:d}".format(self.slug, count)
+
+        self.updated = timezone.now()
+
         super(Event, self).save(*args, **kwargs)
 
     class Meta:
