@@ -18,13 +18,14 @@ class Topic(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
-    @property
     def get_talks(self, count=3):
         """ Get talks from this Topic
         """
         tags_slugs = set(tag.slug for tag in self.tags.all())
         tagged_talks = Talk.published_objects.filter(
-            tags__slug__in=tags_slugs).order_by('-wilsonscore_rank').distinct()[:count]
+            tags__slug__in=tags_slugs).order_by('-wilsonscore_rank', '-created').distinct()
+        if count:
+            tagged_talks = tagged_talks[:count]
         return tagged_talks
 
     def __str__(self):

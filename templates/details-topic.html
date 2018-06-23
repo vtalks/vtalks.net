@@ -1,6 +1,6 @@
 {% extends "_layouts/default.html" %}
 {% load timedelta %}
-{% block title %}Talks tagged as {{object.name}} - vtalks.net{% endblock %}
+{% block title %}Topic {{object.name}} - vtalks.net{% endblock %}
 {% block content %}
 <!-- search form -->
 <section class="container-fluid search-form p-0 py-4">
@@ -8,17 +8,17 @@
         {% include "_partials/search_form.html" %}
     </div>
 </section>
-<!-- list tagged talks -->
-<section class="container-fluid tagged-talks p-0 py-4">
+<!-- list topic talks -->
+<section class="container-fluid topic-talks p-0 py-4">
     <div class="container">
-        <h2>Talks tagged as "{{object.name}}"</h2>
+        <h2>Topic "{{ object.title }}"</h2>
         <hr/>
         {% if object_list %}
-            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+            {% include "_partials/tag_pagination.html" with url_target='topics:topic-details-paginated' %}
             <hr/>
             {% include "_partials/list_talks.html" %}
             <hr/>
-            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+            {% include "_partials/tag_pagination.html" with url_target='topics:topic-details-paginated' %}
         {% else %}
             <p>No results.</p>
         {% endif %}
