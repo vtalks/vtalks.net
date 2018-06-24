@@ -100,6 +100,13 @@ DATABASES = {
     # }
 }
 
+ELASTICSEARCH = {
+    'default': {
+        'HOSTNAME': 'elasticsearch',
+        'PORT': 9200,
+    }
+}
+
 AUTH_PROFILE_MODULE = 'user_profile.UserProfile'
 
 # Password validation
