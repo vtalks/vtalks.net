@@ -1,6 +1,4 @@
-from django.contrib.postgres.search import SearchVector
-from django.contrib.postgres.search import SearchQuery
-from django.contrib.postgres.search import SearchRank
+from elasticsearch import Elasticsearch
 
 from django.views.generic.list import ListView
 from django.core.paginator import Paginator
@@ -16,16 +14,32 @@ class SearchTalksView(ListView):
     template_name = 'search.html'
     paginate_by = settings.PAGE_SIZE
 
-    def _search_talks(self, q):
-        vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
-        query = SearchQuery(q)
-        rank = SearchRank(vector, query)
-        search_results = Talk.published_objects.annotate(rank=rank)
-        # Filter by minimum rank
-        search_results = search_results.filter(rank__gte=0.1).distinct()
-        # Sort by rank (descendant)
-        search_results = search_results.order_by('-rank', '-created')
-        return search_results
+    def _search_talks_elasticsearch(self, q, page=1):
+        page_start = 0
+        if page > 1:
+            page_start = self.paginate_by*(page-1)
+
+        es = Elasticsearch([{
+            'host': settings.ELASTICSEARCH['default']['HOSTNAME'],
+            'port': settings.ELASTICSEARCH['default']['PORT'],
+        }])
+
+        results = es.search(index="talk",
+                            body={
+                                "query": {
+                                    "multi_match": {
+                                        "query": q,
+                                        "fields": ["title", "description"],
+                                    },
+                                },
+                                "from": page_start,
+                                "size": self.paginate_by,
+                                "_source": ["id"],
+                            })
+        results_total = results['hits']['total']
+        results_ids = [ids['_id'] for ids in results['hits']['hits']]
+
+        return results_total, results_ids
 
     def get_context_data(self, **kwargs):
         context = super(SearchTalksView, self).get_context_data(**kwargs)
@@ -34,15 +48,17 @@ class SearchTalksView(ListView):
         context['search_form'] = search_form
 
         if search_form.is_valid():
-            q = search_form.cleaned_data['q']
-            context['search_query'] = q
-
-            search_results = self._search_talks(q)
-            paginator = Paginator(search_results, self.paginate_by)
+            query = search_form.cleaned_data['q']
+            context['search_query'] = query
 
             page = 1
             if "page" in self.request.GET:
                 page = self.request.GET["page"]
+
+            es_results_total, es_results_ids = self._search_talks_elasticsearch(query, page)
+            search_results = Talk.published_objects.filter(pk__in=es_results_ids)
+            paginator = Paginator(search_results, self.paginate_by)
+
             context['object_list'] = paginator.get_page(page)
 
         return context

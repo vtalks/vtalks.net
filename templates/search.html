@@ -15,15 +15,21 @@
             <h2>Search results for: "{{search_query}}"</h2>
             <hr/>
             {% if object_list %}
-                {% include "_partials/search_pagination.html" with url_target='talks:search' %}
+                <!-- {% include "_partials/search_pagination.html" with url_target='search:search' %} -->
                 <hr/>
                 {% include "_partials/list_talks.html" %}
                 <hr/>
-                {% include "_partials/search_pagination.html" %}
+                <!-- {% include "_partials/search_pagination.html" %} -->
             {% else %}
                 <p>Search has no results.</p>
             {% endif %}
         </div>
     </section>
 {% endif %}
+<section class="container-fluid search-results p-0 py-4">
+    <div class="container">
+        <h4>Debug</h4>
+        <code>{{ elasticsearch_results }}</code>
+    </div>
+</section>
 {% endblock  %}
