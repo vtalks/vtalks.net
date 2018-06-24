@@ -4,7 +4,7 @@ from django.conf import settings
 
 from topics.models import Topic
 
-from talks.forms import SearchForm
+from search.forms import SearchForm
 
 
 # Create your views here.
