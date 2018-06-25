@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'playlists',
     'channels',
     'talks',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +98,13 @@ DATABASES = {
     #     'HOST': 'postgres',
     #     'PORT': 5432,
     # }
+}
+
+ELASTICSEARCH = {
+    'default': {
+        'HOSTNAME': 'elasticsearch',
+        'PORT': 9200,
+    }
 }
 
 AUTH_PROFILE_MODULE = 'user_profile.UserProfile'

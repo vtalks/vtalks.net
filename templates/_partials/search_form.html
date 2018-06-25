@@ -1,4 +1,4 @@
-<form action="{% url 'talks:search' %}" method="get" id="search">
+<form action="{% url 'search:search' %}" method="get" id="search">
     <div class="input-group">
         <input type="search" name="{{search_form.q.html_name}}" value="{{search_form.q.value}}" id="{{search_form.q.auto_id}}" class="form-control" placeholder="Search..." maxlength="{{search_form.q.field.max_length}}" aria-required="true" required>
         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>

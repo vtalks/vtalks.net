@@ -15,7 +15,7 @@
             <h2>Search results for: "{{search_query}}"</h2>
             <hr/>
             {% if object_list %}
-                {% include "_partials/search_pagination.html" with url_target='talks:search' %}
+                {% include "_partials/search_pagination.html" with url_target='search:search' %}
                 <hr/>
                 {% include "_partials/list_talks.html" %}
                 <hr/>

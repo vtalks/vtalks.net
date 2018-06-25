@@ -10,3 +10,5 @@ djangorestframework
 codecov
 youtube_data_api3
 ranking_sorting
+elasticsearch>=6.0.0,<7.0.0
+
