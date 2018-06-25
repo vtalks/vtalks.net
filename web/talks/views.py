@@ -104,6 +104,10 @@ class BestTalksView(ListView):
     paginate_by = settings.PAGE_SIZE
     ordering = ['-wilsonscore_rank', '-created']
 
+    def get_queryset(self):
+        queryset = Talk.published_objects.all()
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super(BestTalksView, self).get_context_data(**kwargs)
 
