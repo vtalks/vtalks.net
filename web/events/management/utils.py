@@ -1,5 +1,6 @@
 import re
 
+from datetime import datetime
 
 def get_twitter_handle(data):
     """ Extract twitter handle
@@ -21,6 +22,29 @@ def get_twitter_handle(data):
 def get_start_end_dates(data):
     """ Extract start and end dates for an edition
     """
-    event_edition_start = ""
-    event_edition_end = ""
+    event_edition_start = None
+    event_edition_end = None
+
+    if not data:
+        return event_edition_start, event_edition_end
+
+    # Match patterns like "October 24, 2014"
+    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day>[0-9]+),\s(?P<year>[0-9]+)"
+    m = re.findall(regexp, data)
+    if len(m) > 0:
+        month, day, year = m[0]
+        date_string = '{:s}/{:s}/{:s}'.format(day, month, year)
+        event_edition_start = datetime.strptime(date_string, '%d/%B/%Y')
+        event_edition_end = datetime.strptime(date_string, '%d/%B/%Y')
+
+    # Match patterns like "October 24-25, 2014"
+    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]+)-(?P<day_end>[0-9]+),\s(?P<year>[0-9]+)"
+    m = re.findall(regexp, data)
+    if len(m) > 0:
+        month, day_start, day_end, year = m[0]
+        date_string = '{:s}/{:s}/{:s}'.format(day_start, month, year)
+        event_edition_start = datetime.strptime(date_string, '%d/%B/%Y')
+        date_string = '{:s}/{:s}/{:s}'.format(day_end, month, year)
+        event_edition_end = datetime.strptime(date_string, '%d/%B/%Y')
+
     return event_edition_start, event_edition_end

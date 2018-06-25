@@ -7,6 +7,7 @@ from events.models import Edition
 from events.management import event
 from events.management import edition
 
+
 class Command(BaseCommand):
     help = 'Import events from a confs.tech json file to the database.'
 
