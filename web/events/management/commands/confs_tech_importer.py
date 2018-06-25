@@ -16,7 +16,6 @@ class Command(BaseCommand):
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2014/ruby.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2014/ux.json",
     ]
-    """
     source_urls["2015"] = [
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2015/ruby.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2015/ux.json",
@@ -25,6 +24,7 @@ class Command(BaseCommand):
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2016/ruby.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2016/ux.json",
     ]
+    """
     source_urls["2017"] = [
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2017/android.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2017/css.json",
