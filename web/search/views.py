@@ -24,7 +24,7 @@ class SearchTalksView(ListView):
             'port': settings.ELASTICSEARCH['default']['PORT'],
         }])
 
-        results = es.search(index="talk",
+        results = es.search(index="vtalks",
                             body={
                                 "query": {
                                     "multi_match": {
