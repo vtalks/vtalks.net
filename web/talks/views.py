@@ -85,6 +85,10 @@ class LatestTalksView(ListView):
     paginate_by = settings.PAGE_SIZE
     ordering = ['-created']
 
+    def get_queryset(self):
+        queryset = Talk.published_objects.all()
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super(LatestTalksView, self).get_context_data(**kwargs)
 
