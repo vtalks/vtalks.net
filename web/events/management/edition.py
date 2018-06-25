@@ -58,12 +58,10 @@ def update_event_edition(event_json_data, year, event):
     if "city" in event_json_data:
         event_edition_city = event_json_data['city']
 
-    event_edition_start = ""
-    event_edition_end = ""
+    event_edition_start = None
+    event_edition_end = None
     if "date" in event_json_data:
         event_edition_start, event_edition_end = utils.get_start_end_dates(event_json_data['date'])
-
-    print("----", event_edition_start, "-----", event_edition_end)
 
     event_edition = Edition.objects.get(title=event_edition_name)
     event_edition.title = event_edition_name
@@ -71,7 +69,9 @@ def update_event_edition(event_json_data, year, event):
     event_edition.country = event_edition_country
     event_edition.city = event_edition_city
     event_edition.event = event
-    event_edition.event_start = event_edition_start,
-    event_edition.event_end = event_edition_end,
+    if event_edition_start:
+        event_edition.event_start = event_edition_start
+    if event_edition_end:
+        event_edition.event_end = event_edition_end
 
     return event_edition
