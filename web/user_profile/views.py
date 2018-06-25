@@ -44,7 +44,7 @@ class AuthTwitterView(RedirectView):
 
 
 class AuthTwitterCallbackView(RedirectView):
-    pattern_name = 'talks:index'
+    pattern_name = 'home:index'
 
     def __get_oauth_client(self):
         consumer = oauth.Consumer(settings.TWITTER_TOKEN,
