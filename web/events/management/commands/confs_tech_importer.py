@@ -15,6 +15,7 @@ class Command(BaseCommand):
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2014/ruby.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2014/ux.json",
     ]
+    """
     source_urls["2015"] = [
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2015/ruby.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2015/ux.json",
@@ -71,6 +72,7 @@ class Command(BaseCommand):
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2019/tech-comm.json",
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2019/ux.json",
     ]
+    """
 
     def add_arguments(self, parser):
         pass
