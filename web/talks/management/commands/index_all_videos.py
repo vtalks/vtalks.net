@@ -15,7 +15,7 @@ class Command(BaseCommand):
             serializer = TalkSerializer(talk, many=False)
             talk_json_data = serializer.data
 
-            url = "http://elasticsearch:9200/talk/_doc/{:d}".format(talk.id)
+            url = "http://elasticsearch:9200/vtalks/talk/{:d}".format(talk.id)
             resp = requests.put(url, json=talk_json_data)
             if resp.status_code not in [200, 201]:
                 print("ERROR: {:s}".format(url))
