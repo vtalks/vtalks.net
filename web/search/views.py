@@ -1,7 +1,7 @@
+import math
 from elasticsearch import Elasticsearch
 
 from django.views.generic.list import ListView
-from django.core.paginator import Paginator
 from django.conf import settings
 
 from .forms import SearchForm
@@ -53,12 +53,21 @@ class SearchTalksView(ListView):
 
             page = 1
             if "page" in self.request.GET:
-                page = self.request.GET["page"]
+                page = int(self.request.GET["page"])
 
             es_results_total, es_results_ids = self._search_talks_elasticsearch(query, page)
             search_results = Talk.published_objects.filter(pk__in=es_results_ids)
-            paginator = Paginator(search_results, self.paginate_by)
 
-            context['object_list'] = paginator.get_page(page)
+            num_pages = math.ceil(es_results_total / self.paginate_by)
+            pagination={}
+            pagination['is_paginated'] = True if es_results_total > self.paginate_by else False
+            pagination['number'] = page
+            pagination['num_pages'] = num_pages
+            pagination['has_previous'] = True if page > 1 else False
+            pagination['previous_page_number'] = page - 1
+            pagination['has_next'] = True if page < num_pages else False
+            pagination['next_page_number'] = page + 1
+            context['pagination'] = pagination
+            context['object_list'] = search_results
 
         return context
