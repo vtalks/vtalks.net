@@ -81,6 +81,9 @@ class Edition(models.Model):
             count = Edition.objects.filter(slug=self.slug).count()
             if count > 0:
                 self.slug = "{:s}-{:d}".format(self.slug, count)
+
+        self.updated = timezone.now()
+
         super(Edition, self).save(*args, **kwargs)
 
     class Meta:
