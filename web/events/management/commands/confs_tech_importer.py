@@ -3,6 +3,8 @@ import requests
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 
+from events.management import utils
+
 from events.models import Event
 from events.models import Edition
 
@@ -143,10 +145,7 @@ class Command(BaseCommand):
         event_twitter_handle = ""
         if "twitter" in event_json_data:
             if event_json_data['twitter']:
-                try:
-                    event_twitter_handle = str.split(event_json_data['twitter'], ',')[1]
-                except IndexError:
-                    event_twitter_handle = str.lstrip(event_json_data['twitter'], '@')
+                event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
         event_url = ""
         if "url" in event_json_data:
@@ -170,10 +169,7 @@ class Command(BaseCommand):
         event_twitter_handle = ""
         if "twitter" in event_json_data:
             if event_json_data['twitter']:
-                try:
-                    event_twitter_handle = str.split(event_json_data['twitter'], ',')[1]
-                except IndexError:
-                    event_twitter_handle = str.lstrip(event_json_data['twitter'], '@')
+                event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
         event_url = ""
         if "url" in event_json_data:
