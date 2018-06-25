@@ -71,10 +71,13 @@ class Topic(models.Model):
             if count > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, str(count))
 
-        self.elastic_search_query_dsl = self.build_elastic_search_query_dsl()
         self.updated = timezone.now()
 
         super(Topic, self).save(*args, **kwargs)
+
+        if not self.elastic_search_query_dsl:
+            self.elastic_search_query_dsl = self.build_elastic_search_query_dsl()
+            self.save()
 
     class Meta:
         verbose_name = "Topic"
