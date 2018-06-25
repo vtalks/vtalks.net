@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.http import Http404
 
 from .models import Talk
 from .models import TalkLike
@@ -24,6 +25,12 @@ from taggit.models import Tag
 class DetailTalkView(DetailView):
     model = Talk
     template_name = 'details-talk.html'
+
+    def get_object(self, queryset=None):
+        obj = super(DetailTalkView, self).get_object(queryset=queryset)
+        if not obj.published:
+            raise Http404()
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super(DetailTalkView, self).get_context_data(**kwargs)
