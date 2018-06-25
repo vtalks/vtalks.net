@@ -13,8 +13,7 @@ def create_event(event_json_data):
 
     event_twitter_handle = ""
     if "twitter" in event_json_data:
-        event_twitter_handle = utils.get_twitter_handle(
-            event_json_data['twitter'])
+        event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
     event_url = ""
     if "url" in event_json_data:
@@ -36,8 +35,7 @@ def update_event(event_json_data):
 
     event_twitter_handle = ""
     if "twitter" in event_json_data:
-        event_twitter_handle = utils.get_twitter_handle(
-            event_json_data['twitter'])
+        event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
     event_url = ""
     if "url" in event_json_data:
