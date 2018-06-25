@@ -21,11 +21,11 @@ class EventAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
-    list_display = ('title', 'url', 'created')
+    list_display = ('title', 'url', 'twitter', 'updated')
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['title', '-created']
+    ordering = ['-updated']
     prepopulated_fields = {"slug": ("title",)}
     inlines = [EditionItemInline]
 
@@ -43,11 +43,11 @@ class EditionAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
-    list_display = ('title', 'event', 'event_start', 'event_end')
+    list_display = ('title', 'event', 'event_start', 'event_end', 'updated')
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']
-    ordering = ['title', '-created']
+    ordering = ['-updated']
     prepopulated_fields = {"slug": ("title",)}
 
 
