@@ -1,3 +1,4 @@
+import json
 from django.db import models
 
 from django.utils import timezone
@@ -15,6 +16,7 @@ class Topic(models.Model):
     slug = models.SlugField(max_length=200, unique=True, default=None)
     description = models.TextField(blank=True)
     tags = models.ManyToManyField(Tag)
+    elastic_search_query_dsl = models.TextField(blank=True)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
@@ -26,12 +28,24 @@ class Topic(models.Model):
         """
         return self.get_talks(count=None).count()
 
+    def build_elastic_search_query_dsl(self):
+        """ Builds an elastic search query DSL for this topic
+        """
+        query = {
+            "query": {"bool": {"should": []}}
+        }
+        tag_names = set(tag.name for tag in self.tags.all())
+        for tag_name in tag_names:
+            query["query"]["bool"]["should"].append({
+                "match": {"tags": tag_name}}
+            )
+        return json.dumps(query)
+
     def get_talks(self, count=3):
         """ Get talks from this Topic
         """
         tags_slugs = set(tag.slug for tag in self.tags.all())
-        tagged_talks = Talk.published_objects.filter(
-            tags__slug__in=tags_slugs).order_by('-wilsonscore_rank', '-created').distinct()
+        tagged_talks = Talk.published_objects.filter(tags__slug__in=tags_slugs).order_by('-wilsonscore_rank', '-created').distinct()
         if count:
             tagged_talks = tagged_talks[:count]
         return tagged_talks
@@ -56,7 +70,14 @@ class Topic(models.Model):
             count = Topic.objects.filter(slug=self.slug).count()
             if count > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, str(count))
+
+        self.updated = timezone.now()
+
         super(Topic, self).save(*args, **kwargs)
+
+        if not self.elastic_search_query_dsl:
+            self.elastic_search_query_dsl = self.build_elastic_search_query_dsl()
+            self.save()
 
     class Meta:
         verbose_name = "Topic"
