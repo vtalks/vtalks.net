@@ -144,8 +144,7 @@ class Command(BaseCommand):
 
         event_twitter_handle = ""
         if "twitter" in event_json_data:
-            if event_json_data['twitter']:
-                event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
+            event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
         event_url = ""
         if "url" in event_json_data:
@@ -168,16 +167,15 @@ class Command(BaseCommand):
 
         event_twitter_handle = ""
         if "twitter" in event_json_data:
-            if event_json_data['twitter']:
-                event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
+            event_twitter_handle = utils.get_twitter_handle(event_json_data['twitter'])
 
         event_url = ""
         if "url" in event_json_data:
             event_url = event_json_data['url']
 
         event = Event.objects.create(title=event_name,
-                                     url=event_url,
                                      twitter=event_twitter_handle,
+                                     url=event_url,
                                      created=timezone.now())
         return event
 
