@@ -21,7 +21,7 @@ class EventAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
-    list_display = ('title', 'url', 'twitter', 'updated')
+    list_display = ('title', 'url', 'twitter', 'updated', 'editions_count')
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
     search_fields = ['title']

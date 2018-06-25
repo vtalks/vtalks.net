@@ -15,8 +15,11 @@ class Event(models.Model):
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
-    def __str__(self):
-        return self.title
+    # Properties
+
+    @property
+    def editions_count(self):
+        return Edition.objects.filter(event_id=self.id).count()
 
     def save(self, *args, **kwargs):
         """Overrides save method.
@@ -39,6 +42,9 @@ class Event(models.Model):
         self.updated = timezone.now()
 
         super(Event, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = "Event"
