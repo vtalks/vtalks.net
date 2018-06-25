@@ -47,7 +47,7 @@ def get_start_end_dates(data, year=None):
         date_string = '{:s}/{:s}/{:s}'.format(day_end, month, year)
         event_edition_end = datetime.strptime(date_string, '%d/%B/%Y')
 
-    # Match patterns like "Feb 17–19"
+    # Match patterns like "Feb 17–19" and "February 17-19"
     regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]+)-(?P<day_end>[0-9]+)"
     m = re.findall(regexp, data)
     if len(m) > 0:
