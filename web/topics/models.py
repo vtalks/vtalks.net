@@ -1,8 +1,11 @@
 import json
-from django.db import models
 
+from elasticsearch import Elasticsearch
+
+from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.conf import settings
 
 from taggit.models import Tag
 from talks.models import Talk
@@ -28,7 +31,22 @@ class Topic(models.Model):
         """
         return self.get_talks(count=None).count()
 
-    def build_elastic_search_query_dsl(self):
+    @property
+    def talks_count_elasticsearch(self):
+        """ Get the number of talks on this Topic (from ElasticSearch)
+        """
+        es = Elasticsearch([{
+            'host': settings.ELASTICSEARCH['default']['HOSTNAME'],
+            'port': settings.ELASTICSEARCH['default']['PORT'],
+        }])
+
+        elastic_search_index = "vtalks"
+        results = es.search(index=elastic_search_index,
+                            body=self.elastic_search_query_dsl)
+        results_total = results['hits']['total']
+        return results_total
+
+    def build_elastic_search_query_dsl(self, page=None):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
@@ -37,18 +55,39 @@ class Topic(models.Model):
         tag_names = set(tag.name for tag in self.tags.all())
         for tag_name in tag_names:
             query["query"]["bool"]["should"].append({
-                "match": {"tags": tag_name}}
-            )
+                "match": {"tags": tag_name},
+            })
+        if page:
+            page_start = 0
+            if page > 1:
+                page_start = settings.PAGE_SIZE * (page - 1)
+            query["from"] = page_start
+            query["size"] = settings.PAGE_SIZE
         return json.dumps(query)
 
     def get_talks(self, count=3):
         """ Get talks from this Topic
         """
-        tags_slugs = set(tag.slug for tag in self.tags.all())
-        tagged_talks = Talk.published_objects.filter(tags__slug__in=tags_slugs).order_by('-wilsonscore_rank', '-created').distinct()
+        results_total, results_ids = self.get_talks_elasticsearch()
         if count:
-            tagged_talks = tagged_talks[:count]
-        return tagged_talks
+            results_ids = results_ids[:count]
+        topic_talks = Talk.published_objects.filter(pk__in=results_ids)
+        return topic_talks
+
+    def get_talks_elasticsearch(self, page=None):
+        """ Get talks from this Topic from ElasticSearch
+        """
+        es = Elasticsearch([{
+            'host': settings.ELASTICSEARCH['default']['HOSTNAME'],
+            'port': settings.ELASTICSEARCH['default']['PORT'],
+        }])
+
+        elastic_search_index = "vtalks"
+        results = es.search(index=elastic_search_index,
+                            body=self.build_elastic_search_query_dsl(page))
+        results_total = results['hits']['total']
+        results_ids = [ids['_id'] for ids in results['hits']['hits']]
+        return results_total, results_ids
 
     def __str__(self):
         return self.title

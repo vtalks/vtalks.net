@@ -1,11 +1,11 @@
+import math
+
 from django.views.generic.detail import DetailView
-from django.core.paginator import Paginator
 from django.conf import settings
 
+from talks.models import Talk
 from topics.models import Topic
-
 from search.forms import SearchForm
-
 
 # Create your views here.
 
@@ -25,13 +25,23 @@ class DetailTopicView(DetailView):
         topic = Topic.objects.get(slug=slug)
         context['object'] = topic
 
-        topic_talks = topic.get_talks(count=None)
-        paginator = Paginator(topic_talks, self.paginate_by)
-
         page = 1
-        if "page" in self.kwargs:
-            page = self.kwargs["page"]
-        context['is_paginated'] = True
-        context['object_list'] = paginator.get_page(page)
+        if "page" in self.request.GET:
+            page = int(self.request.GET["page"])
+
+        es_results_total, es_results_ids = topic.get_talks_elasticsearch(page=page)
+        search_results = Talk.published_objects.filter(pk__in=es_results_ids)
+
+        num_pages = math.ceil(es_results_total / self.paginate_by)
+        pagination = {}
+        pagination['is_paginated'] = True if es_results_total > self.paginate_by else False
+        pagination['number'] = page
+        pagination['num_pages'] = num_pages
+        pagination['has_previous'] = True if page > 1 else False
+        pagination['previous_page_number'] = page - 1
+        pagination['has_next'] = True if page < num_pages else False
+        pagination['next_page_number'] = page + 1
+        context['pagination'] = pagination
+        context['object_list'] = search_results
 
         return context
