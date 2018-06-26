@@ -5,7 +5,6 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.paginator import Paginator
 from django.conf import settings
 from django.http import Http404
 
@@ -16,8 +15,6 @@ from .models import TalkFavorite
 from .models import TalkWatch
 
 from search.forms import SearchForm
-
-from taggit.models import Tag
 
 # Create your views here.
 
@@ -120,32 +117,6 @@ class BestTalksView(ListView):
 
         search_form = SearchForm()
         context['search_form'] = search_form
-
-        return context
-
-
-class DetailTagView(DetailView):
-    model = Tag
-    template_name = 'details-tag.html'
-    paginate_by = settings.PAGE_SIZE
-
-    def get_context_data(self, **kwargs):
-        context = super(DetailTagView, self).get_context_data(**kwargs)
-
-        search_form = SearchForm()
-        context['search_form'] = search_form
-
-        slug = self.kwargs['slug']
-        context['object'] = Tag.objects.get(slug=slug)
-
-        tagged_talks = Talk.published_objects.filter(tags__slug__in=[slug]).order_by('-wilsonscore_rank', '-created')
-        paginator = Paginator(tagged_talks, self.paginate_by)
-
-        page = 1
-        if "page" in self.kwargs:
-            page = self.kwargs["page"]
-        context['is_paginated'] = True
-        context['object_list'] = paginator.get_page(page)
 
         return context
 

@@ -1,16 +1,16 @@
-{% if is_paginated %}
-    <nav class="pagination" aria-label="tag pagination">
+{% if pagination.is_paginated %}
+    <nav class="pagination" aria-label="Search pagination">
         <span class="step-links">
-            {% if object_list.has_previous %}
-                <a href="/tag/{{ object.slug }}/page/1" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
-                <a href="/tag/{{ object.slug }}/page/{{ object_list.previous_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
+            {% if pagination.has_previous %}
+                <a href="/tag/{{ object.slug }}/page/1/" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
+                <a href="/tag/{{ object.slug }}/page/{{ pagination.previous_page_number }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
             {% endif %}
             <span class="current">
-                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+                Page {{ pagination.number }} of {{ pagination.num_pages }}.
             </span>
-            {% if object_list.has_next %}
-                <a href="/tag/{{ object.slug }}/page/{{ object_list.next_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
-                <a href="/tag/{{ object.slug }}/page/{{ object_list.paginator.num_pages }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
+            {% if pagination.has_next %}
+                <a href="/tag/{{ object.slug }}/page/{{ pagination.next_page_number }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
+                <a href="/tag/{{ object.slug }}/page/{{ pagination.num_pages }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
             {% endif %}
         </span>
     </nav>
