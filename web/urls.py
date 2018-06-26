@@ -34,6 +34,7 @@ urlpatterns = [
     path('auth/', include('user_profile.urls')),
     path('corporate/', include('corporate.urls')),
     path('topic/', include('topics.urls')),
+    path('tag/', include('tags.urls')),
     path('search/', include('search.urls')),
     path('', include('home.urls')),
     path('', include('talks.urls')),

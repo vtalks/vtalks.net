@@ -14,11 +14,11 @@
         <h2>Talks tagged as "{{object.name}}"</h2>
         <hr/>
         {% if object_list %}
-            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+            {% include "_partials/tag_pagination.html" with url_target='tags:tag-details-paginated' %}
             <hr/>
             {% include "_partials/list_talks.html" %}
             <hr/>
-            {% include "_partials/tag_pagination.html" with url_target='talks:tag-details-paginated' %}
+            {% include "_partials/tag_pagination.html" with url_target='tags:tag-details-paginated' %}
         {% else %}
             <p>No results.</p>
         {% endif %}
