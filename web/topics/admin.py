@@ -6,7 +6,7 @@ from .models import Topic
 
 
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created', 'talks_count')
+    list_display = ('title', 'created', 'talks_count_elasticsearch')
     list_filter = ['created',]
     date_hierarchy = 'created'
     ordering = ['-created']
