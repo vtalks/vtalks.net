@@ -2,15 +2,15 @@
     <nav class="pagination" aria-label="Search pagination">
         <span class="step-links">
             {% if pagination.has_previous %}
-                <a href="/topic/{{ object.slug }}/?page=1" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
-                <a href="/topic/{{ object.slug }}/?page={{ pagination.previous_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
+                <a href="/topic/{{ object.slug }}/page/1/" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-left"></i> </a>
+                <a href="/topic/{{ object.slug }}/page/{{ pagination.previous_page_number }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-left"></i> </a>
             {% endif %}
             <span class="current">
                 Page {{ pagination.number }} of {{ pagination.num_pages }}.
             </span>
             {% if pagination.has_next %}
-                <a href="/topic/{{ object.slug }}/?page={{ pagination.next_page_number }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
-                <a href="/topic/{{ object.slug }}/?page={{ pagination.num_pages }}" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
+                <a href="/topic/{{ object.slug }}/page/{{ pagination.next_page_number }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-right"></i> </a>
+                <a href="/topic/{{ object.slug }}/page/{{ pagination.num_pages }}/" class="btn btn-sm btn-primary"><i class="fas fa-angle-double-right"></i> </a>
             {% endif %}
         </span>
     </nav>

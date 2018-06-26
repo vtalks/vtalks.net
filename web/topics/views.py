@@ -26,9 +26,8 @@ class DetailTopicView(DetailView):
         context['object'] = topic
 
         page = 1
-        if "page" in self.request.GET:
-            page = int(self.request.GET["page"])
-
+        if "page" in self.kwargs:
+            page = self.kwargs["page"]
         es_results_total, es_results_ids = topic.get_talks_elasticsearch(page=page)
         search_results = Talk.published_objects.filter(pk__in=es_results_ids)
 
