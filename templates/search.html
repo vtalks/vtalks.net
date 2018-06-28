@@ -15,7 +15,33 @@
             <h2>Search results for: "{{search_query}}"</h2>
             <hr/>
             {% if object_list %}
-                {% include "_partials/search_pagination.html" with url_target='search:search' %}
+                <div class="row">
+                    <div class="col-6">
+                        {% include "_partials/search_pagination.html" with url_target='search:search' %}
+                    </div>
+                    <div class="col-6 text-right">
+                        <div class="dropdown show">
+                          <a class="btn btn-primary dropdown-toggle" href="?q={{search_query}}&page={{ pagination.number }}" role="button" id="dropdownSortLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if sort %}
+                                {% if sort == 'popularity' %}
+                                    Popularity
+                                {% elif sort == 'date' %}
+                                    Date
+                                {% else %}
+                                    Relevance
+                                {% endif %}
+                            {% else %}
+                                Relevance
+                            {% endif %}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownSortLink">
+                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}">Relevance</a>
+                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=popularity">Popularity</a>
+                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=date">Date</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
                 <hr/>
                 {% include "_partials/list_talks.html" %}
                 <hr/>

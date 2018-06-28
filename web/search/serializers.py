@@ -28,8 +28,8 @@ class TalkSerializer(TaggitSerializer, serializers.ModelSerializer):
     wilsonscore_rank = serializers.FloatField(default=0)
     hacker_hot = serializers.FloatField(default=0)
     tags = TagListSerializerField()
-    created = serializers.DateTimeField(default=timezone.now)
-    updated = serializers.DateTimeField(default=timezone.now)
+    created = serializers.DateTimeField(default=timezone.now, format="iso-8601")
+    updated = serializers.DateTimeField(default=timezone.now, format="iso-8601")
 
     class Meta:
         model = Talk
