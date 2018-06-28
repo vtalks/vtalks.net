@@ -68,7 +68,7 @@ class SearchTalksView(ListView):
             if "sort" in self.request.GET:
                 sort = self.request.GET["sort"]
 
-            es_results_total, es_results_ids = self._search_talks_elasticsearch(query, page, sort)
+            es_results_total, es_results_ids = self._search_talks_elasticsearch(q=query, page=page, sort=sort)
             search_results = Talk.published_objects.filter(pk__in=es_results_ids)
 
             num_pages = math.ceil(es_results_total / self.paginate_by)

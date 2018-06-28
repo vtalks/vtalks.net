@@ -28,7 +28,12 @@ class DetailTopicView(DetailView):
         page = 1
         if "page" in self.kwargs:
             page = self.kwargs["page"]
-        es_results_total, es_results_ids = topic.get_talks_elasticsearch(page=page)
+
+        sort = "relevance"
+        if "sort" in self.request.GET:
+            sort = self.request.GET["sort"]
+
+        es_results_total, es_results_ids = topic.get_talks_elasticsearch(page=page, sort=sort)
         search_results = Talk.published_objects.filter(pk__in=es_results_ids)
 
         num_pages = math.ceil(es_results_total / self.paginate_by)
@@ -41,6 +46,7 @@ class DetailTopicView(DetailView):
         pagination['has_next'] = True if page < num_pages else False
         pagination['next_page_number'] = page + 1
         context['pagination'] = pagination
+        context['sort'] = sort
         context['object_list'] = search_results
 
         return context
