@@ -14,7 +14,33 @@
         <h2>Talks tagged as "{{object.name}}"</h2>
         <hr/>
         {% if object_list %}
-            {% include "_partials/tag_pagination.html" with url_target='tags:tag-details-paginated' %}
+            <div class="row">
+                <div class="col-6">
+                    {% include "_partials/tag_pagination.html" with url_target='tags:tag-details-paginated' %}
+                </div>
+                <div class="col-6 text-right">
+                    <div class="dropdown show">
+                      <a class="btn btn-primary dropdown-toggle" href="/tag/{{ object.slug }}/page/{{ pagination.number }}/" role="button" id="dropdownSortLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if sort %}
+                            {% if sort == 'popularity' %}
+                                Popularity
+                            {% elif sort == 'date' %}
+                                Date
+                            {% else %}
+                                Relevance
+                            {% endif %}
+                        {% else %}
+                            Relevance
+                        {% endif %}
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownSortLink">
+                        <a class="dropdown-item" href="/tag/{{ object.slug }}/page/{{ pagination.number }}/">Relevance</a>
+                        <a class="dropdown-item" href="/tag/{{ object.slug }}/page/{{ pagination.number }}/?sort=popularity">Popularity</a>
+                        <a class="dropdown-item" href="/tag/{{ object.slug }}/page/{{ pagination.number }}/?sort=date">Date</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
             <hr/>
             {% include "_partials/list_talks.html" %}
             <hr/>
