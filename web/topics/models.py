@@ -18,6 +18,7 @@ class Topic(models.Model):
     title = models.CharField(max_length=200, default=None)
     slug = models.SlugField(max_length=200, unique=True, default=None)
     description = models.TextField(blank=True)
+    parent_topic = models.ForeignKey("self", blank=True, null=True, default=None, on_delete=models.DO_NOTHING)
     tags = models.ManyToManyField(Tag)
     elastic_search_query_dsl = models.TextField(blank=True)
     created = models.DateTimeField('date created', default=timezone.now)
