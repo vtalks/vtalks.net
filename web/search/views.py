@@ -14,7 +14,7 @@ class SearchTalksView(ListView):
     template_name = 'search.html'
     paginate_by = settings.PAGE_SIZE
 
-    def _search_talks_elasticsearch(self, q, page=1, sort="_score"):
+    def _search_talks_elasticsearch(self, q, page=1, sort="relevance"):
         page_start = 0
         if page > 1:
             page_start = self.paginate_by*(page-1)
@@ -23,6 +23,13 @@ class SearchTalksView(ListView):
             'host': settings.ELASTICSEARCH['default']['HOSTNAME'],
             'port': settings.ELASTICSEARCH['default']['PORT'],
         }])
+
+        if sort == 'date':
+            sort = 'created'
+        elif sort == 'popularity':
+            sort = 'wilsonscore_rank'
+        else:
+            sort = '_score'
 
         elastic_search_index = "vtalks"
         results = es.search(index=elastic_search_index,
@@ -57,7 +64,7 @@ class SearchTalksView(ListView):
             if "page" in self.request.GET:
                 page = int(self.request.GET["page"])
 
-            sort = "_score"
+            sort = "relevance"
             if "sort" in self.request.GET:
                 sort = self.request.GET["sort"]
 
@@ -74,6 +81,7 @@ class SearchTalksView(ListView):
             pagination['has_next'] = True if page < num_pages else False
             pagination['next_page_number'] = page + 1
             context['pagination'] = pagination
+            context['sort'] = sort
             context['object_list'] = search_results
 
         return context

@@ -22,12 +22,22 @@
                     <div class="col-6 text-right">
                         <div class="dropdown show">
                           <a class="btn btn-primary dropdown-toggle" href="?q={{search_query}}&page={{ pagination.number }}" role="button" id="dropdownSortLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Relevance
+                            {% if sort %}
+                                {% if sort == 'popularity' %}
+                                    Popularity
+                                {% elif sort == 'date' %}
+                                    Date
+                                {% else %}
+                                    Relevance
+                                {% endif %}
+                            {% else %}
+                                Relevance
+                            {% endif %}
                           </a>
                           <div class="dropdown-menu" aria-labelledby="dropdownSortLink">
                             <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}">Relevance</a>
-                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=wilsonscore_rank">Popularity</a>
-                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=created">Date</a>
+                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=popularity">Popularity</a>
+                            <a class="dropdown-item" href="?q={{search_query}}&page={{ pagination.number }}&sort=date">Date</a>
                           </div>
                         </div>
                     </div>
