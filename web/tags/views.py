@@ -17,7 +17,7 @@ class DetailTagView(DetailView):
     template_name = 'details-tag.html'
     paginate_by = settings.PAGE_SIZE
 
-    def build_elastic_search_query_dsl(self, tag, page=None):
+    def build_elastic_search_query_dsl(self, tag, page=None, sort=None):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
@@ -33,9 +33,18 @@ class DetailTagView(DetailView):
                 page_start = settings.PAGE_SIZE * (page - 1)
             query["from"] = page_start
             query["size"] = settings.PAGE_SIZE
+
+        if sort == 'date':
+            sort = 'created'
+        elif sort == 'popularity':
+            sort = 'wilsonscore_rank'
+        else:
+            sort = '_score'
+        query["sort"] = {sort: {"order": "desc"}}
+
         return json.dumps(query)
 
-    def get_talks_elasticsearch(self, tag, page=None):
+    def get_talks_elasticsearch(self, tag, page=None, sort=None):
         """ Get talks from this Topic from ElasticSearch
         """
         es = Elasticsearch([{
@@ -45,7 +54,7 @@ class DetailTagView(DetailView):
 
         elastic_search_index = "vtalks"
         results = es.search(index=elastic_search_index,
-                            body=self.build_elastic_search_query_dsl(tag, page))
+                            body=self.build_elastic_search_query_dsl(tag=tag, page=page, sort=sort))
         results_total = results['hits']['total']
         results_ids = [ids['_id'] for ids in results['hits']['hits']]
         return results_total, results_ids
@@ -63,7 +72,12 @@ class DetailTagView(DetailView):
         page = 1
         if "page" in self.kwargs:
             page = self.kwargs["page"]
-        es_results_total, es_results_ids = self.get_talks_elasticsearch(tag, page=page)
+
+        sort = "relevance"
+        if "sort" in self.request.GET:
+            sort = self.request.GET["sort"]
+
+        es_results_total, es_results_ids = self.get_talks_elasticsearch(tag, page=page, sort=sort)
         search_results = Talk.published_objects.filter(pk__in=es_results_ids)
 
         num_pages = math.ceil(es_results_total / self.paginate_by)
@@ -76,6 +90,7 @@ class DetailTagView(DetailView):
         pagination['has_next'] = True if page < num_pages else False
         pagination['next_page_number'] = page + 1
         context['pagination'] = pagination
+        context['sort'] = sort
         context['object_list'] = search_results
 
         return context
