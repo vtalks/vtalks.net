@@ -46,7 +46,7 @@ class Topic(models.Model):
         results_total = results['hits']['total']
         return results_total
 
-    def build_elastic_search_query_dsl(self, page=None):
+    def build_elastic_search_query_dsl(self, page=None, sort=None):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
@@ -63,6 +63,14 @@ class Topic(models.Model):
                 page_start = settings.PAGE_SIZE * (page - 1)
             query["from"] = page_start
             query["size"] = settings.PAGE_SIZE
+        if sort:
+            if sort == 'date':
+                sort = 'created'
+            elif sort == 'popularity':
+                sort = 'wilsonscore_rank'
+            else:
+                sort = '_score'
+            query["sort"] = {sort: {"order": "desc"}}
         return json.dumps(query)
 
     def get_talks(self, count=3):
@@ -74,7 +82,7 @@ class Topic(models.Model):
         topic_talks = Talk.published_objects.filter(pk__in=results_ids)
         return topic_talks
 
-    def get_talks_elasticsearch(self, page=None):
+    def get_talks_elasticsearch(self, page=None, sort=None):
         """ Get talks from this Topic from ElasticSearch
         """
         es = Elasticsearch([{
@@ -84,7 +92,7 @@ class Topic(models.Model):
 
         elastic_search_index = "vtalks"
         results = es.search(index=elastic_search_index,
-                            body=self.build_elastic_search_query_dsl(page))
+                            body=self.build_elastic_search_query_dsl(page=page, sort=sort))
         results_total = results['hits']['total']
         results_ids = [ids['_id'] for ids in results['hits']['hits']]
         return results_total, results_ids

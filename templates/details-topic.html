@@ -1,6 +1,6 @@
 {% extends "_layouts/default.html" %}
 {% load timedelta %}
-{% block title %}Topic {{object.name}} - vtalks.net{% endblock %}
+{% block title %}Topic {{object.title}} - vtalks.net{% endblock %}
 {% block content %}
 <!-- search form -->
 <section class="container-fluid search-form p-0 py-4">
@@ -14,7 +14,33 @@
         <h2>Topic "{{ object.title }}"</h2>
         <hr/>
         {% if object_list %}
-            {% include "_partials/topic_pagination.html" with url_target='topics:topic-details-paginated' %}
+            <div class="row">
+                <div class="col-6">
+                    {% include "_partials/topic_pagination.html" with url_target='topics:topic-details-paginated' %}
+                </div>
+                <div class="col-6 text-right">
+                    <div class="dropdown show">
+                      <a class="btn btn-primary dropdown-toggle" href="/topic/{{ object.slug }}/page/{{ pagination.number }}/" role="button" id="dropdownSortLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if sort %}
+                            {% if sort == 'popularity' %}
+                                Popularity
+                            {% elif sort == 'date' %}
+                                Date
+                            {% else %}
+                                Relevance
+                            {% endif %}
+                        {% else %}
+                            Relevance
+                        {% endif %}
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownSortLink">
+                        <a class="dropdown-item" href="/topic/{{ object.slug }}/page/{{ pagination.number }}/">Relevance</a>
+                        <a class="dropdown-item" href="/topic/{{ object.slug }}/page/{{ pagination.number }}/?sort=popularity">Popularity</a>
+                        <a class="dropdown-item" href="/topic/{{ object.slug }}/page/{{ pagination.number }}/?sort=date">Date</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
             <hr/>
             {% include "_partials/list_talks.html" %}
             <hr/>
