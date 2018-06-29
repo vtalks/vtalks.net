@@ -73,9 +73,6 @@ class Topic(models.Model):
                 sort = '_score'
             query["sort"] = {sort: {"order": "desc"}}
         query_dsl = json.dumps(query)
-        print("------")
-        print(query_dsl)
-        print("------")
         return query_dsl
 
     def get_talks(self, count=3):
