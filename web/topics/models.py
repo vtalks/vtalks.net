@@ -20,7 +20,6 @@ class Topic(models.Model):
     description = models.TextField(blank=True)
     parent_topic = models.ForeignKey("self", blank=True, null=True, default=None, on_delete=models.DO_NOTHING)
     tags = models.ManyToManyField(Tag)
-    elastic_search_query_dsl = models.TextField(blank=True)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
 
@@ -43,7 +42,7 @@ class Topic(models.Model):
 
         elastic_search_index = "vtalks"
         results = es.search(index=elastic_search_index,
-                            body=self.elastic_search_query_dsl)
+                            body=self.build_elastic_search_query_dsl())
         results_total = results['hits']['total']
         return results_total
 
@@ -51,12 +50,13 @@ class Topic(models.Model):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
-            "query": {"bool": {"should": []}}
+            "query": {"bool": {"should": []},},
+            "_source": ["id"],
         }
-        tag_names = set(tag.name for tag in self.tags.all())
-        for tag_name in tag_names:
+        tag_slugs = set(tag.slug for tag in self.tags.all())
+        for tag_slug in tag_slugs:
             query["query"]["bool"]["should"].append({
-                "match": {"tags": tag_name},
+                "match": {"tags": tag_slug},
             })
         if page:
             page_start = 0
@@ -65,14 +65,18 @@ class Topic(models.Model):
             query["from"] = page_start
             query["size"] = settings.PAGE_SIZE
         if sort:
-            if sort == 'date':
+            if sort == 'date':  
                 sort = 'created'
             elif sort == 'popularity':
                 sort = 'wilsonscore_rank'
             else:
                 sort = '_score'
             query["sort"] = {sort: {"order": "desc"}}
-        return json.dumps(query)
+        query_dsl = json.dumps(query)
+        print("------")
+        print(query_dsl)
+        print("------")
+        return query_dsl
 
     def get_talks(self, count=3):
         """ Get talks from this Topic
@@ -122,10 +126,6 @@ class Topic(models.Model):
         self.updated = timezone.now()
 
         super(Topic, self).save(*args, **kwargs)
-
-        if not self.elastic_search_query_dsl:
-            self.elastic_search_query_dsl = self.build_elastic_search_query_dsl()
-            self.save()
 
     class Meta:
         verbose_name = "Topic"
