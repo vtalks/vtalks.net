@@ -19,6 +19,7 @@ class ChannelAdmin(admin.ModelAdmin):
         }),
     )
     date_hierarchy = 'created'
+    list_display = ['title', 'updated']
     list_filter = ['created', 'updated']
     search_fields = ['title']
     ordering = ['-updated']
