@@ -53,10 +53,10 @@ class Topic(models.Model):
             "query": {"bool": {"should": []},},
             "_source": ["id"],
         }
-        tag_slugs = set(tag.slug for tag in self.tags.all())
-        for tag_slug in tag_slugs:
+        tag_names = set(tag.name for tag in self.tags.all())
+        for tag_name in tag_names:
             query["query"]["bool"]["should"].append({
-                "match": {"tags": tag_slug},
+                "match": {"tags": tag_name},
             })
         if page:
             page_start = 0
