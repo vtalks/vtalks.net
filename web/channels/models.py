@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -26,11 +24,6 @@ class Channel(models.Model):
         if self.code:
             url = "https://www.youtube.com/channel/{:s}".format(self.code)
         return url
-
-    def update_channel_model(self, youtube_channel_data):
-        """ Updates model's common properties
-        """
-
 
     # Override methods
 
