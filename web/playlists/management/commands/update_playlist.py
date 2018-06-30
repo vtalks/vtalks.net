@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core import management
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 
 from playlists.management import playlist
@@ -38,6 +39,12 @@ class Command(BaseCommand):
 
         # Get the playlist from the database
         playlist_obj = Playlist.objects.get(code=playlist_code)
+
+        delta = timezone.now() - playlist_obj.updated
+        if delta.seconds <= settings.UPDATE_THRESHOLD:
+            msg = "Playlist code:{:s} have been updated in the last 24h seconds:{:d}".format(playlist_obj.code, delta.seconds)
+            self.stdout.write(msg)
+            return
 
         msg = "Updating playlist code:{:s}".format(playlist_obj.code)
         self.stdout.write(msg)

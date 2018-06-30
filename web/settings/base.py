@@ -184,3 +184,6 @@ EMAIL_PORT = 587
 
 # Site ID fort sitemaps.xml
 SITE_ID = 1
+
+
+UPDATE_THRESHOLD = 86400

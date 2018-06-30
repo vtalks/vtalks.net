@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core import management
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 
 from talks.management import talk
@@ -38,6 +39,13 @@ class Command(BaseCommand):
 
         # Get the talk from the database
         talk_obj = Talk.objects.get(code=video_code)
+
+        # Check if it is outdated
+        delta = timezone.now() - talk_obj.updated
+        if delta.seconds <= settings.UPDATE_THRESHOLD:
+            msg = "Talk code:{:s} have been updated in the last 24h seconds:{:d}".format(talk_obj.code, delta.seconds)
+            self.stdout.write(msg)
+            return
 
         msg = "Updating talk code:{:s}".format(talk_obj.code)
         self.stdout.write(msg)

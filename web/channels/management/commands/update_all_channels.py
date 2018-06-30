@@ -8,6 +8,6 @@ class Command(BaseCommand):
     help = 'Update all channels on the database.'
 
     def handle(self, *args, **options):
-        channels = Channel.objects.all()
+        channels = Channel.objects.all().order_by("updated")
         for channel in channels:
             management.call_command("update_channel", channel.youtube_url)

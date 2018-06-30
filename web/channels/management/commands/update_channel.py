@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core import management
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 
 from channels.management import channel
@@ -38,6 +39,12 @@ class Command(BaseCommand):
 
         # Get the channel from the database
         channel_obj = Channel.objects.get(code=channel_code)
+
+        delta = timezone.now() - channel_obj.updated
+        if delta.seconds <= settings.UPDATE_THRESHOLD:
+            msg = "Channel code:{:s} have been updated in the last 24h seconds:{:d}".format(channel_obj.code, delta.seconds)
+            self.stdout.write(msg)
+            return
 
         msg = "Updating channel code:{:s}".format(channel_obj.code)
         self.stdout.write(msg)
