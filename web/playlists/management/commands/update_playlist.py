@@ -41,8 +41,8 @@ class Command(BaseCommand):
         playlist_obj = Playlist.objects.get(code=playlist_code)
 
         delta = timezone.now() - playlist_obj.updated
-        if delta.seconds <= settings.UPDATE_THRESHOLD:
-            msg = "Playlist code:{:s} have been updated in the last 24h seconds:{:d}".format(playlist_obj.code, delta.seconds)
+        if delta.total_seconds() <= settings.UPDATE_THRESHOLD:
+            msg = "Playlist code:{:s} have been updated in the last 24h seconds:{:f}".format(playlist_obj.code, delta.total_seconds())
             self.stdout.write(msg)
             return
 

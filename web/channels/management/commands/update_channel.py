@@ -41,8 +41,8 @@ class Command(BaseCommand):
         channel_obj = Channel.objects.get(code=channel_code)
 
         delta = timezone.now() - channel_obj.updated
-        if delta.seconds <= settings.UPDATE_THRESHOLD:
-            msg = "Channel code:{:s} have been updated in the last 24h seconds:{:d}".format(channel_obj.code, delta.seconds)
+        if delta.total_seconds() <= settings.UPDATE_THRESHOLD:
+            msg = "Channel code:{:s} have been updated in the last 24h seconds:{:f}".format(channel_obj.code, delta.total_seconds())
             self.stdout.write(msg)
             return
 

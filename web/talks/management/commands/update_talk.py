@@ -42,8 +42,8 @@ class Command(BaseCommand):
 
         # Check if it is outdated
         delta = timezone.now() - talk_obj.updated
-        if delta.seconds <= settings.UPDATE_THRESHOLD:
-            msg = "Talk code:{:s} have been updated in the last 24h seconds:{:d}".format(talk_obj.code, delta.seconds)
+        if delta.total_seconds() <= settings.UPDATE_THRESHOLD:
+            msg = "Talk code:{:s} have been updated in the last 24h seconds:{:f}".format(talk_obj.code, delta.total_seconds())
             self.stdout.write(msg)
             return
 
