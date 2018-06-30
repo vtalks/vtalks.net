@@ -20,5 +20,6 @@ class ChannelModelTests(TestCase):
         """ All Channel models have a property that returns the external
         youtube url.
         """
+        expected_url = "https://www.youtube.com/channel/1"
         channel_1 = Channel.objects.get(code='1')
-        self.assertEquals(channel_1.youtube_url, 'https://www.youtube.com/channel/1')
+        self.assertEquals(channel_1.youtube_url, expected_url)

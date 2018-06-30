@@ -1,7 +1,4 @@
-from datetime import datetime
-
 from django.db import models
-
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -27,22 +24,6 @@ class Channel(models.Model):
         if self.code:
             url = "https://www.youtube.com/channel/{:s}".format(self.code)
         return url
-
-    def update_playlist_model(self, youtube_channel_data):
-        """ Updates model's common properties
-        """
-        self.code = youtube_channel_data["id"]
-        if "snippet" in youtube_channel_data:
-            snippet = youtube_channel_data["snippet"]
-            if "title" in snippet:
-                self.title = youtube_channel_data["snippet"]["title"]
-            if "description" in snippet:
-                self.description = youtube_channel_data["snippet"]["description"]
-            if "publishedAt" in snippet:
-                published_at = youtube_channel_data["snippet"]["publishedAt"]
-                datetime_published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%S.000Z")
-                datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
-                self.created = datetime_published_at
 
     # Override methods
 
