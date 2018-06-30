@@ -5,6 +5,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+from channels.models import Channel
+
 # Create your models here.
 
 
@@ -13,6 +15,7 @@ class Playlist(models.Model):
     title = models.CharField(max_length=200, default=None)
     slug = models.SlugField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True)
+    channel = models.ForeignKey(Channel, blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
 
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)

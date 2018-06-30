@@ -25,7 +25,7 @@ class Command(BaseCommand):
         except Exception:
             msg = "ERROR: Invalid URL playlist {:s}".format(youtube_url_playlist)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
         # Check if the playlist is already on the database
         if not Playlist.objects.filter(code=playlist_code).exists():
@@ -34,6 +34,7 @@ class Command(BaseCommand):
 
             # Call to create command instead
             management.call_command("create_playlist", youtube_url_playlist)
+            return
 
         # Get the playlist from the database
         playlist_obj = Playlist.objects.get(code=playlist_code)
@@ -48,7 +49,7 @@ class Command(BaseCommand):
         if playlist_json_data is None:
             msg = "ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_obj.code)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
         playlist.update_playlist(playlist_obj, playlist_json_data)
 
