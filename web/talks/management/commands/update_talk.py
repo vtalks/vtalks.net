@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url_video', type=str)
+        parser.add_argument('--playlist', dest='playlist', help='Playlist where the talk belongs', type=str, metavar='PLAYLIST', default=None)
 
     def handle(self, *args, **options):
         youtube_url_video = options['youtube_url_video']
@@ -72,7 +73,7 @@ class Command(BaseCommand):
                     talk.save()
                     return
 
-        talk.update_talk(talk_obj, video_json_data)
+        talk.update_talk(talk_obj, video_json_data, playlist=options["playlist"])
 
         msg = "Talk id:{:d} - title:{:s} updated successfully".format(talk_obj.id, talk_obj.title)
         self.stdout.write(self.style.SUCCESS(msg))

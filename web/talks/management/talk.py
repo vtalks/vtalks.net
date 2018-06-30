@@ -4,6 +4,7 @@ from django.core import management
 from django.utils import timezone
 
 from channels.models import Channel
+from playlists.models import Playlist
 from talks.models import Talk
 from talks.utils import parse_duration
 
@@ -80,7 +81,7 @@ def update_talk_model(talk, talk_json_data):
     return talk
 
 
-def create_talk(talk_json_data):
+def create_talk(talk_json_data, playlist=None):
     """ Create a new Talk into the database
     """
     talk_code = talk_json_data["id"]
@@ -118,12 +119,15 @@ def create_talk(talk_json_data):
     talk = update_talk_statistics(talk, talk_json_data)
     talk = recalculate_talk_sortrank(talk)
 
+    if playlist:
+        talk.playlist = Playlist.objects.get(code=playlist)
+
     talk.save()
 
     return talk
 
 
-def update_talk(talk, talk_json_data):
+def update_talk(talk, talk_json_data, playlist=None):
     """ Update an existing Talk into the database
     """
     talk.code = talk_json_data["id"]
@@ -140,6 +144,9 @@ def update_talk(talk, talk_json_data):
             youtube_url_channel = get_channel_youtube_url(channel_code)
             management.call_command("update_channel", youtube_url_channel)
             talk.channel = Channel.objects.get(code=channel_code)
+
+    if playlist:
+        talk.playlist = Playlist.objects.get(code=playlist)
 
     talk.save()
 

@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url_video', type=str)
+        parser.add_argument('--playlist', dest='playlist', help='Playlist where the talk belongs', type=str, metavar='PLAYLIST', default=None)
 
     def handle(self, *args, **options):
         youtube_url_video = options['youtube_url_video']
@@ -29,7 +30,7 @@ class Command(BaseCommand):
 
         # Check if the talk is already on the database
         if Talk.objects.filter(code=video_code).exists():
-            msg = "ERROR: Talk {:s} is already present on the database".format(talk_code)
+            msg = "ERROR: Talk {:s} is already present on the database".format(video_code)
             self.stdout.write(self.style.NOTICE(msg))
 
             # Call to update command instead
@@ -48,7 +49,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(msg))
             return
 
-        talk_obj = talk.create_talk(video_json_data)
+        talk_obj = talk.create_talk(video_json_data, playlist=options['playlist'])
 
         msg = "Talk id:{:d} - title:{:s} created successfully".format(talk_obj.id, talk_obj.title)
         self.stdout.write(self.style.SUCCESS(msg))
