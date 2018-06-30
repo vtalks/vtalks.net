@@ -49,5 +49,5 @@ class Command(BaseCommand):
 
         channel_obj = channel.create_channel(channel_json_data)
 
-        msg = "Created channel id:{:d} - title:{:s} successfully".format(channel_obj.id, channel_obj.title)
+        msg = "Channel id:{:d} - title:{:s} created successfully".format(channel_obj.id, channel_obj.title)
         self.stdout.write(self.style.SUCCESS(msg))

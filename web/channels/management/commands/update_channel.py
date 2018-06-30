@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.core import management
-from django.utils import timezone
 from django.core.management.base import BaseCommand
 
 from channels.management import channel
@@ -39,14 +38,6 @@ class Command(BaseCommand):
         # Get the channel from the database
         channel_obj = Channel.objects.get(code=channel_code)
 
-        # Consider an object updated during one day
-        if not channel_obj.is_outdated:
-            delta = timezone.now() - channel_obj.updated
-            delta_hours = delta.seconds / 3600
-            msg = "WARNING: Channel {:s} was updated {:f} hours ago (expires after 24 hours)".format(channel_code, delta_hours)
-            self.stdout.write(self.style.WARNING(msg))
-            exit(0)
-
         msg = "Updating channel code:{:s}".format(channel_obj.code)
         self.stdout.write(msg)
 
@@ -61,5 +52,5 @@ class Command(BaseCommand):
 
         channel.update_channel(channel_obj, channel_json_data)
 
-        msg = "Updated channel id:{:d} - title:{:s} successfully".format(channel_obj.id, channel_obj.title)
+        msg = "Channel id:{:d} - title:{:s} updated successfully".format(channel_obj.id, channel_obj.title)
         self.stdout.write(self.style.SUCCESS(msg))
