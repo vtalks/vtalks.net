@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.core import management
 from django.utils import timezone
 
@@ -27,7 +28,6 @@ def create_playlist(playlist_json_data):
             channel_code = playlist_json_data["snippet"]["channelId"]
             youtube_url_channel = get_channel_youtube_url(channel_code)
             management.call_command("create_channel", youtube_url_channel)
-
 
     playlist = Playlist.objects.create(code=playlist_code,
                                        title=playlist_title,

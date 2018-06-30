@@ -13,10 +13,8 @@ from channels.models import Channel
 from playlists.models import Playlist
 from events.models import Edition
 
-from .utils import parse_duration
-from .mixins import Rankable
-
-from .managers import PublishedTalkManager
+from talks.mixins import Rankable
+from talks.managers import PublishedTalkManager
 
 # Create your models here.
 
@@ -132,65 +130,6 @@ class Talk(Rankable, models.Model):
         """
         return int(self.youtube_dislike_count) + int(self.dislike_count)
 
-    def update_video_model(self, youtube_video_data):
-        """ Updates model's common properties
-        """
-        self.code = youtube_video_data["id"]
-        if "snippet" in youtube_video_data:
-            snippet = youtube_video_data["snippet"]
-            if "title" in snippet:
-                self.title = youtube_video_data["snippet"]["title"]
-            if "description" in snippet:
-                self.description = youtube_video_data["snippet"]["description"]
-            if "publishedAt" in snippet:
-                published_at = youtube_video_data["snippet"]["publishedAt"]
-                datetime_published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%S.000Z")
-                datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
-                self.created = datetime_published_at
-        if "contentDetails" in youtube_video_data:
-            content_details = youtube_video_data["contentDetails"]
-            if "duration" in content_details:
-                self.duration = parse_duration(content_details["duration"])
-
-    def update_video_tags(self, youtube_video_data):
-        """ Updates tags associated to this model instance
-        """
-        tags = []
-        if "snippet" in youtube_video_data:
-            snippet = youtube_video_data["snippet"]
-            if "tags" in snippet:
-                tags += snippet["tags"]
-        for tag in tags:
-            self.tags.add(tag)
-
-    def update_video_statistics(self, youtube_video_data):
-        """ Updates youtube video statistics ( likes, dislikes, favorites and
-        views )
-        """
-        if "statistics" in youtube_video_data:
-            statistics = youtube_video_data["statistics"]
-            if "viewCount" in statistics:
-                self.youtube_view_count = statistics["viewCount"]
-            if "likeCount" in statistics:
-                self.youtube_like_count = statistics["likeCount"]
-            if "dislikeCount" in statistics:
-                self.youtube_dislike_count = statistics["dislikeCount"]
-            if "favoriteCount" in statistics:
-                self.youtube_favorite_count = statistics["favoriteCount"]
-
-    def recalculate_video_sortrank(self):
-        """ Recalculates sort and ranking values given model's statistics
-        """
-        # wilson score
-        wilsonscore_rank = self.get_wilson_score(self.total_like_count,
-                                                 self.total_dislike_count)
-        self.wilsonscore_rank = wilsonscore_rank
-
-        # hacker news hot
-        votes = abs(self.total_like_count - self.total_dislike_count)
-        hacker_hot = self.get_hacker_hot(votes, self.created)
-        self.hacker_hot = hacker_hot
-
     # Override methods
 
     def save(self, *args, **kwargs):
@@ -215,8 +154,6 @@ class Talk(Rankable, models.Model):
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
 
         self.updated = timezone.now()
-
-        self.recalculate_video_sortrank()
 
         super(Talk, self).save(*args, **kwargs)
 
