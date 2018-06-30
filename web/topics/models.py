@@ -50,13 +50,22 @@ class Topic(models.Model):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
-            "query": {"bool": {"should": []},},
+            "query": {
+                "bool": {
+                    "should": [],
+                    "filter": {
+                        "bool": {
+                            "should": []
+                        },
+                    },
+                },
+            },
             "_source": ["id"],
         }
         tag_names = set(tag.name for tag in self.tags.all())
         for tag_name in tag_names:
-            query["query"]["bool"]["should"].append({
-                "match": {"tags": tag_name},
+            query["query"]["bool"]["filter"]["bool"]["should"].append({
+                "term": {"tags": tag_name},
             })
         if page:
             page_start = 0
