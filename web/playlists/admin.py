@@ -20,7 +20,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     )
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
-    list_display = ['code', 'title', 'created', 'updated']
+    list_display = ['title', 'created', 'updated']
     search_fields = ['title', 'code']
     ordering = ['-updated']
     readonly_fields = ('youtube_url',)
