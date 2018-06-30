@@ -25,6 +25,13 @@ class Channel(models.Model):
             url = "https://www.youtube.com/channel/{:s}".format(self.code)
         return url
 
+    @property
+    def is_outdated(self):
+        """ Returns if this object is outdated (it has not been updated in > 24h)
+        """
+        delta = timezone.now() - self.updated
+        return delta.days >= 1
+
     # Override methods
 
     def save(self, *args, **kwargs):
