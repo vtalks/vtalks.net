@@ -10,7 +10,7 @@ from youtube_data_api3.playlist import fetch_playlist_data
 
 
 class Command(BaseCommand):
-    help = 'Create a youtube Playlist into the database, given its Youtube URL'
+    help = 'Create Playlist into the database, given its Youtube URL'
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url_playlist', type=str)

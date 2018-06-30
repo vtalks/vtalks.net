@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from ...models import Talk
+from talks.models import Talk
 
 
 class Command(BaseCommand):
