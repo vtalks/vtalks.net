@@ -25,15 +25,16 @@ class Command(BaseCommand):
         except Exception:
             msg = "ERROR: Invalid URL channel {:s}".format(youtube_url_channel)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
+        # Check if the channel is already on the database
         if Channel.objects.filter(code=channel_code).exists():
             msg = "ERROR: Channel {:s} is already present on the database".format(channel_code)
             self.stdout.write(self.style.NOTICE(msg))
 
             # Call to update command instead
             management.call_command("update_channel", youtube_url_channel)
-            exit(0)
+            return
 
         msg = "Creating channel code:{:s}".format(channel_code)
         self.stdout.write(msg)
@@ -45,7 +46,7 @@ class Command(BaseCommand):
         if channel_json_data is None:
             msg = "ERROR: Youtube Data API does not return anything for channel {:s}".format(channel_code)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
         channel_obj = channel.create_channel(channel_json_data)
 

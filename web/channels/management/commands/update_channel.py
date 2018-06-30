@@ -10,7 +10,7 @@ from youtube_data_api3.channel import fetch_channel_data
 
 
 class Command(BaseCommand):
-    help = 'Updates a youtube Channel into the database, given its Youtube URL'
+    help = 'Updates an existing Channel into the database, given its Youtube URL'
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url_channel', type=str)
@@ -25,15 +25,16 @@ class Command(BaseCommand):
         except Exception:
             msg = "ERROR: Invalid URL channel {:s}".format(youtube_url_channel)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
-        # Check if the playlist is already on the database
+        # Check if the channel is already on the database
         if not Channel.objects.filter(code=channel_code).exists():
             msg = "ERROR: Channel {:s} is not present on the database".format(channel_code)
             self.stdout.write(self.style.NOTICE(msg))
 
             # Call to create command instead
             management.call_command("create_channel", youtube_url_channel)
+            return
 
         # Get the channel from the database
         channel_obj = Channel.objects.get(code=channel_code)
@@ -48,7 +49,7 @@ class Command(BaseCommand):
         if channel_json_data is None:
             msg = "ERROR: Youtube Data API does not return anything for channel {:s}".format(channel_obj.code)
             self.stdout.write(self.style.ERROR(msg))
-            exit(1)
+            return
 
         channel.update_channel(channel_obj, channel_json_data)
 

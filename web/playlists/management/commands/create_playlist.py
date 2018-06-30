@@ -1,21 +1,16 @@
-from datetime import datetime
-
 from django.conf import settings
+from django.core import management
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
-from channels.models import Channel
-from talks.models import Talk
+from playlists.management import playlist
 from playlists.models import Playlist
+
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
-from youtube_data_api3.playlist import fetch_playlist_items
-from youtube_data_api3.video import fetch_video_data
-from youtube_data_api3.channel import fetch_channel_data
 
 
 class Command(BaseCommand):
-    help = 'Adds all videos from a youtube playlist to the database.'
+    help = 'Create a youtube Playlist into the database, given its Youtube URL'
 
     def add_arguments(self, parser):
         parser.add_argument('youtube_url_playlist', type=str)
@@ -28,38 +23,37 @@ class Command(BaseCommand):
         try:
             playlist_code = get_playlist_code(youtube_url_playlist)
         except Exception:
-            print("ERROR: Invalid URL playlist {:s}".format(youtube_url_playlist))
-            exit(1)
+            msg = "ERROR: Invalid URL playlist {:s}".format(youtube_url_playlist)
+            self.stdout.write(self.style.ERROR(msg))
+            return
 
         # Check if the playlist is already on the database
         if Playlist.objects.filter(code=playlist_code).exists():
-            print("ERROR: Playlist {:s} is already on the database".format(playlist_code))
-            exit(1)
+            msg = "ERROR: Playlist {:s} is already present on the database".format(playlist_code)
+            self.stdout.write(self.style.NOTICE(msg))
 
-        print("Creating playlist code:{:s} - youtube_url:{:s}".format(
-            playlist_code,
-            youtube_url_playlist)
-        )
+            # Call to update command instead
+            management.call_command("update_playlist", youtube_url_playlist)
+            return
 
-        # Fetch playlist data from Youtube API
-        youtube_playlist_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
+        msg = "Creating playlist code:{:s}".format(playlist_code)
+        self.stdout.write(msg)
+
+        # Fetch channel data from Youtube API
+        playlist_json_data = fetch_playlist_data(settings.YOUTUBE_API_KEY, playlist_code)
 
         # If no data is received do nothing
-        if youtube_playlist_data is None:
-            print("ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_code))
-            exit(1)
+        if playlist_json_data is None:
+            msg = "ERROR: Youtube Data API does not return anything for playlist {:s}".format(playlist_code)
+            self.stdout.write(self.style.ERROR(msg))
+            return
 
-        # Create playlist
-        playlist = Playlist.objects.create(
-            code=youtube_playlist_data["id"],
-            title=youtube_playlist_data["snippet"]["title"],
-            description=youtube_playlist_data["snippet"]["description"],
-            created=youtube_playlist_data["snippet"]["publishedAt"],
-            updated=timezone.now(),
-        )
+        playlist_obj = playlist.create_playlist(playlist_json_data)
 
-        print("Playlist created successfully")
+        msg = "Playlist id:{:d} - title:{:s} created successfully".format(playlist_obj.id, playlist_obj.title)
+        self.stdout.write(self.style.SUCCESS(msg))
 
+    """
         # Fetch playlist items data from Youtube API
         youtube_playlist_items_data = fetch_playlist_items(settings.YOUTUBE_API_KEY, playlist.code)
 
@@ -178,3 +172,4 @@ class Command(BaseCommand):
         talk.save()
 
         print("Video updated successfully")
+    """

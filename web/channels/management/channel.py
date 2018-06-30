@@ -46,3 +46,5 @@ def update_channel(channel, channel_json_data):
             channel.created = datetime_published_at
 
     channel.save()
+
+    return channel

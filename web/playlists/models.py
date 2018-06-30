@@ -5,6 +5,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+from channels.models import Channel
+
 # Create your models here.
 
 
@@ -13,6 +15,7 @@ class Playlist(models.Model):
     title = models.CharField(max_length=200, default=None)
     slug = models.SlugField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True)
+    channel = models.ForeignKey(Channel, blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
 
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
@@ -27,22 +30,6 @@ class Playlist(models.Model):
         if self.code:
             url = "https://www.youtube.com/playlist?list={:s}".format(self.code)
         return url
-
-    def update_playlist_model(self, youtube_playlist_data):
-        """ Updates model's common properties
-        """
-        self.code = youtube_playlist_data["id"]
-        if "snippet" in youtube_playlist_data:
-            snippet = youtube_playlist_data["snippet"]
-            if "title" in snippet:
-                self.title = youtube_playlist_data["snippet"]["title"]
-            if "description" in snippet:
-                self.description = youtube_playlist_data["snippet"]["description"]
-            if "publishedAt" in snippet:
-                published_at = youtube_playlist_data["snippet"]["publishedAt"]
-                datetime_published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%S.000Z")
-                datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
-                self.created = datetime_published_at
 
     # Override methods
 

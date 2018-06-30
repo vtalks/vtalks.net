@@ -11,7 +11,7 @@ class PlaylistAdmin(admin.ModelAdmin):
             'fields': ('code', 'slug', 'title', 'description')
         }),
         ('Youtube Data', {
-            'fields': ('youtube_url',),
+            'fields': ('youtube_url', 'channel'),
         }),
         ('Metadata', {
             'classes': ('collapse',),
@@ -20,7 +20,8 @@ class PlaylistAdmin(admin.ModelAdmin):
     )
     date_hierarchy = 'created'
     list_filter = ['created', 'updated']
-    search_fields = ['title']
+    list_display = ['title', 'updated']
+    search_fields = ['title', 'code']
     ordering = ['-updated']
     readonly_fields = ('youtube_url',)
     prepopulated_fields = {"slug": ("title",)}
