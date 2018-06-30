@@ -21,11 +21,21 @@ class DetailTagView(DetailView):
         """ Builds an elastic search query DSL for this topic
         """
         query = {
-            "query": {"bool": {"must": []}}
+            "query": {
+                "bool": {
+                    "should": [],
+                    "filter": {
+                        "bool": {
+                            "must": []
+                        },
+                    },
+                },
+            },
+            "_source": ["id"],
         }
 
-        query["query"]["bool"]["must"].append({
-            "match": {"tags": tag.name},
+        query["query"]["bool"]["filter"]["bool"]["must"].append({
+            "term": {"tags": tag.name},
         })
         if page:
             page_start = 0
