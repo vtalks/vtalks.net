@@ -27,6 +27,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(msg))
             exit(1)
 
+        # Check if the channel is already on the database
         if Channel.objects.filter(code=channel_code).exists():
             msg = "ERROR: Channel {:s} is already present on the database".format(channel_code)
             self.stdout.write(self.style.NOTICE(msg))
