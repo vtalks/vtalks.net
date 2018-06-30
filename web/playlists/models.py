@@ -28,22 +28,6 @@ class Playlist(models.Model):
             url = "https://www.youtube.com/playlist?list={:s}".format(self.code)
         return url
 
-    def update_playlist_model(self, youtube_playlist_data):
-        """ Updates model's common properties
-        """
-        self.code = youtube_playlist_data["id"]
-        if "snippet" in youtube_playlist_data:
-            snippet = youtube_playlist_data["snippet"]
-            if "title" in snippet:
-                self.title = youtube_playlist_data["snippet"]["title"]
-            if "description" in snippet:
-                self.description = youtube_playlist_data["snippet"]["description"]
-            if "publishedAt" in snippet:
-                published_at = youtube_playlist_data["snippet"]["publishedAt"]
-                datetime_published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%S.000Z")
-                datetime_published_at = datetime_published_at.replace(tzinfo=timezone.utc)
-                self.created = datetime_published_at
-
     # Override methods
 
     def save(self, *args, **kwargs):
