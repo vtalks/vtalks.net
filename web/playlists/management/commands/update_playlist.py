@@ -8,6 +8,7 @@ from playlists.models import Playlist
 from talks.models import Talk
 
 from youtube_data_api3.video import get_video_code
+from youtube_data_api3.video import get_video_youtube_url
 from youtube_data_api3.playlist import get_playlist_code
 from youtube_data_api3.playlist import fetch_playlist_data
 from youtube_data_api3.playlist import fetch_playlist_items
@@ -79,7 +80,7 @@ class Command(BaseCommand):
             len(youtube_playlist_items_data), playlist_obj.code))
 
         for video_code in youtube_playlist_items_data:
-            youtube_video_url = get_video_code(video_code)
+            youtube_video_url = get_video_youtube_url(video_code)
             if not Talk.objects.filter(code=video_code).exists():
                 management.call_command("create_talk", youtube_video_url)
             else:

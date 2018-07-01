@@ -2,6 +2,7 @@ import re
 
 from datetime import datetime
 
+
 def get_twitter_handle(data):
     """ Extract twitter handle
     """
@@ -17,6 +18,20 @@ def get_twitter_handle(data):
         twitter_handle = m[0]
 
     return twitter_handle
+
+
+def get_date(data):
+    """ Parses a date
+    """
+
+    # Match patterns like "2019-04-22"
+    parsed_date = None
+    try:
+        parsed_date = datetime.strptime(data, "%Y-%m-%d")
+    except ValueError:
+        pass
+
+    return parsed_date
 
 
 def get_start_end_dates(data, year=None):
