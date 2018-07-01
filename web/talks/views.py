@@ -2,7 +2,6 @@ import math
 
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
@@ -12,6 +11,7 @@ from django.conf import settings
 from django.http import Http404
 
 from .search import search_talks
+from .search import search_more_like_this
 from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
@@ -78,11 +78,12 @@ class DetailTalkView(DetailView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
-        hot_talks = Talk.published_objects.all().order_by('-hacker_hot')[:4]
+        results_total, results_ids = search_talks(page=1, sort="hacker_hot")
+        hot_talks = Talk.published_objects.filter(pk__in=results_ids)[:4]
         context['hot_talks'] = hot_talks
 
-        similar_objects_ids = [t.id for t in talk.tags.similar_objects()]
-        context['related_talks'] = Talk.published_objects.filter(id__in=similar_objects_ids).exclude(channel=talk.channel).exclude(playlist=talk.playlist)[:15]
+        results_total, results_ids = search_more_like_this(talk)
+        context['related_talks'] = Talk.published_objects.filter(pk__in=results_ids)
 
         return context
 
