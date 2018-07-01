@@ -34,6 +34,7 @@ def create_event_edition(event_json_data, year, event):
     if "endDate" in event_json_data:
         event_edition_end = utils.get_date(event_json_data['endDate'])
 
+
     event_edition = Edition.objects.create(title=event_edition_name,
                                            url=event_edition_url,
                                            country=event_edition_country,
@@ -69,11 +70,13 @@ def update_event_edition(event_json_data, year, event):
     if "date" in event_json_data:
         event_edition_start, event_edition_end = utils.get_start_end_dates(event_json_data['date'], year)
 
+
     if "startDate" in event_json_data:
         event_edition_start = utils.get_date(event_json_data['startDate'])
 
     if "endDate" in event_json_data:
         event_edition_end = utils.get_date(event_json_data['endDate'])
+
 
     event_edition = Edition.objects.get(title=event_edition_name)
     event_edition.title = event_edition_name

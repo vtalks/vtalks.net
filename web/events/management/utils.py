@@ -34,6 +34,7 @@ def get_date(data):
     return parsed_date
 
 
+
 def get_start_end_dates(data, year=None):
     """ Extract start and end dates for an edition
     """
