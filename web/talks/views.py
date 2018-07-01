@@ -1,4 +1,7 @@
+import math
+
 from django.views.generic import RedirectView
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.syndication.views import Feed
@@ -8,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.http import Http404
 
+from .search import search_talks
 from .models import Talk
 from .models import TalkLike
 from .models import TalkDislike
@@ -83,15 +87,9 @@ class DetailTalkView(DetailView):
         return context
 
 
-class LatestTalksView(ListView):
-    model = Talk
+class LatestTalksView(TemplateView):
     template_name = 'latest-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-created']
-
-    def get_queryset(self):
-        queryset = Talk.published_objects.all()
-        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(LatestTalksView, self).get_context_data(**kwargs)
@@ -99,24 +97,62 @@ class LatestTalksView(ListView):
         search_form = SearchForm()
         context['search_form'] = search_form
 
+        page = 1
+        if "page" in self.kwargs:
+            page = int(self.kwargs["page"])
+
+        sort = "created"
+
+        results_total, results_ids = search_talks(page=page, sort=sort)
+        search_results = Talk.published_objects.filter(pk__in=results_ids)
+
+        num_pages = math.ceil(results_total / self.paginate_by)
+        pagination = {
+            "is_paginated": True if results_total > self.paginate_by else False,
+            "number": page,
+            "num_pages": num_pages,
+            "has_previous": True if page > 1 else False,
+            "previous_page_number": page - 1,
+            "has_next": True if page < num_pages else False,
+            "next_page_number": page + 1,
+        }
+        context['pagination'] = pagination
+        context['object_list'] = search_results
+
         return context
 
 
-class BestTalksView(ListView):
-    model = Talk
+class BestTalksView(TemplateView):
     template_name = 'best-talks.html'
     paginate_by = settings.PAGE_SIZE
-    ordering = ['-wilsonscore_rank', '-created']
-
-    def get_queryset(self):
-        queryset = Talk.published_objects.all()
-        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(BestTalksView, self).get_context_data(**kwargs)
 
         search_form = SearchForm()
         context['search_form'] = search_form
+
+        page = 1
+        if "page" in self.kwargs:
+            page = int(self.kwargs["page"])
+
+        sort = "wilsonscore_rank"
+
+        results_total, results_ids = search_talks(page=page, sort=sort)
+        search_results = Talk.published_objects.filter(pk__in=results_ids)
+
+        num_pages = math.ceil(results_total / self.paginate_by)
+        pagination = {
+            "is_paginated": True if results_total > self.paginate_by else False,
+            "number": page,
+            "num_pages": num_pages,
+            "has_previous": True if page > 1 else False,
+            "previous_page_number": page - 1,
+            "has_next": True if page < num_pages else False,
+            "next_page_number": page + 1,
+        }
+        context['pagination'] = pagination
+        context['object_list'] = search_results
 
         return context
 
