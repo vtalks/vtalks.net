@@ -9,7 +9,6 @@ from events.management import edition
 from events.management.sources import source_urls
 
 
-
 class Command(BaseCommand):
     help = 'Import events from a confs.tech json file to the database.'
 
@@ -39,7 +38,6 @@ class Command(BaseCommand):
                         event_obj.save()
                         msg = "Event {:d} - {:s} updated successfully".format(event_obj.id, event_obj.title)
                         print(msg)
-
 
                     # create or update Event Edition
                     event_edition_name = "{:s} {:s}".format(event_name, source_urls_year)

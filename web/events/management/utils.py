@@ -34,7 +34,6 @@ def get_date(data):
     return parsed_date
 
 
-
 def get_start_end_dates(data, year=None):
     """ Extract start and end dates for an edition
     """
@@ -45,7 +44,7 @@ def get_start_end_dates(data, year=None):
         return event_edition_start, event_edition_end
 
     # Match patterns like "October 24, 2014"
-    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day>[0-9]+),\s(?P<year>[0-9]+)"
+    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day>[0-9]{2}),\s(?P<year>[0-9]{4})"
     m = re.findall(regexp, data)
     if len(m) > 0:
         month, day, year = m[0]
@@ -54,7 +53,7 @@ def get_start_end_dates(data, year=None):
         event_edition_end = datetime.strptime(date_string, '%d/%B/%Y')
 
     # Match patterns like "October 24-25, 2014"
-    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]+)-(?P<day_end>[0-9]+),\s(?P<year>[0-9]+)"
+    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]{2})-(?P<day_end>[0-9]{2}),\s(?P<year>[0-9]{4})"
     m = re.findall(regexp, data)
     if len(m) > 0:
         month, day_start, day_end, year = m[0]
@@ -64,7 +63,7 @@ def get_start_end_dates(data, year=None):
         event_edition_end = datetime.strptime(date_string, '%d/%B/%Y')
 
     # Match patterns like "Feb 17–19" and "February 17-19"
-    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]+)-(?P<day_end>[0-9]+)"
+    regexp = "(?P<month>[a-zA-Z]+)\s(?P<day_start>[0-9]{2})-(?P<day_end>[0-9]{2})"
     m = re.findall(regexp, data)
     if len(m) > 0:
         month, day_start, day_end = m[0]
