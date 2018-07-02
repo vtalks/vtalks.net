@@ -7,7 +7,7 @@ from django.utils import timezone
 def serialize_json(talk):
     """ Serializes a Talk to JSON
     """
-    epoch = datetime.datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
+    epoch = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
 
     talk_dict = {
         "id": talk.id,
