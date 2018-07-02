@@ -1,4 +1,3 @@
-from datetime import datetime
 from datetime import timedelta
 
 from django.conf import settings

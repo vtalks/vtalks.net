@@ -3,17 +3,16 @@ import requests
 from django.core.management.base import BaseCommand
 
 from talks.models import Talk
-from search.serializers import TalkSerializer
+from search.serializers import serialize_json
 
 
 class Command(BaseCommand):
-    help = 'Index all videos on ElasticSearch.'
+    help = 'Index all talks on ElasticSearch.'
 
     def handle(self, *args, **options):
-        talks = Talk.published_objects.all().order_by('-id')
+        talks = Talk.published_objects.order_by('-id')
         for talk in talks:
-            serializer = TalkSerializer(talk)
-            talk_json_data = serializer.data
+            talk_json_data = serialize_json(talk)
 
             elastic_search_index = "vtalks"
             elastic_search_type = "talk"
@@ -22,6 +21,10 @@ class Command(BaseCommand):
             if resp.status_code not in [200, 201]:
                 print("ERROR: {:s}".format(url))
                 print("ERROR: Status code {:d}".format(resp.status_code))
+                print("ERROR: {:s}".format(resp.text))
+                print("ERROR: {:s}".format(url))
+                print("ERROR: {:s}".format(talk_json_data))
+                exit(1)
 
             print(
                 "Video id:{:d} - code:{:s} - youtube_url:{:s} indexed successfully".format(
