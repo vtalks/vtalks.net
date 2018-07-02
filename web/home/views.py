@@ -26,6 +26,6 @@ class IndexView(TemplateView):
         best_talks = Talk.published_objects.filter(pk__in=results_ids)[:3]
         context['best_talks'] = best_talks
 
-        context['topics'] = Topic.objects.all().order_by('?')[:5]
+        context['topics'] = Topic.published_objects.all().order_by('?')[:5]
 
         return context

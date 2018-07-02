@@ -1,36 +1,50 @@
-from rest_framework import serializers
-from taggit_serializer.serializers import TagListSerializerField
-from taggit_serializer.serializers import TaggitSerializer
+import datetime
+from datetime import datetime
 
 from django.utils import timezone
 
-from talks.models import Talk
 
+def serialize_json(talk):
+    """ Serializes a Talk to JSON
+    """
+    epoch = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
 
-class TalkSerializer(TaggitSerializer, serializers.ModelSerializer):
-    id = serializers.IntegerField()
-    code = serializers.CharField()
-    title = serializers.CharField()
-    description = serializers.CharField()
-    duration = serializers.DurationField()
-    view_count = serializers.IntegerField(default=0)
-    like_count = serializers.IntegerField(default=0)
-    dislike_count = serializers.IntegerField(default=0)
-    favorite_count = serializers.IntegerField(default=0)
-    youtube_view_count = serializers.IntegerField(default=0)
-    youtube_like_count = serializers.IntegerField(default=0)
-    youtube_dislike_count = serializers.IntegerField(default=0)
-    youtube_favorite_count = serializers.IntegerField(default=0)
-    total_view_count = serializers.IntegerField(default=0)
-    total_like_count = serializers.IntegerField(default=0)
-    total_dislike_count = serializers.IntegerField(default=0)
-    total_favorite_count = serializers.IntegerField(default=0)
-    wilsonscore_rank = serializers.FloatField(default=0)
-    hacker_hot = serializers.FloatField(default=0)
-    tags = TagListSerializerField()
-    created = serializers.DateTimeField(default=timezone.now, format="iso-8601")
-    updated = serializers.DateTimeField(default=timezone.now, format="iso-8601")
+    talk_dict = {
+        "id": talk.id,
+        "title": talk.title,
+        "description": talk.description,
+        "view_count": talk.view_count,
+        "like_count": talk.like_count,
+        "dislike_count": talk.dislike_count,
+        "favorite_count": talk.favorite_count,
+        "youtube_view_count": talk.youtube_view_count,
+        "youtube_like_count": talk.youtube_like_count,
+        "youtube_dislike_count": talk.youtube_dislike_count,
+        "youtube_favorite_count": talk.youtube_favorite_count,
+        "wilsonscore_rank": talk.wilsonscore_rank,
+        "hacker_hot": talk.hacker_hot,
+        "tags": [],
+        "created": (talk.created - epoch).total_seconds() * 1000.0
+    }
 
-    class Meta:
-        model = Talk
-        fields = '__all__'
+    if talk.channel:
+        talk_dict["channel"] = {
+            "id": talk.channel.id,
+            "title": talk.channel.title,
+            "description": talk.channel.description
+        }
+
+    if talk.playlist:
+        talk_dict["playlist"] = {
+            "id": talk.playlist.id,
+            "title": talk.playlist.title,
+            "description": talk.playlist.description
+        }
+
+    for tag in talk.tags.all():
+        talk_dict["tags"].append(tag.name)
+
+    talk_json = talk_dict
+
+    return talk_json
+
