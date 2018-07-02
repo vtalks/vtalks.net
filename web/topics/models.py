@@ -1,5 +1,3 @@
-from elasticsearch import Elasticsearch
-
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -7,6 +5,8 @@ from django.utils.text import slugify
 from taggit.models import Tag
 from talks.models import Talk
 from topics.search import search_talks_by_topic
+
+from topics.managers import PublishedTopicManager
 
 
 # Create your models here.
@@ -20,6 +20,13 @@ class Topic(models.Model):
     tags = models.ManyToManyField(Tag)
     created = models.DateTimeField('date created', default=timezone.now)
     updated = models.DateTimeField('date updated', default=timezone.now)
+
+    published = models.BooleanField('is published', default=True)
+
+    # Managers
+
+    objects = models.Manager()
+    published_objects = PublishedTopicManager()
 
     # Properties
 
