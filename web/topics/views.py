@@ -23,7 +23,7 @@ class DetailTopicView(DetailView):
         context['search_form'] = search_form
 
         slug = self.kwargs['slug']
-        topic = Topic.objects.get(slug=slug)
+        topic = Topic.published_objects.get(slug=slug)
         context['object'] = topic
 
         page = 1
