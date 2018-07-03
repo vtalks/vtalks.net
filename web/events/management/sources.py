@@ -60,3 +60,15 @@ source_urls = {
         "https://raw.githubusercontent.com/tech-conferences/confs.tech/master/conferences/2019/ux.json",
     ]
 }
+
+source_urls_javascript = {
+    "2017": [
+        "https://raw.githubusercontent.com/tech-conferences/javascript-conferences/master/conferences/2017/javascript.json",
+    ],
+    "2018": [
+        "https://raw.githubusercontent.com/tech-conferences/javascript-conferences/master/conferences/2018/javascript.json",
+    ],
+    "2019": [
+        "https://raw.githubusercontent.com/tech-conferences/javascript-conferences/master/conferences/2019/javascript.json",
+    ]
+}

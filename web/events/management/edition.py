@@ -23,10 +23,10 @@ def create_event_edition(event_json_data, year, event):
     if "city" in event_json_data:
         event_edition_city = event_json_data['city']
 
-    event_edition_start = ""
-    event_edition_end = ""
+    event_edition_start = None
+    event_edition_end = None
     if "date" in event_json_data:
-        event_edition_start, event_edition_end = utils.get_start_end_dates(event_json_data['date'])
+        event_edition_start, event_edition_end = utils.get_start_end_dates(event_json_data['date'], year)
 
     if "startDate" in event_json_data:
         event_edition_start = utils.get_date(event_json_data['startDate'])
