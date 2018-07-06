@@ -1,5 +1,7 @@
 import csv
+import datetime
 
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 
 from talks.models import Talk
@@ -8,11 +10,9 @@ from talks.models import Talk
 class Command(BaseCommand):
     help = 'Exports a data set of talks to CSV.'
 
-    def handle(self, *args, **options):
-        talks = Talk.published_objects.all().order_by('id')
-        with open('/.dataset/vtalks_dataset.csv', 'w', newline='') as csvfile:
+    def export_data(self, talks, path):
+        with open(path, 'w', newline='') as csvfile:
             fieldnames = ['id',
-                          'code',
                           'created',
                           'youtube_view_count',
                           'youtube_like_count',
@@ -27,7 +27,6 @@ class Command(BaseCommand):
             for talk in talks:
                 writer.writerow({
                     'id': talk.id,
-                    'code': talk.code,
                     'created': talk.created,
                     'youtube_view_count': talk.youtube_view_count,
                     'youtube_like_count': talk.youtube_like_count,
@@ -38,5 +37,22 @@ class Command(BaseCommand):
                     'dislike_count': talk.dislike_count,
                     'favorite_count': talk.favorite_count
                 })
+
+    def handle(self, *args, **options):
+        # Export complete data set
+        talks = Talk.published_objects.all().order_by('id')
+        self.export_data(talks, '/.dataset/vtalks_dataset_all.csv')
+
+        # Export data set per year
+        years = list(range(2010, 2019, 1))
+        for year in years:
+            start_year = datetime.datetime(year, 1, 1, 0, 0, 0).replace(tzinfo=timezone.utc)
+            end_year = datetime.datetime(year+1, 1, 1, 0, 0, 0).replace(tzinfo=timezone.utc)
+            talks = Talk.published_objects.filter(created__gte=start_year, created__lte=end_year)
+            path = '/.dataset/vtalks_dataset_{:d}.csv'.format(year)
+            self.export_data(talks, path)
+
+
+
 
 
