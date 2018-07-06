@@ -45,7 +45,7 @@ class TalkAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ('title', 'channel', 'event_edition', 'updated')
+    list_display = ('title', 'channel', 'playlist', 'event_edition', 'updated')
     list_filter = ['created', 'updated']
     search_fields = ['code', 'title']
     date_hierarchy = 'created'
