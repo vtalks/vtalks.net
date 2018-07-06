@@ -17,6 +17,8 @@ class Command(BaseCommand):
         print("Found {:d} talks:".format(len(talks)))
 
         for talk in talks:
-            event_edition_title = talk.event_edition.title or ""
+            event_edition_title = ""
+            if talk.event_edition.title:
+                event_edition_title = talk.event_edition.title
             out = "id: {:d} - code: {:s} - title: {:s} - edition: {:d}".format(talk.id, talk.code, talk.title, event_edition_title)
             print(out)
