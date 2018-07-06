@@ -18,5 +18,5 @@ class Command(BaseCommand):
 
         for talk in talks:
             event_edition_title = talk.event_edition.title or ""
-            out = "id: {:d} - code: {:s} - title: {:s} - edition: {:s}".format(talk.id, talk.code, talk.title, event_edition_title)
+            out = "id: {:d} - code: {:s} - title: {:s} - edition: {:d}".format(talk.id, talk.code, talk.title, event_edition_title)
             print(out)
