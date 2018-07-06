@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         talks = Talk.objects.filter(title__contains=query).order_by("id")
 
-        print("Found {:s} talks:".format(len(talks)))
+        print("Found {:d} talks:".format(len(talks)))
 
         for talk in talks:
             event_edition_title = talk.event_edition.title or ""
