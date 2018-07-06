@@ -1,3 +1,4 @@
+from django.core.exceptions import MultipleObjectsReturned
 from django.utils import timezone
 
 from events.models import Edition
@@ -74,13 +75,14 @@ def update_event_edition(event_json_data, year, event):
 
     if "endDate" in event_json_data:
         event_edition_end = utils.get_date(event_json_data['endDate'])
-
     try:
         event_edition = Edition.objects.get(title=event_edition_name)
-    except events.models.MultipleObjectsReturned:
-        print("------")
-        print("event_edition_name")
-        print("------")
+    except MultipleObjectsReturned:
+        print("---------")
+        print(event_edition_name)
+        print("---------")
+        exit(1)
+
     event_edition.title = event_edition_name
     event_edition.url = event_edition_url
     event_edition.country = event_edition_country
