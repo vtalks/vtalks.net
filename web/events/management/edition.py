@@ -75,7 +75,12 @@ def update_event_edition(event_json_data, year, event):
     if "endDate" in event_json_data:
         event_edition_end = utils.get_date(event_json_data['endDate'])
 
-    event_edition = Edition.objects.get(title=event_edition_name)
+    try:
+        event_edition = Edition.objects.get(title=event_edition_name)
+    except events.models.MultipleObjectsReturned:
+        print("------")
+        print("event_edition_name")
+        print("------")
     event_edition.title = event_edition_name
     event_edition.url = event_edition_url
     event_edition.country = event_edition_country
