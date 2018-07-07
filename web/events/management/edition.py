@@ -78,9 +78,7 @@ def update_event_edition(event_json_data, year, event):
     try:
         event_edition = Edition.objects.get(title=event_edition_name)
     except MultipleObjectsReturned:
-        print("---------")
-        print(event_edition_name)
-        print("---------")
+        print("ERROR: Edition {:s} is duplicated".format(event_edition_name))
         exit(1)
 
     event_edition.title = event_edition_name
