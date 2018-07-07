@@ -23,6 +23,16 @@ from talks.sitemaps import HomeSitemap
 from talks.sitemaps import TalksSitemap
 from corporate.sitemaps import StaticSitemap
 
+from rest_framework import routers
+
+from talks.api import TalkViewSet
+from talks.api import RandomTalkView
+from channels.api import ChannelViewSet
+
+router = routers.DefaultRouter()
+router.register(r'talk', TalkViewSet)
+router.register(r'channel', ChannelViewSet)
+
 sitemaps = {
     'home': HomeSitemap,
     'talks': TalksSitemap,
@@ -37,7 +47,11 @@ urlpatterns = [
     path('tag/', include('tags.urls')),
     path('search/', include('search.urls')),
     path('', include('home.urls')),
+    path('', include('channels.urls')),
     path('', include('talks.urls')),
+
+    path('api/', include(router.urls)),
+    path('api/random-talk/', RandomTalkView.as_view(), name='random-talk'),
 
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

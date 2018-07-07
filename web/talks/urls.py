@@ -1,6 +1,5 @@
 from django.urls import path
 from django.urls import re_path
-from django.urls import include
 
 from .views import LatestTalksView
 from .views import BestTalksView
@@ -10,14 +9,6 @@ from .views import DislikeTalkView
 from .views import FavoriteTalkView
 from .views import WatchTalkView
 from .views import RSSLatestView
-
-from rest_framework import routers
-
-from .api import TalkViewSet
-from .api import RandomTalkView
-
-router = routers.DefaultRouter()
-router.register(r'talk', TalkViewSet)
 
 app_name = 'talks'
 urlpatterns = [
@@ -34,7 +25,4 @@ urlpatterns = [
     path('talk/<slug:slug>/dislike', DislikeTalkView.as_view(), name='talk-dislike'),
     path('talk/<slug:slug>/favorite', FavoriteTalkView.as_view(), name='talk-favorite'),
     path('talk/<slug:slug>/watch', WatchTalkView.as_view(), name='talk-watch'),
-
-    path('api/', include(router.urls)),
-    path('api/random-talk/', RandomTalkView.as_view(), name='random-talk')
 ]
