@@ -76,7 +76,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(msg))
             return
 
-        print("{:d} videos on playlist {:s}".format(
+        print("{:d} talks on playlist {:s}".format(
             len(youtube_playlist_items_data), playlist_obj.code))
 
         for video_code in youtube_playlist_items_data:

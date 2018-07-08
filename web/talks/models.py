@@ -14,6 +14,7 @@ from events.models import Edition
 
 from talks.mixins import Rankable
 from talks.managers import PublishedTalkManager
+from talks.events import publish_talk_event
 
 # Create your models here.
 
@@ -155,6 +156,9 @@ class Talk(Rankable, models.Model):
         self.updated = timezone.now()
 
         super(Talk, self).save(*args, **kwargs)
+
+        # Send pipeline.talk event to NATS
+        publish_talk_event(self.youtube_url)
 
     def get_absolute_url(self):
         """ Returns the absolute url for this video

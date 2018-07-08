@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+from channels.events import publish_channel_event
+
 # Create your models here.
 
 
@@ -47,6 +49,9 @@ class Channel(models.Model):
         self.updated = timezone.now()
 
         super(Channel, self).save(*args, **kwargs)
+
+        # Send pipeline.talk event to NATS
+        publish_channel_event(self.youtube_url)
 
     def __str__(self):
         """ Returns the string representation of this object

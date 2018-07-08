@@ -5,7 +5,7 @@ from talks.models import Talk
 
 
 class Command(BaseCommand):
-    help = 'Update all videos on the database.'
+    help = 'Update all talks on the database.'
 
     def handle(self, *args, **options):
         talks = Talk.published_objects.all().order_by('-updated')

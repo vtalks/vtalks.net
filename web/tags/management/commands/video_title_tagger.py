@@ -15,7 +15,7 @@ class Command(BaseCommand):
         # Search on video titles for this keyword
         talks = Talk.objects.filter(title__icontains=" "+keyword+" ").all().order_by("id")
 
-        print("Searching talks for keyword:{:s}, found {:d} videos".format(keyword, talks.count()))
+        print("Searching talks for keyword:{:s}, found {:d} talks".format(keyword, talks.count()))
 
         for talk in talks:
             talk.tags.add(keyword)

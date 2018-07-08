@@ -4,7 +4,7 @@ from talks.models import Talk
 
 
 class Command(BaseCommand):
-    help = 'Filger and update videos on the database.'
+    help = 'Filger and update talks on the database.'
 
     def add_arguments(self, parser):
         parser.add_argument('query', type=str)

@@ -7,6 +7,8 @@ from django.utils.text import slugify
 
 from channels.models import Channel
 
+from playlists.events import publish_playlist_event
+
 # Create your models here.
 
 
@@ -53,6 +55,9 @@ class Playlist(models.Model):
         self.updated = timezone.now()
 
         super(Playlist, self).save(*args, **kwargs)
+
+        # Send pipeline.talk event to NATS
+        publish_playlist_event(self.youtube_url)
 
     def __str__(self):
         """ Returns the string representation of this object
