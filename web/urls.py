@@ -17,28 +17,6 @@ from django.urls import path
 from django.urls import include
 from django.contrib import admin
 
-from django.contrib.sitemaps.views import sitemap
-
-from talks.sitemaps import HomeSitemap
-from talks.sitemaps import TalksSitemap
-from corporate.sitemaps import StaticSitemap
-
-from rest_framework import routers
-
-from talks.api import TalkViewSet
-from talks.api import RandomTalkView
-from channels.api import ChannelViewSet
-
-router = routers.DefaultRouter()
-router.register(r'talk', TalkViewSet)
-router.register(r'channel', ChannelViewSet)
-
-sitemaps = {
-    'home': HomeSitemap,
-    'talks': TalksSitemap,
-    'static': StaticSitemap,
-}
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('user_profile.urls')),
@@ -46,12 +24,10 @@ urlpatterns = [
     path('topic/', include('topics.urls')),
     path('tag/', include('tags.urls')),
     path('search/', include('search.urls')),
-    path('', include('home.urls')),
-    path('', include('channels.urls')),
+    path('api/', include('api_urls')),
+    path('channel/', include('channels.urls')),
     path('', include('talks.urls')),
+    path('', include('home.urls')),
 
-    path('api/', include(router.urls)),
-    path('api/random-talk/', RandomTalkView.as_view(), name='random-talk'),
-
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', include('sitemap_urls'))
 ]
