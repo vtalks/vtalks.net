@@ -163,7 +163,7 @@ class Talk(Rankable, models.Model):
 
         # Send pipeline.playlist event to NATS
         if self.playlist:
-            publish_playlist_event(self.playlist__youtube_url)
+            publish_playlist_event(self.playlist.youtube_url)
 
     def get_absolute_url(self):
         """ Returns the absolute url for this video
