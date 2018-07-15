@@ -25,7 +25,6 @@ urlpatterns = [
     path('tag/', include('tags.urls')),
     path('search/', include('search.urls')),
     path('api/', include('api_urls')),
-    path('channel/', include('channels.urls')),
     path('', include('talks.urls')),
     path('', include('home.urls')),
 

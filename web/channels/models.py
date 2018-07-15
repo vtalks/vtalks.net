@@ -50,7 +50,7 @@ class Channel(models.Model):
 
         super(Channel, self).save(*args, **kwargs)
 
-        # Send pipeline.talk event to NATS
+        # Send pipeline.channel event to NATS
         publish_channel_event(self.youtube_url)
 
     def __str__(self):

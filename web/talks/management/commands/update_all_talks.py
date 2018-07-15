@@ -1,3 +1,6 @@
+from datetime import date
+from datetime import timedelta
+
 from django.core import management
 from django.core.management.base import BaseCommand
 
@@ -8,6 +11,8 @@ class Command(BaseCommand):
     help = 'Update all talks on the database.'
 
     def handle(self, *args, **options):
-        talks = Talk.published_objects.all().order_by('-updated')
+        today = date.today()
+        yesterday=today-timedelta(days=1)
+        talks = Talk.published_objects.filter(updated__lte=yesterday).order_by('-updated')
         for talk in talks:
             management.call_command("update_talk", talk.youtube_url)
