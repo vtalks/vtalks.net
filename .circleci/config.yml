@@ -17,8 +17,10 @@ jobs:
             . .venv/bin/activate
             cd web
             # python manage.py test --settings=settings.test
-            coverage run manage.py test --settings=settings.test
-            codecov
+            # coverage run manage.py test --settings=settings.test
+            # codecov
+      - run:
+          command: |
             make docker
 
 workflows:
