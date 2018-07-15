@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 
 from django.utils import timezone
@@ -56,7 +54,7 @@ class Playlist(models.Model):
 
         super(Playlist, self).save(*args, **kwargs)
 
-        # Send pipeline.talk event to NATS
+        # Send pipeline.playlist event to NATS
         publish_playlist_event(self.youtube_url)
 
     def __str__(self):
