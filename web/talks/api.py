@@ -1,10 +1,9 @@
-from random import randint
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 from rest_framework import viewsets
 from rest_framework import views
 from rest_framework.response import Response
-
-from django.db.models.aggregates import Count
 
 from .models import Talk
 
@@ -19,12 +18,12 @@ class TalkViewSet(viewsets.ModelViewSet):
 class RandomTalkView(views.APIView):
 
     def get(self, request, format=None):
-        count = Talk.objects.aggregate(count=Count('id'))['count']
-        if count == 0:
-            return Response(None)
+        """ Get a random Talk object created no earlier than six months ago
+        """
+        today = date.today()
+        six_months_ago = today - relativedelta(months=6)
 
-        random_index = randint(0, count - 1)
-        talk = Talk.objects.all()[random_index]
+        talk = Talk.objects.filter(created__gte=six_months_ago).order_by('?').first()
 
         serializer = TalkSerializer(talk, many=False)
         return Response(serializer.data)
