@@ -158,13 +158,6 @@ class Talk(Rankable, models.Model):
 
         super(Talk, self).save(*args, **kwargs)
 
-        # Send pipeline.talk event to NATS
-        publish_talk_event(self.youtube_url)
-
-        # Send pipeline.playlist event to NATS (as playlistId is not returned by Youtube)
-        if self.playlist:
-            publish_playlist_event(self.playlist.youtube_url)
-
     def get_absolute_url(self):
         """ Returns the absolute url for this video
         """
