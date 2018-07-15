@@ -18,10 +18,7 @@ jobs:
             cd web
             # python manage.py test --settings=settings.test
             # coverage run manage.py test --settings=settings.test
-            # codecov
-      - run:
-          command: |
-            make docker
+            codecov
 
 workflows:
   version: 2
