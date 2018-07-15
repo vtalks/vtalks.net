@@ -41,9 +41,9 @@ class Topic(models.Model):
         """ Get talks from this Topic
         """
         results_total, results_ids = search_talks_by_topic(self)
-        if count:
-            results_ids = results_ids[:count]
         topic_talks = Talk.published_objects.filter(pk__in=results_ids)
+        if count:
+            topic_talks = topic_talks[:count]
         return topic_talks
 
     def __str__(self):
