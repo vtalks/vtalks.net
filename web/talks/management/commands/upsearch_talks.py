@@ -18,6 +18,7 @@ class Command(BaseCommand):
 
         print("Found {} talks:".format(len(talks)))
 
+        """
         for talk in talks:
             talk.event_edition_id = options['event_edition']
             talk.save()
@@ -25,3 +26,4 @@ class Command(BaseCommand):
             event_edition_title = talk.event_edition.title or ""
             out = "id: {:d} - code: {:s} - title: {:s} - edition: {:s}".format(talk.id, talk.code, talk.title, event_edition_title)
             print(out)
+        """
