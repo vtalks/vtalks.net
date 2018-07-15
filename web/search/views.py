@@ -37,6 +37,8 @@ class SearchTalksView(ListView):
             search_results = Talk.published_objects.filter(pk__in=results_ids)
 
             num_pages = math.ceil(results_total / self.paginate_by)
+            if num_pages > 500:
+                num_pages = 500
             pagination = {
                 "is_paginated": True if results_total > self.paginate_by else False,
                 "number": page,
