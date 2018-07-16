@@ -45,6 +45,9 @@ jobs:
             make docker-build
       - run:
           command: |
+            docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+      - run:
+          command: |
             make docker-publish
 
 workflows:
