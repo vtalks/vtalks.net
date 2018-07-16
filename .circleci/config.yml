@@ -6,6 +6,7 @@ jobs:
     docker:
       - image: circleci/python:latest
       - image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0
+      - image: nats
     steps:
       - checkout
       - run:
