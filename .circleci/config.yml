@@ -5,7 +5,7 @@ jobs:
   web_test:
     docker:
       - image: circleci/python:latest
-      - image: docker.elastic.co/elasticsearch/elasticsearch-oss:latest
+      - image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0
         ports:
           - "9200:9200"
       - image: nats:latest
