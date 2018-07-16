@@ -1,6 +1,7 @@
 Django
 git+https://github.com/alex/django-taggit.git
 git+https://github.com/glemmaPaul/django-taggit-serializer.git
+git+https://github.com/yourlabs/django-autocomplete-light.git
 requests
 requests-mock
 oauth2
