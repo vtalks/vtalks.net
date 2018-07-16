@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <a href="{% url 'topics:topic-details' object.slug %}"><h4>{{object.title}}</h4></a>
             <p class="text-muted small"><i class="fas fa-clock"></i> {{object.duration|timedelta_nozeros}} · <i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
-            <p class="text-justify">{{object.description|linebreaks|truncatechars:250|urlize}}</p>
+            <p class="text-justify">{{object.description|linebreaks}}</p>
         </div>
     </div>
 {% endfor %}
