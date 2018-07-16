@@ -5,10 +5,10 @@ jobs:
   web_test:
     docker:
       - image: circleci/python:latest
-      - image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0
+      - image: docker.elastic.co/elasticsearch/elasticsearch-oss:latest
         ports:
           - "9200:9200"
-      - image: nats
+      - image: nats:latest
         ports:
           - "4222:4222"
     steps:
@@ -28,6 +28,7 @@ jobs:
 
   # Docker build
   docker_build:
+    machine: true
     steps:
       - setup_remote_docker
       - checkout
@@ -41,6 +42,7 @@ jobs:
 
   # Docker publish
   docker_publish:
+    machine: true
     steps:
       - setup_remote_docker
       - checkout
