@@ -1,6 +1,7 @@
 import math
 
 from django.views.generic.detail import DetailView
+from django.views.generic import TemplateView
 from django.conf import settings
 
 from topics.models import Topic
@@ -9,6 +10,21 @@ from talks.models import Talk
 from search.forms import SearchForm
 
 # Create your views here.
+
+
+class TopicListView(TemplateView):
+    template_name = 'topics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TopicListView, self).get_context_data(**kwargs)
+
+        search_form = SearchForm()
+        context['search_form'] = search_form
+
+        topics_list = Topic.published_objects.filter(parent_topic=None)
+        context['object_list'] = topics_list
+
+        return context
 
 
 class DetailTopicView(DetailView):

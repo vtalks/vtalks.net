@@ -1,0 +1,23 @@
+{% extends "_layouts/default.html" %}
+{% load humanize %}
+{% block title %}Best talks - vtalks.net{% endblock %}
+{% block content %}
+<!-- search form -->
+<section class="container-fluid search-form p-0 py-4">
+    <div class="container">
+        {% include "_partials/search_form.html" %}
+    </div>
+</section>
+<!-- best talks -->
+<section class="container-fluid topics p-0 py-4">
+    <div class="container">
+        <h2>Topicss</h2>
+        <hr/>
+        {% if object_list %}
+            {% include "_partials/list_topics.html" %}
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
