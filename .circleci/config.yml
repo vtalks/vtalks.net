@@ -48,6 +48,7 @@ jobs:
 
 workflows:
   version: 2
+  
   web:
     jobs:
       - web_test
