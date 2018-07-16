@@ -30,7 +30,6 @@ jobs:
   docker_build:
     machine: true
     steps:
-      - setup_remote_docker
       - checkout
       - run:
           command: |
@@ -44,7 +43,6 @@ jobs:
   docker_publish:
     machine: true
     steps:
-      - setup_remote_docker
       - checkout
       - run:
           command: |
