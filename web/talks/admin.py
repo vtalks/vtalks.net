@@ -5,11 +5,13 @@ from .models import TalkLike
 from .models import TalkDislike
 from .models import TalkFavorite
 from .models import TalkWatch
+from .forms import TalkForm
 
 # Register your models here.
 
 
 class TalkAdmin(admin.ModelAdmin):
+
     fieldsets = (
         (None, {
             'fields': ('code', 'slug', 'title', 'description', 'tags'),
@@ -44,6 +46,8 @@ class TalkAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
+
+    form = TalkForm
 
     list_display = ('title', 'channel', 'playlist', 'event_edition', 'updated')
     list_filter = ['created', 'updated']

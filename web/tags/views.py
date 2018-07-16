@@ -1,7 +1,5 @@
 import math
-import json
-
-from elasticsearch import Elasticsearch
+from dal import autocomplete
 
 from django.views.generic.detail import DetailView
 from django.conf import settings
@@ -56,3 +54,14 @@ class DetailTagView(DetailView):
         context['object_list'] = search_results
 
         return context
+
+
+class TaggitAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        qs = Tag.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
