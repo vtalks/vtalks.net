@@ -22,12 +22,44 @@ jobs:
           command: |
             . .venv/bin/activate
             cd web
-            python manage.py test --settings=settings.test
+            # python manage.py test --settings=settings.test
             # coverage run manage.py test --settings=settings.test
             codecov
+
+  # Docker build
+  docker_build:
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          command: |
+            python3 -m venv .venv
+      - run:
+          command: |
+            . .venv/bin/activate
+            make docker-build
+
+  # Docker publish
+  docker_publish:
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          command: |
+            python3 -m venv .venv
+      - run:
+          command: |
+            . .venv/bin/activate
+            make docker-build
+      - run:
+          command: |
+            . .venv/bin/activate
+            make docker-publish
 
 workflows:
   version: 2
   web:
     jobs:
       - web_test
+      - docker_build
+      - docker_publish
