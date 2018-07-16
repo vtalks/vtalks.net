@@ -18,7 +18,7 @@ jobs:
           command: |
             . .venv/bin/activate
             cd web
-            # python manage.py test --settings=settings.test
+            python manage.py test --settings=settings.test
             # coverage run manage.py test --settings=settings.test
             codecov
 
@@ -48,7 +48,7 @@ jobs:
 
 workflows:
   version: 2
-  
+
   web:
     jobs:
       - web_test
