@@ -33,10 +33,6 @@ jobs:
       - checkout
       - run:
           command: |
-            python3 -m venv .venv
-      - run:
-          command: |
-            . .venv/bin/activate
             make docker-build
 
   # Docker publish
@@ -46,14 +42,9 @@ jobs:
       - checkout
       - run:
           command: |
-            python3 -m venv .venv
-      - run:
-          command: |
-            . .venv/bin/activate
             make docker-build
       - run:
           command: |
-            . .venv/bin/activate
             make docker-publish
 
 workflows:
