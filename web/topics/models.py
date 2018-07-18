@@ -37,6 +37,13 @@ class Topic(models.Model):
         results_total, es_results_ids = search_talks_by_topic(self)
         return results_total
 
+    @property
+    def subtopics(self):
+        """ Get a list of subtopics for this Topic
+        """
+        topics = Topic.published_objects.filter(parent_topic=self)
+        return topics[:4]
+
     def get_talks(self, count=3):
         """ Get talks from this Topic
         """
