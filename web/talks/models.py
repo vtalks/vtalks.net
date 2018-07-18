@@ -154,8 +154,6 @@ class Talk(Rankable, models.Model):
             if Talk.objects.filter(slug=self.slug).count() > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
 
-        self.updated = timezone.now()
-
         super(Talk, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
