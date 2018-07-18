@@ -9,8 +9,9 @@ coverage==4.4.2
 psycopg2
 djangorestframework
 codecov
-youtube_data_api3
-ranking_sorting
 elasticsearch>=6.0.0,<7.0.0
 elasticsearch-dsl
 asyncio-nats-client
+
+git+https://github.com/vtalks/youtube_data_api3.git
+git+https://github.com/vtalks/ranking_sorting.git
