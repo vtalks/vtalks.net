@@ -1,3 +1,4 @@
+import logging
 import csv
 import datetime
 
@@ -40,14 +41,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Export complete data set
+        print("Generating all dataset ...")
         talks = Talk.published_objects.all().order_by('id')
         self.export_data(talks, '/.dataset/vtalks_dataset_all.csv')
 
         # Export data set per year
-        years = list(range(2010, 2019, 1))
+        years = list(range(2018, 2009, -1))
         for year in years:
+            print("Generating {:d} dataset ...".format(year))
             start_year = datetime.datetime(year, 1, 1, 0, 0, 0).replace(tzinfo=timezone.utc)
-            end_year = datetime.datetime(year+1, 1, 1, 0, 0, 0).replace(tzinfo=timezone.utc)
+            end_year = datetime.datetime(year, 12, 31, 23, 59, 59).replace(tzinfo=timezone.utc)
             talks = Talk.published_objects.filter(created__gte=start_year, created__lte=end_year)
             path = '/.dataset/vtalks_dataset_{:d}.csv'.format(year)
             self.export_data(talks, path)

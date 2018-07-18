@@ -59,7 +59,7 @@ class Command(BaseCommand):
             msg = "ERROR: Youtube Data API does not return anything for video {:s}".format(talk_obj.code)
             self.stdout.write(self.style.ERROR(msg))
             talk_obj.published = False
-            talk.save()
+            talk_obj.save()
             return
 
         # if uploadStatus on youtube is failed we un-publish the video
