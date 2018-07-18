@@ -42,7 +42,7 @@ class Topic(models.Model):
         """ Get a list of subtopics for this Topic
         """
         topics = Topic.published_objects.filter(parent_topic=self)
-        return topics[:4]
+        return topics
 
     def get_talks(self, count=3):
         """ Get talks from this Topic
