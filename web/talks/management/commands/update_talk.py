@@ -52,7 +52,14 @@ class Command(BaseCommand):
         self.stdout.write(msg)
 
         # Fetch video data from Youtube API
-        video_json_data = fetch_video_data(settings.YOUTUBE_API_KEY, talk_obj.code)
+        try:
+            video_json_data = fetch_video_data(settings.YOUTUBE_API_KEY, talk_obj.code)
+        except Exception:
+            msg = "ERROR: Youtube Data API returns anything 404 Not Found for {:s}".format(talk_obj.code)
+            self.stdout.write(self.style.ERROR(msg))
+            talk_obj.published = False
+            talk_obj.save()
+            return
 
         # If no data is received un-publish the Talk
         if video_json_data is None:
