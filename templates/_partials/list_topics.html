@@ -10,10 +10,9 @@
     </div>
     {% if object.subtopics %}
         <h5>Subtopics:</h5>
-
         {% for object in object.subtopics %}
-            {% if forloop.first %}<div class="card-group card-group-sm list-subtopics">{% endif %}
-            <div class="card list-topics-item">
+            {% if forloop.first %}<div class="card-deck list-subtopics pb-1">{% endif %}
+            <div class="card list-topics-item border-light">
                 <div class="card-body">
                     <a href="{% url 'topics:topic-details' object.slug %}"><h6 class="card-title">{{object.title}}</h6></a>
                     <p class="card-text text-muted small m-0"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
@@ -22,11 +21,11 @@
             </div>
             {% if forloop.counter|divisibleby:3 %}
                 </div>
-                <div class="card-group card-group-sm list-subtopics">
+                <div class="card-deck list-subtopics pb-1">
             {% endif %}
             {% if forloop.last %}</div>{% endif %}
         {% endfor %}
-
     {% endif %}
+    <hr/>
 {% endfor %}
 </div>
