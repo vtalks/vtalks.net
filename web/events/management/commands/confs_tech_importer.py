@@ -64,6 +64,3 @@ class Command(BaseCommand):
         for source_urls_year in source_urls:
             self.import_events(source_urls_year)
 
-        for source_urls_year in source_urls_javascript:
-            self.import_events(source_urls_year)
-
