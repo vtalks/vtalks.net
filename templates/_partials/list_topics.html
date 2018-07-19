@@ -13,10 +13,15 @@
         {% for object in object.subtopics %}
             {% if forloop.first %}<div class="card-deck list-subtopics pb-1">{% endif %}
             <div class="card list-topics-item border-light">
-                <div class="card-body">
-                    <a href="{% url 'topics:topic-details' object.slug %}"><h6 class="card-title">{{object.title}}</h6></a>
-                    <p class="card-text text-muted small m-0"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
-                    <p class="card-text text-muted small m-0"><i class="fas fa-sort-amount-up"></i> {{object.talks_count}} talks</p>
+                <div class="card-body row">
+                    <div class="col-md-auto">
+                        <a href="{% url 'topics:topic-details' object.slug %}"><h6 class="card-title">{{object.title}}</h6></a>
+                        <p class="card-text text-muted small m-0"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
+                        <p class="card-text text-muted small m-0"><i class="fas fa-sort-amount-up"></i> {{object.talks_count}} talks</p>
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'topics:topic-details' object.slug %}"><img class="img-thumbnail" style="width:60px" src="{{ object.logo_url }}"/></a>
+                    </div>
                 </div>
             </div>
             {% if forloop.counter|divisibleby:3 %}
