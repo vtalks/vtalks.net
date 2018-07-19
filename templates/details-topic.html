@@ -44,7 +44,13 @@
             <hr/>
             {% include "_partials/list_talks.html" %}
             <hr/>
-            {% include "_partials/topic_pagination.html" with url_target='topics:topic-details-paginated' %}
+            <div class="row">
+                <div class="col-6">
+                    {% include "_partials/topic_pagination.html" with url_target='topics:topic-details-paginated' %}
+                </div>
+                <div class="col-6 text-right">
+                    <a href="{% url 'topics:topic-list' %}" class="btn btn-sm btn-primary"><i class="fas fa-tags"></i> View more topics</a>
+                </div>
         {% else %}
             <p>No results.</p>
         {% endif %}
