@@ -31,11 +31,25 @@ class Topic(models.Model):
     # Properties
 
     @property
+    def logo_url(self):
+        """ Get the url of the image for this Topic
+        """
+        url = "https://raw.githubusercontent.com/github/explore/master/topics/{:s}/{:s}.png".format(self.slug, self.slug)
+        return url
+
+    @property
     def talks_count(self):
         """ Get the number of talks on this Topic (from ElasticSearch)
         """
         results_total, es_results_ids = search_talks_by_topic(self)
         return results_total
+
+    @property
+    def subtopics(self):
+        """ Get a list of subtopics for this Topic
+        """
+        topics = Topic.published_objects.filter(parent_topic=self)
+        return topics
 
     def get_talks(self, count=3):
         """ Get talks from this Topic

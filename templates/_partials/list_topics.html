@@ -1,13 +1,36 @@
 {% load humanize %}
-{% load timedelta %}
 <div class="list-topics">
 {% for object in object_list %}
     <div class="row mt-4 list-topics-item">
         <div class="col-md-12">
             <a href="{% url 'topics:topic-details' object.slug %}"><h4>{{object.title}}</h4></a>
-            <p class="text-muted small"><i class="fas fa-clock"></i> {{object.duration|timedelta_nozeros}} · <i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
+            <p class="text-muted small"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}} · <i class="fas fa-sort-amount-up"></i> {{object.talks_count}} talks</p>
             <p class="text-justify">{{object.description|linebreaks}}</p>
         </div>
     </div>
+    {% if object.subtopics %}
+        <h5>Subtopics:</h5>
+        {% for object in object.subtopics %}
+            {% if forloop.first %}<div class="card-deck list-subtopics pb-1">{% endif %}
+            <div class="card list-topics-item border-light">
+                <div class="card-body row">
+                    <div class="col-md-auto">
+                        <a href="{% url 'topics:topic-details' object.slug %}"><h6 class="card-title">{{object.title}}</h6></a>
+                        <p class="card-text text-muted small m-0"><i class="far fa-calendar-alt"></i> Published {{object.created|naturaltime}}</p>
+                        <p class="card-text text-muted small m-0"><i class="fas fa-sort-amount-up"></i> {{object.talks_count}} talks</p>
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'topics:topic-details' object.slug %}"><img class="img-thumbnail" style="width:60px" src="{{ object.logo_url }}" alt="{{ object.title }}"/></a>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}
+                </div>
+                <div class="card-deck list-subtopics pb-1">
+            {% endif %}
+            {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    {% endif %}
+    <hr/>
 {% endfor %}
 </div>

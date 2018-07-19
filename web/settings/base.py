@@ -24,7 +24,7 @@ SECRET_KEY = 'u&&f-cvd7acpw3f)v@hc1h5)hnvf+a0ihyxs0&gjiq=q+w=5=x'
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'vtalks.net', 'www.vtalks.net']
+ALLOWED_HOSTS = ['localhost', 'vtalks.local', 'vtalks.net', 'www.vtalks.net', '192.168.1.34']
 
 # Application definition
 
