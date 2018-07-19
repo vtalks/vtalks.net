@@ -45,6 +45,12 @@ class Topic(models.Model):
         return results_total
 
     @property
+    def subtopics_count(self):
+        """ Get a list of subtopics for this Topic
+        """
+        topics = Topic.published_objects.filter(parent_topic=self)
+        return topics.count()
+
     def subtopics(self):
         """ Get a list of subtopics for this Topic
         """
