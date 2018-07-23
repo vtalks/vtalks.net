@@ -13,7 +13,7 @@ class TopicAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'description', 'tags')
+            'fields': ('title', 'slug', 'parent_topic', 'description', 'tags')
         }),
         ('Status', {
             'fields': ('published',),
@@ -26,7 +26,7 @@ class TopicAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         }),
     )
-    
+
     list_display = ('title', 'parent_topic', 'subtopics_count', 'talks_count', 'updated')
     list_filter = ['created', 'updated']
     search_fields = ['title',]
