@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'rest_framework',
+    'django_filters',
     'taggit',
     'taggit_serializer',
     'user_profile',

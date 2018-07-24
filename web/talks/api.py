@@ -9,10 +9,14 @@ from .models import Talk
 
 from .serializers import TalkSerializer
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class TalkViewSet(viewsets.ModelViewSet):
     queryset = Talk.objects.all()
     serializer_class = TalkSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('code',)
 
 
 class RandomTalkView(views.APIView):
