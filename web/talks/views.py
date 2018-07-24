@@ -4,6 +4,7 @@ from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.syndication.views import Feed
+from django.utils import timezone
 from django.utils.feedgenerator import Atom1Feed
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -41,6 +42,7 @@ class DetailTalkView(DetailView):
         talk.view_count += 1
 
         # Update talk to the database
+        talk.updated = timezone.now()
         talk.save()
 
         watched = None
