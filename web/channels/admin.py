@@ -8,7 +8,7 @@ from .models import Channel
 class ChannelAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('code', 'slug', 'title', 'description')
+            'fields': ('code', 'title', 'slug', 'description')
         }),
         ('Youtube Data', {
             'fields': ('youtube_url',),
