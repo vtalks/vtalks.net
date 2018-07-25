@@ -44,8 +44,6 @@ class Channel(models.Model):
             if Channel.objects.filter(slug=self.slug).count() > 0:
                 self.slug = "{:s}-{:s}".format(self.slug, self.code)
 
-        self.updated = timezone.now()
-
         super(Channel, self).save(*args, **kwargs)
 
     def __str__(self):
